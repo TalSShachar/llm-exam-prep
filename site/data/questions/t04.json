@@ -824,15 +824,15 @@
     },
     {
       "id": "t04-q042",
-      "stem": "In HW2, your LangGraph's first generated program fails and every regeneration keeps failing. How many programs may your agent generate and execute in total before it must terminate?",
+      "stem": "A LangGraph code-generation pipeline regenerates a failing program in a loop, with a policy of at most 3 retries after the initial generation. If every attempt fails, how many programs does the agent generate and execute in total before it must terminate?",
       "options": [
-        "4 in total, because the initial generation counts as the first retry",
-        "9 in total, one per allowed LLM API call",
-        "5 in total — the initial program plus at most 4 regenerations",
-        "Unlimited, as long as the validation function keeps returning False"
+        "3 in total, because the initial generation counts as the first retry",
+        "6 in total, since each retry pairs a generation call with an execution call",
+        "4 in total — the initial program plus at most 3 regenerations",
+        "Unlimited, as long as the validation check keeps failing"
       ],
       "answer": 2,
-      "explanation": "The retry policy is 1 initial attempt plus at most 4 additional regenerations, so at most 5 programs are generated and executed. The initial generation does NOT count as a retry, and the loop must stop after attempt 5 fails.",
+      "explanation": "A bounded retry policy of 1 initial attempt plus at most 3 regenerations yields at most 4 generated-and-executed programs: the initial generation is NOT a retry. The cap is what guarantees the loop terminates — without it, a persistently failing validator would spin the graph forever.",
       "source": {
         "file": "HW2 (1).pdf",
         "title": "Homework 2 — LangGraph",
@@ -840,19 +840,19 @@
         "pages": "3-4"
       },
       "difficulty": "medium",
-      "tags": ["homework", "retry-loop"]
+      "tags": ["retry-loop", "langgraph", "termination"]
     },
     {
       "id": "t04-q043",
-      "stem": "In HW2, the generated program PQ runs without runtime errors and prints valid JSON, but the validation function returns False. How must your agent handle this?",
+      "stem": "An agent's LLM-generated program runs without runtime errors and prints well-formed JSON, but the provided validation function returns False on that output. What is the correct way for the agent to handle this?",
       "options": [
-        "Treat it as an error: build an error message saying the program ran but produced an incorrect answer, include the actual incorrect JSON, and enter the reflection loop",
+        "Treat it as an error: build a message saying the program ran but produced an incorrect answer, include the actual incorrect output, and enter the reflection/regeneration loop",
         "Accept the answer anyway, since the program executed cleanly and produced parseable output",
-        "Terminate immediately, because validation failures are not retryable errors",
-        "Edit the validation file so its expected answer matches PQ's output"
+        "Terminate immediately, because semantic failures — unlike runtime errors — are not retryable",
+        "Relax the validation function's expected answer so it accepts the produced output"
       ],
       "answer": 0,
-      "explanation": "A False from the validator is treated exactly like an error: the reflection prompt must state the program ran but gave a wrong answer and include the incorrect output so the LLM can fix it. Modifying the validation file is explicitly forbidden.",
+      "explanation": "Running cleanly only establishes runtime correctness; the validator checks semantic correctness, and a False must be treated exactly like an error — the reflection prompt should state that the program ran but gave a wrong answer and include the incorrect output so the LLM can fix it. Accepting clean-but-wrong output or weakening the validator defeats the point of programmatic validation.",
       "source": {
         "file": "HW2 (1).pdf",
         "title": "Homework 2 — LangGraph",
@@ -860,19 +860,19 @@
         "pages": "7-8"
       },
       "difficulty": "hard",
-      "tags": ["homework", "validation"]
+      "tags": ["validation", "semantic-correctness"]
     },
     {
       "id": "t04-q044",
-      "stem": "A student implements HW2's Chk4rErr node so it parses PQ's stdout as JSON and calls the validator itself. Why does this violate the assignment's intended design?",
+      "stem": "In a LangGraph code-generation pipeline, an execution node runs the generated program, and a conditional edge then routes to either a reflection node or a finalize node. A developer puts the output parsing and validator call inside the routing function itself. Why is this poor design?",
       "options": [
-        "Chk4rErr must call the LLM to classify the error before any routing",
-        "JSON parsing may only happen inside GenQueryProgram",
-        "Parsing and validation are only allowed in the Finalize node",
-        "Chk4rErr should be a pure routing node reading state (last_success, attempt counter); all 'did it work?' logic belongs in ExecuteProgram"
+        "The routing function must call the LLM to classify the error before it may route anywhere",
+        "Output parsing is only permitted in the node that generated the program",
+        "Parsing and validation may only ever happen in the finalize node",
+        "The routing function should be a lightweight check that reads state (success flag, attempt counter) and returns a route; all 'did it work?' logic belongs in the execution node, which writes its results to state"
       ],
       "answer": 3,
-      "explanation": "HW2 prescribes a clean separation: ExecuteProgram runs PQ, captures output, parses JSON, and calls the validator, writing structured results to state; Chk4rErr only reads that state and routes, with no LLM call and no error detection of its own.",
+      "explanation": "Clean conditional-edge design keeps a single execution node responsible for running the program, capturing output, parsing it, and calling the validator, recording structured results in state; the routing function then only inspects that state to pick an edge. Burying detection logic in the router duplicates work, hides side effects, and makes the graph's control flow harder to reason about.",
       "source": {
         "file": "HW2 (1).pdf",
         "title": "Homework 2 — LangGraph",
@@ -880,19 +880,19 @@
         "pages": "13-14"
       },
       "difficulty": "hard",
-      "tags": ["homework", "langgraph"]
+      "tags": ["langgraph", "conditional-edges"]
     },
     {
       "id": "t04-q045",
-      "stem": "HW2 instructs you to execute the LLM-generated program PQ as a subprocess with a timeout rather than with Python's exec(). What is the main reason?",
+      "stem": "An agent must execute LLM-generated Python programs. Why is running each program in a fresh subprocess with a timeout preferable to executing it in the agent's own process with Python's exec()?",
       "options": [
-        "Subprocesses automatically fix syntax errors in the generated code",
-        "It isolates PQ from hw2.py's namespace, eases stderr capture, and prevents a misgenerated infinite loop from hanging the run",
-        "exec() cannot run code that imports pandas or csv",
-        "Subprocesses make the LLM's code generation deterministic"
+        "Subprocesses automatically repair syntax errors in the generated code",
+        "It isolates the generated code from the agent's namespace, makes stdout/stderr capture easy, and lets a timeout kill a misgenerated infinite loop instead of hanging the agent",
+        "exec() cannot run code that imports third-party libraries such as pandas",
+        "Subprocesses make the LLM's code generation deterministic across runs"
       ],
       "answer": 1,
-      "explanation": "Running PQ in a fresh subprocess isolates it from the agent's namespace, makes capturing stdout/stderr simple, and lets a timeout kill infinite loops — a timeout is then treated as a runtime error and fed into the reflection loop.",
+      "explanation": "A fresh subprocess sandboxes the untrusted generated code away from the agent's own namespace, gives clean stdout/stderr capture, and a timeout bounds runaway executions — a timeout is then treated as just another runtime error and fed into the reflection/retry loop. exec() shares the agent's process, so an infinite loop would hang the whole run.",
       "source": {
         "file": "HW2 (1).pdf",
         "title": "Homework 2 — LangGraph",
@@ -900,7 +900,7 @@
         "pages": "15-16"
       },
       "difficulty": "medium",
-      "tags": ["homework", "subprocess"]
+      "tags": ["subprocess", "sandboxing"]
     }
   ]
 }

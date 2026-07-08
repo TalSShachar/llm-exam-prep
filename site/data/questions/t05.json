@@ -484,15 +484,15 @@
     },
     {
       "id": "t05-q025",
-      "stem": "In HW3, your main loop calls the LLM 8 times, and along the way it dispatches extract_from_image once and build_sql_query twice (no other tools). What do the two counters read at the end?",
+      "stem": "An agent enforces separate LLM-call and tool-call budgets. Its main loop calls the LLM 6 times; along the way it dispatches an LLM-backed image-extraction tool once, an LLM-backed text-to-SQL tool twice, and a pure-Python calculator once. What do the two counters read at the end?",
       "options": [
-        "11 LLM calls and 3 tool calls",
-        "8 LLM calls and 3 tool calls",
-        "8 LLM calls and 11 tool calls",
-        "11 LLM calls and 11 tool calls"
+        "9 LLM calls and 4 tool calls",
+        "6 LLM calls and 4 tool calls",
+        "6 LLM calls and 9 tool calls",
+        "9 LLM calls and 9 tool calls"
       ],
       "answer": 0,
-      "explanation": "extract_from_image and build_sql_query each count as 1 tool call AND 1 internal LLM call, so the LLM counter is 8 + 1 + 2 = 11 while the tool counter is 3. Forgetting the tool-internal LLM calls gives the tempting 8/3 answer.",
+      "explanation": "Each LLM-backed tool counts as 1 tool call AND 1 internal LLM call, so the LLM counter is 6 + 1 + 2 = 9 while the tool counter is 1 + 2 + 1 = 4. Forgetting the tool-internal LLM calls gives the tempting 6/4 answer.",
       "source": {
         "file": "HW3 (2).pdf",
         "title": "Homework 3 — Tool Calling",
@@ -500,39 +500,39 @@
         "pages": "12"
       },
       "difficulty": "hard",
-      "tags": ["hw3", "call-caps"]
+      "tags": ["agentic-loop", "call-budgets"]
     },
     {
       "id": "t05-q026",
-      "stem": "In the HW3 agentic loop, what signals that the agent considers the query solved and the loop should exit successfully?",
+      "stem": "In a tool-calling agentic loop, what signals that the LLM considers the task solved and the loop should exit successfully?",
       "options": [
-        "The write_file tool returns its confirmation string",
-        "The LLM returns an assistant message containing no tool_calls",
-        "The tool-call counter reaches exactly 20",
-        "The validation function returns True"
+        "The most recent tool returns a success confirmation string",
+        "The LLM returns an assistant message containing no tool calls",
+        "The tool-call counter reaches its configured maximum",
+        "A separate validation function checks the output and returns True"
       ],
       "answer": 1,
-      "explanation": "A final assistant message with no tool_calls signals the LLM considers the query solved. Hitting a cap is a failure, and the validator is run by the grader, not by the agent.",
+      "explanation": "In the agentic loop, the LLM either names the next tool to invoke or returns a final answer; an assistant message with no tool calls is that final answer, ending the loop. Hitting a call limit is a failure exit, and tool confirmations or external validators do not drive the loop's control flow.",
       "source": {
-        "file": "HW3 (2).pdf",
-        "title": "Homework 3 — Tool Calling",
-        "kind": "homework",
-        "pages": "14"
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "31-39"
       },
       "difficulty": "easy",
-      "tags": ["hw3", "termination"]
+      "tags": ["agentic-loop", "termination"]
     },
     {
       "id": "t05-q027",
-      "stem": "During an HW3 run, execute_sql_query returns [{\"error\": \"no such column: total\"}]. According to the assignment, your agent should:",
+      "stem": "Mid-run, an agent's SQL execution tool returns [{\"error\": \"no such column: total\"}]. What is the BEST way for the agentic loop to handle this?",
       "options": [
-        "Terminate immediately and log the tool-cap termination message",
-        "Silently retry the identical SQL statement up to three times",
-        "Append the error as a role \"tool\" message so the LLM can rebuild the SQL and retry",
-        "Pause and ask the user to correct the SQL before continuing"
+        "Terminate the loop immediately and report the run as failed",
+        "Silently re-execute the identical SQL statement up to three times",
+        "Append the error as a role \"tool\" message so the LLM can revise the SQL and retry",
+        "Pause the loop and ask the user to correct the SQL before continuing"
       ],
       "answer": 2,
-      "explanation": "Tool errors are fed back into the conversation as role:\"tool\" messages so the LLM can recover — e.g., by re-calling build_sql_query with the error context. Force-terminating on tool errors is explicitly forbidden; recovery is part of what is tested.",
+      "explanation": "Feeding the error back as a role \"tool\" message turns the failure into an observation the LLM can reason over, letting it regenerate corrected SQL on the next turn. Terminating or blindly re-running the same statement throws away that self-correction ability, and escalating to the user defeats the agent's autonomy.",
       "source": {
         "file": "HW3 (2).pdf",
         "title": "Homework 3 — Tool Calling",
@@ -540,19 +540,19 @@
         "pages": "9-14"
       },
       "difficulty": "medium",
-      "tags": ["hw3", "error-recovery"]
+      "tags": ["error-recovery", "tool-calling"]
     },
     {
       "id": "t05-q028",
-      "stem": "Which HW3 tool counts as BOTH one tool call and one LLM call when dispatched, because it invokes the LLM internally?",
+      "stem": "An agent tracks its LLM calls and tool calls with separate counters. Dispatching which of these tools should increment BOTH counters?",
       "options": [
-        "calculator",
-        "execute_sql_query",
-        "write_file",
-        "build_sql_query"
+        "A calculator tool that safely evaluates arithmetic expressions in pure Python",
+        "A tool that executes a given SQL string against a read-only SQLite database",
+        "A tool that writes the given text content to a file on disk",
+        "A tool that translates a natural-language request into SQL by prompting an LLM"
       ],
       "answer": 3,
-      "explanation": "build_sql_query (like extract_from_image) calls the LLM internally, so it adds to both counters. calculator, execute_sql_query, web_search, and write_file are pure Python and count only as tool calls.",
+      "explanation": "A text-to-SQL tool wraps its own LLM call, so dispatching it consumes one tool call plus one internal LLM call. Calculators, SQL executors, and file writers are deterministic code with no model inside, so they count only against the tool budget.",
       "source": {
         "file": "HW3 (2).pdf",
         "title": "Homework 3 — Tool Calling",
@@ -560,19 +560,19 @@
         "pages": "12"
       },
       "difficulty": "easy",
-      "tags": ["hw3", "call-caps"]
+      "tags": ["tool-calling", "call-budgets"]
     },
     {
       "id": "t05-q029",
-      "stem": "HW3 provides a calculator tool even though the LLM could answer arithmetic in plain text. The stated rationale is that:",
+      "stem": "An agent is given a deterministic calculator tool even though the LLM could answer arithmetic questions directly in its text response. The main rationale for this design is that:",
       "options": [
-        "LLMs fabricate arithmetic, and the tool removes that failure mode",
-        "Arithmetic answered in text would count against the LLM-call cap",
-        "The grader requires every tool to be used at least once per query",
-        "The calculator lets the agent bypass Azure content filtering"
+        "LLMs fabricate plausible but wrong arithmetic, and the tool removes that failure mode",
+        "Numeric answers produced as plain text cannot be parsed back into the conversation",
+        "Tool-calling APIs require the model to invoke at least one tool on every turn",
+        "Arithmetic done via a tool call does not consume any context-window tokens"
       ],
       "answer": 0,
-      "explanation": "The assignment states that LLMs fabricate arithmetic; delegating math to a deterministic tool removes that failure mode. The tool must be implemented safely (ast.parse plus a whitelist, never raw eval).",
+      "explanation": "An LLM predicts tokens rather than computing, so it can produce confident but incorrect arithmetic; delegating math to a deterministic tool eliminates that failure mode. The other options are false: text numbers parse fine, tool calls are always optional per turn, and tool calls and their results still consume context tokens.",
       "source": {
         "file": "HW3 (2).pdf",
         "title": "Homework 3 — Tool Calling",
@@ -580,19 +580,19 @@
         "pages": "6"
       },
       "difficulty": "medium",
-      "tags": ["hw3", "tools"]
+      "tags": ["tools", "hallucination"]
     },
     {
       "id": "t05-q030",
-      "stem": "Your HW3 agent keeps requesting the same tool over and over, burning through its turns. According to the assignment's FAQ, the PRIMARY fix is to:",
+      "stem": "A tool-calling agent keeps requesting the same tool over and over, burning through its turn budget without progress. The PRIMARY fix is to:",
       "options": [
-        "Raise the tool-call cap above 20 for that particular query",
-        "Switch to LangChain's create_react_agent, which manages loops automatically",
-        "Tighten the tool schema descriptions, since they teach the model when not to call a tool",
-        "Lower the temperature to zero so the model stops exploring alternatives"
+        "Raise the tool-call budget so the agent has more turns to escape the loop",
+        "Wrap the loop in a framework-managed agent class that handles control flow automatically",
+        "Tighten the tool schema descriptions, since they teach the model when NOT to call a tool",
+        "Lower the sampling temperature to zero so the model stops exploring alternatives"
       ],
       "answer": 2,
-      "explanation": "Tool descriptions are the primary way the model learns when NOT to call a tool, so sharpening them usually fixes repeated calls. The caps are hard, and any LangChain agent framework is explicitly forbidden in HW3.",
+      "explanation": "Schema descriptions are the primary way the model learns when a tool is — and is not — appropriate, so sharpening them attacks the root cause of repeated calls. Raising the budget or swapping in a framework gives the same confusion more room to loop, and temperature zero makes a deterministic repeat more likely, not less.",
       "source": {
         "file": "HW3 (2).pdf",
         "title": "Homework 3 — Tool Calling",
@@ -600,7 +600,7 @@
         "pages": "26"
       },
       "difficulty": "medium",
-      "tags": ["hw3", "tool-schema"]
+      "tags": ["tool-schema", "agent-misbehavior"]
     },
     {
       "id": "t05-q031",

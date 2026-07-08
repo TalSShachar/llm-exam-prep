@@ -704,55 +704,55 @@
     },
     {
       "id": "t02-q036",
-      "stem": "In HW1 Part 2, the 5 majority-voting calls for an article return: world, business, world, sci/tech, business. The ground-truth label is 'world'. How is this article scored?",
+      "stem": "You classify news articles by sending the same prompt to an LLM 5 times and accepting a label only if it wins a strict majority (at least 3 of 5 votes); anything else is scored as a misclassification. One article's calls return: world, business, world, sci/tech, business. Its true label is 'world'. How is it scored?",
       "options": [
-        "It is recorded as 'no majority' and counted as incorrect, since no category received at least 3 of 5 votes",
-        "'world' wins as the plurality answer, so the article is counted correct",
-        "The tie between world and business is broken by the first call, so it is counted correct",
-        "It is counted correct because the ground-truth category appears among the votes"
+        "As incorrect — world and business each got only 2 votes, so no label reached the strict-majority threshold",
+        "As correct — 'world' wins as the plurality answer once strict majority fails",
+        "As correct — the tie between world and business is broken in favor of the earliest call",
+        "As correct — the true label appears among the 5 votes, which is all voting requires"
       ],
       "answer": 0,
-      "explanation": "HW1 defines the majority vote as a category with at least 3 of 5 votes; here world and business each get only 2, so the result is 'no majority'. The assignment states a 'no majority' result is always counted as incorrect, regardless of the ground truth.",
+      "explanation": "A strict majority requires more than half the votes (here at least 3 of 5); world and business each get only 2, so no label wins and the stated policy scores the article as misclassified. Plurality voting — taking the most-voted answer without requiring more than half — is a possible fallback but a different policy, and here world and business are tied anyway.",
       "source": {
-        "file": "HW1 (2).pdf",
-        "title": "Homework 1",
-        "kind": "homework",
-        "pages": "5-6"
+        "file": "2026 Topic 2 - Handling ambiguity  inconsistency.pdf",
+        "title": "Topic 2 — Handling Ambiguity & Inconsistency",
+        "kind": "lecture",
+        "pages": "28-30"
       },
       "difficulty": "hard",
       "tags": ["majority-voting", "grading"]
     },
     {
       "id": "t02-q037",
-      "stem": "In HW1, the LLM replies 'Based on the content, this seems to discuss the economy,' and your parser cannot map the reply to world, sports, business, or sci/tech. What should your program record as the extracted category for this call?",
+      "stem": "Your program prompts an LLM to label each requirement with exactly 'F' or 'NF', but for one input it replies 'This one concerns how well the system performs.' Even keyword heuristics cannot map the reply to either label. What should your program record for this call?",
       "options": [
-        "Nothing — skip this article entirely",
-        "Re-issue the API call in a loop until a mappable label is returned",
-        "The raw LLM sentence, so graders can judge it themselves",
-        "The label 'unknown'"
+        "Nothing — silently skip this input and continue with the rest",
+        "Re-issue the same API call in a loop until a mappable label comes back",
+        "The model's raw sentence, so a human can interpret it later",
+        "A designated fallback label such as 'unknown'"
       ],
       "answer": 3,
-      "explanation": "HW1 requires normalizing every raw response to one of the four lowercase category labels, and any response that cannot be mapped must produce 'unknown'. Writing raw text or skipping articles violates the required classifications.txt format.",
+      "explanation": "When neither exact matching nor keyword heuristics can extract a valid label, the robust pattern is to record a designated 'unknown' outcome and move on, so every call is still accounted for in downstream statistics. Silently skipping inputs loses data, raw free text breaks the fixed label set, and a retry loop may never terminate.",
       "source": {
-        "file": "HW1 (2).pdf",
-        "title": "Homework 1",
-        "kind": "homework",
-        "pages": "1-4"
+        "file": "2026 Topic 2 - Handling ambiguity  inconsistency.pdf",
+        "title": "Topic 2 — Handling Ambiguity & Inconsistency",
+        "kind": "lecture",
+        "pages": "59-61"
       },
       "difficulty": "medium",
       "tags": ["parsing", "normalization"]
     },
     {
       "id": "t02-q038",
-      "stem": "HW1 warns about the effect of temperature on its 5-call majority voting. What should you expect as temperature increases?",
+      "stem": "A pipeline classifies each article by calling an LLM 5 times and accepting a label only when at least 3 of the 5 calls agree; any other outcome is counted as a misclassification. What should you expect as you raise the sampling temperature?",
       "options": [
         "Higher accuracy, because output diversity always improves voting",
-        "Identical answers across the 5 calls, making voting redundant",
-        "More 'no majority' outcomes as votes spread across categories, which can lower overall accuracy",
+        "Identical answers across the 5 calls, making the vote redundant",
+        "More articles where no label reaches 3 votes, which can lower overall accuracy",
         "Fewer output tokens per call, reducing the cost of the experiment"
       ],
       "answer": 2,
-      "explanation": "Higher temperature makes sampling more random, so the 5 calls disagree more often and no category may reach the required 3 votes; HW1 counts every 'no majority' as incorrect, dragging accuracy down. Identical answers are what LOW temperature tends toward.",
+      "explanation": "Higher temperature makes sampling more random, so the 5 calls disagree more often and the votes spread across labels until none reaches the required threshold — and every such no-majority outcome is scored as incorrect under this policy. Identical answers across calls are what LOW temperature tends toward.",
       "source": {
         "file": "HW1 (2).pdf",
         "title": "Homework 1",
@@ -764,15 +764,15 @@
     },
     {
       "id": "t02-q039",
-      "stem": "In HW1 Part 2 you must write three prompts using different techniques. What must the chain-of-thought prompt do that the zero-shot prompt does not?",
+      "stem": "For a news-classification task you write both a zero-shot prompt and a chain-of-thought prompt. What must the chain-of-thought version do that the zero-shot version does not?",
       "options": [
-        "Include exactly 4 labeled examples, one per news category",
-        "Explicitly instruct the LLM to reason step by step about category indicators before giving a final label — which your code must then parse from the longer response",
+        "Include one labeled example article for each of the target categories",
+        "Instruct the model to reason step by step before giving a final label, which your code must then parse from a longer response",
         "Ask the model to answer with a single lowercase word and nothing else",
         "Raise the temperature so the model's reasoning becomes more creative"
       ],
       "answer": 1,
-      "explanation": "The CoT prompt must direct the model to reason step by step before answering, so the final category has to be extracted from a longer response. Including exactly 4 examples (one per category) is the requirement for the FEW-SHOT prompt, not chain-of-thought.",
+      "explanation": "A chain-of-thought prompt explicitly directs the model to reason step by step before committing to an answer, so the final category has to be extracted from a longer response instead of read directly. Supplying one labeled example per category is FEW-SHOT prompting, a different technique, and temperature is a sampling parameter, not part of the prompt.",
       "source": {
         "file": "HW1 (2).pdf",
         "title": "Homework 1",
@@ -784,7 +784,7 @@
     },
     {
       "id": "t02-q040",
-      "stem": "In HW1 Part 3, at your best temperature the program labels 10 articles as 'business'; 8 of those are truly business, and the dataset contains 12 actual business articles. What precision should statistics.txt report for the business category?",
+      "stem": "A news classifier labels 10 articles as 'business'. Of those, 8 truly are business articles, and the dataset contains 12 business articles in total. What is the classifier's precision for the business category, as a percentage?",
       "options": [
         "66.67",
         "72.73",
@@ -792,12 +792,12 @@
         "80.00"
       ],
       "answer": 3,
-      "explanation": "Precision(c) = correctly classified as c / everything classified as c = 8/10 = 80.00. Answering 66.67 computes recall (8 of 12 actual business articles), and 72.73 is the F1 of these two values.",
+      "explanation": "Precision for a class is the fraction of items labeled with that class that truly belong to it: 8/10 = 80.00. Answering 66.67 computes recall instead (8 of the 12 actual business articles), and 72.73 is the F1 that combines the two.",
       "source": {
-        "file": "HW1 (2).pdf",
-        "title": "Homework 1",
-        "kind": "homework",
-        "pages": "8-9"
+        "file": "2026 Topic 2 - Handling ambiguity  inconsistency.pdf",
+        "title": "Topic 2 — Handling Ambiguity & Inconsistency",
+        "kind": "lecture",
+        "pages": "64-68"
       },
       "difficulty": "hard",
       "tags": ["precision", "metrics"]

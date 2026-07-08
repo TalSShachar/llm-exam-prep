@@ -37,6 +37,11 @@ in quizzes 1–11.
     between close alternatives, multi-step reasoning, or framework internals.
 - You may **paraphrase and restructure** in-class quiz questions (tag `kind: "quiz"`) — never copy
   verbatim, and convert combo-option questions into clean 4-option form.
+- **Homework-inspired questions must test course concepts, never assignment implementation.**
+  No "In HW3…" / "HW1 Part 2…" framing, no assignment scaffold names (node names, function names,
+  file names from the starter code), no numbers that only exist in the assignment's example run.
+  Recast the scenario as a self-contained, generic situation ("An agent's SQL tool returns an
+  error…"). Citing the HW as `source.kind: "homework"` is fine when the concept is exercised there.
 - Tags: 1–3 lowercase keyword tags per question.
 
 ## Schema (write exactly this shape)

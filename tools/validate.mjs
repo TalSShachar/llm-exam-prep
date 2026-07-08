@@ -131,6 +131,10 @@ for (const file of files) {
     if (!DIFFS.has(q.difficulty)) err(`${ctx}: bad difficulty "${q.difficulty}"`);
     else diffHist[q.difficulty]++;
     if (!Array.isArray(q.tags) || q.tags.length < 1) warn(`${ctx}: missing tags`);
+    // Questions may be HW-inspired but must not test assignment implementation specifics.
+    const hwRe = /\bHW ?\d|\bhomework\b/i;
+    if ([q.stem, q.explanation, ...(Array.isArray(q.options) ? q.options : [])].some((s) => hwRe.test(String(s))))
+      err(`${ctx}: references the homework assignment itself — recast as a self-contained scenario`);
     if (/\bNOT\b|\bnot\b.*\?$/.test(q.stem) && /which|what/i.test(q.stem) && /NOT/.test(q.stem)) notCount++;
     if (typeof q.stem === 'string') allStems.push({ id: qid, tokens: normalize(q.stem) });
   }

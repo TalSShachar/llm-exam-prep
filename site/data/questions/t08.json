@@ -824,35 +824,35 @@
     },
     {
       "id": "t08-q042",
-      "stem": "In HW4, a customer asks for 'items that help me lose weight that are not related to exercise'. Why does the assignment require RAG over the product catalog for such queries rather than substring matching?",
+      "stem": "A shopping assistant with a vector index over its product catalog receives: 'something to help me sleep better that isn't medication'. Why must candidate products be retrieved by semantic similarity rather than by substring matching?",
       "options": [
-        "Substring matching is case-sensitive and Walmart product names vary wildly in casing",
-        "The need is phrased in natural language and matching products need not share any keywords, so retrieval must use semantic similarity over a vector index",
-        "The CSV file format prevents running efficient string searches over the description column",
-        "Substring matching would be far too slow to run across the 787 products in the catalog"
+        "Substring matching fails mainly on casing and typos, which lowercasing and fuzzy matching would already fix",
+        "The need is phrased in natural language and relevant products may share none of its keywords, so retrieval must use semantic similarity",
+        "Product descriptions are unstructured free text, and string searches cannot be run over unstructured columns",
+        "Substring matching is too slow to scan a whole catalog per query, whereas vector search is always faster"
       ],
       "answer": 1,
-      "explanation": "Queries like 'lose weight without exercise' describe a need, not a product name — no keyword match exists, so candidates must be retrieved by semantic similarity from the vector index (e.g., ChromaDB with all-MiniLM-L6-v2). An agent that only string-matches misses these queries and loses points.",
+      "explanation": "The query describes a need, not a product name: matching items (weighted blankets, white-noise machines) may share no keywords with it, so keyword search misses them while embedding-based retrieval surfaces semantically related products. Casing, speed, and text format are not the obstacle — string search runs fine but cannot capture meaning.",
       "source": {
-        "file": "HW 4.pdf",
-        "title": "Homework 4 — Agentic RAG",
-        "kind": "homework",
-        "pages": "4-5"
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "46"
       },
       "difficulty": "medium",
-      "tags": ["homework", "semantic-search", "agentic-rag"]
+      "tags": ["semantic-search", "retrieval"]
     },
     {
       "id": "t08-q043",
-      "stem": "In HW4, a user writes: 'I'm Michelle Garcia — am I a premier customer?' but supplies no credentials. Per the store policies, your agent should:",
+      "stem": "A customer-service agent can query an account database. A user writes: 'This is Dana Levi — am I on your premium tier?' and supplies no credentials. Under an identity-verification guardrail, the agent should:",
       "options": [
-        "Look her up by name in the cust_data collection and answer, since it is her own record",
-        "Answer with her status but carefully withhold her password and email address",
-        "Reveal only her product-interests, since interests are considered non-sensitive data",
-        "Ask for her email and password and authenticate before revealing any account data"
+        "Look the user up by name and answer, since the question concerns their own record",
+        "State the tier but carefully withhold sensitive fields like the email and password",
+        "Share only the account's stored preferences, since those are considered non-sensitive",
+        "Request credentials and authenticate the user before revealing any account data"
       ],
       "answer": 3,
-      "explanation": "Policy 4 is an authentication gate: a customer asking about their own account data must provide a matching email and password, and the agent must authenticate before revealing anything. Revealing private account data without authentication is heavily penalized by the grader.",
+      "explanation": "Typing a name proves nothing — anyone can claim to be Dana Levi — so the agent must verify identity (e.g., a matching email and password) before disclosing anything about the account. Answering the tier question or leaking 'less sensitive' fields still hands private account data to a potential impersonator.",
       "source": {
         "file": "HW 4.pdf",
         "title": "Homework 4 — Agentic RAG",
@@ -860,47 +860,47 @@
         "pages": "3-6"
       },
       "difficulty": "medium",
-      "tags": ["homework", "policies", "authentication"]
+      "tags": ["guardrails", "authentication"]
     },
     {
       "id": "t08-q044",
-      "stem": "HW4 scenario: Amanda is an authenticated premier customer with an $11.50 budget for wrist weights, and the cheapest set in the catalog is $11.99. What is the policy-correct arithmetic?",
+      "stem": "A retail agent serves an authenticated loyalty member who is entitled to a 10% member discount. The member's budget is $45, and the cheapest item matching the request sells for $48. Combining the retrieved price with the store's pricing rules, the agent should conclude:",
       "options": [
-        "Apply the 5% premier discount: 11.99 × 0.95 = $11.39, which fits her budget",
-        "Add 5%: 11.99 × 1.05 = $12.59, so nothing fits and she gets the no-match line",
-        "The discount applies only after $2000 of purchases in this transaction, so she pays $11.99",
-        "Round the sale price down to $11.50, since policy says to give the best match to the request"
+        "Apply the discount: 48 × 0.90 = $43.20, which is within budget, so the item can be offered",
+        "Add 10% instead: 48 × 1.10 = $52.80 exceeds the budget, so it must give the no-match reply",
+        "The discount applies only once the member crosses the annual spend threshold within this purchase, so the price stays $48",
+        "Round the price down to $45, since the customer should always get the best match to their request"
       ],
       "answer": 0,
-      "explanation": "Premier customers get 5% off, so 11.99 × 0.95 = $11.39 ≤ $11.50 and the item fits the budget. The $2000 figure is the threshold for BECOMING premier, not a per-transaction condition, and prices must never be invented or rounded to please the customer.",
+      "explanation": "Multi-step agentic reasoning combines the retrieved price with a computed constraint: the member discount gives 48 × 0.90 = $43.20 ≤ $45, so the item fits the budget. A spend threshold governs how a customer EARNS the tier, not a per-purchase condition on the discount, and an agent must never invent or round prices to satisfy the customer.",
       "source": {
         "file": "HW 4.pdf",
         "title": "Homework 4 — Agentic RAG",
         "kind": "homework",
-        "pages": "7-8"
+        "pages": "6-8"
       },
       "difficulty": "hard",
-      "tags": ["homework", "policies", "arithmetic"]
+      "tags": ["agents", "policies", "arithmetic"]
     },
     {
       "id": "t08-q045",
-      "stem": "HW4 requires a calculator tool for the discount and premier-threshold math. Per the assignment's safety rules, how should it evaluate arithmetic expressions?",
+      "stem": "An agent is given a calculator tool so that discount and budget math is computed deterministically instead of by the LLM. The tool receives arithmetic expressions as strings written by the model. What is the safe way to evaluate them?",
       "options": [
-        "With Python's eval() wrapped in try/except so malformed input cannot crash the agent",
-        "By parsing the expression with the ast module and walking a whitelist of allowed operators",
-        "By letting the LLM compute the arithmetic in its head and return the numeric result",
-        "With exec() running inside a daemon thread that is killed if it exceeds a timeout"
+        "Pass the string to Python's eval() wrapped in try/except so malformed input cannot crash the agent",
+        "Parse the string with the ast module and evaluate it by walking a whitelist of allowed operators",
+        "Drop the tool and let the LLM compute the arithmetic itself, since such math is well within its abilities",
+        "Run the string with exec() inside a watchdog thread that is killed if it exceeds a timeout"
       ],
       "answer": 1,
-      "explanation": "The assignment forbids raw eval()/exec() on anything the LLM returns: parse the expression with ast and evaluate only a whitelist of allowed operators and functions. Letting the LLM do arithmetic in its head is exactly what the calculator tool exists to prevent.",
+      "explanation": "Strings produced by an LLM must never reach raw eval()/exec() — try/except and timeouts do not stop injected code from executing, while an ast walk evaluates only a whitelist of safe operators. Trusting the LLM's mental arithmetic defeats the purpose of adding a deterministic calculator tool.",
       "source": {
         "file": "HW 4.pdf",
         "title": "Homework 4 — Agentic RAG",
         "kind": "homework",
-        "pages": "12"
+        "pages": "5-12"
       },
       "difficulty": "medium",
-      "tags": ["homework", "tools", "safety"]
+      "tags": ["tools", "safety"]
     }
   ]
 }
