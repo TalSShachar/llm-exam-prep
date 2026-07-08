@@ -1,0 +1,806 @@
+{
+  "topic": "t11",
+  "title": "Real-World Problems",
+  "questions": [
+    {
+      "id": "t11-q001",
+      "stem": "In the SWE-bench benchmark, the system under evaluation is given a GitHub repository plus an issue description. What is it expected to produce?",
+      "options": [
+        "A rewritten test suite that reproduces the reported issue in isolation",
+        "A code patch (PR) that resolves the issue so the associated tests pass",
+        "A report identifying the commit that introduced the bug, without changing code",
+        "A build configuration that lets the repository compile successfully"
+      ],
+      "answer": 1,
+      "explanation": "SWE-bench asks the model to generate a fix for a real GitHub issue; success is judged by provided tests that check whether the fix works. It is not about locating commits, fixing tests, or building the repo.",
+      "source": {
+        "file": "in-class-quiz-11-Real-World_Problems.pdf",
+        "title": "In-class Quiz 11 — Real-World Problems",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": ["swe-bench", "benchmarks"]
+    },
+    {
+      "id": "t11-q002",
+      "stem": "A team tries to fix issues in a production GitHub repository by pasting the whole codebase into a single LLM prompt. According to the course, the main obstacle is that...",
+      "options": [
+        "the repository mixes several programming languages, which LLMs cannot process together",
+        "LLMs are never trained on pull-request data, so they cannot format patches",
+        "the repository is usually far too large to fit into the model's context window",
+        "the documentation inside the repository is typically out of date"
+      ],
+      "answer": 2,
+      "explanation": "Average SWE-bench repos were ~495k LOC — far beyond most context windows. That is why retrieval and agentic context-extraction techniques are needed to feed the LLM only the relevant portion.",
+      "source": {
+        "file": "in-class-quiz-11-Real-World_Problems.pdf",
+        "title": "In-class Quiz 11 — Real-World Problems",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "easy",
+      "tags": ["context-window", "repositories"]
+    },
+    {
+      "id": "t11-q003",
+      "stem": "What is the key difference between BM25 retrieval and Tree-sitter-based retrieval when locating context in a code repository?",
+      "options": [
+        "BM25 searches file contents while Tree-sitter is an editing tool used to modify files",
+        "Tree-sitter ranks documents by term frequency while BM25 parses code into syntax trees",
+        "BM25 uses keyword search while Tree-sitter relies on an LLM to identify program constructs",
+        "BM25 matches keywords/terms across text, while Tree-sitter retrieves based on the program's syntactic structure"
+      ],
+      "answer": 3,
+      "explanation": "BM25 is a lexical ranking algorithm (term frequency, document length, term rarity). Tree-sitter parses code into ASTs — with no LLM involved — enabling structure-based lookup of definitions, functions, and classes.",
+      "source": {
+        "file": "in-class-quiz-11-Real-World_Problems.pdf",
+        "title": "In-class Quiz 11 — Real-World Problems",
+        "kind": "quiz",
+        "pages": "6-8"
+      },
+      "difficulty": "medium",
+      "tags": ["bm25", "tree-sitter", "retrieval"]
+    },
+    {
+      "id": "t11-q004",
+      "stem": "Why was SWE-bench Verified developed?",
+      "options": [
+        "Human engineers reviewed a 500-task subset, checking that issues were well specified, tests reasonable, and tasks actually solvable",
+        "It adds a wider selection of repositories, each one verified to be solvable by an LLM",
+        "It collects brand-new GitHub issues that were verified to be especially difficult for models",
+        "It replaces old pull requests with more recent ones to eliminate training-data contamination"
+      ],
+      "answer": 0,
+      "explanation": "After scrutiny showed SWE-bench contained problematic tasks, OpenAI and the SWE-bench authors had human engineers manually review tasks, yielding a verified subset of 500. It reuses SWE-bench tasks rather than adding new repos or newer PRs.",
+      "source": {
+        "file": "in-class-quiz-11-Real-World_Problems.pdf",
+        "title": "In-class Quiz 11 — Real-World Problems",
+        "kind": "quiz",
+        "pages": "9-11"
+      },
+      "difficulty": "easy",
+      "tags": ["swe-bench-verified", "benchmarks"]
+    },
+    {
+      "id": "t11-q005",
+      "stem": "In the DevEval study of repository-level code generation, Recall@k is a metric that measures ____.",
+      "options": [
+        "the proportion of generated code lines that exactly match the gold patch",
+        "how many of the reference implementation's dependencies the generated programs correctly invoke",
+        "how many of the repository's unit tests the generated code passes",
+        "the average number of samples needed before a functionally correct program appears"
+      ],
+      "answer": 1,
+      "explanation": "Recall@k compares the intra-class, intra-file, and cross-file dependencies invoked by the LLM's generated programs against the dependencies in the reference (ground-truth) implementation.",
+      "source": {
+        "file": "in-class-quiz-11-Real-World_Problems.pdf",
+        "title": "In-class Quiz 11 — Real-World Problems",
+        "kind": "quiz",
+        "pages": "12-14"
+      },
+      "difficulty": "medium",
+      "tags": ["recall@k", "deveval", "dependencies"]
+    },
+    {
+      "id": "t11-q006",
+      "stem": "The lecture lists 'complexity of considerations' as a characteristic of real-world coding problems. What does this refer to?",
+      "options": [
+        "The asymptotic complexity of the algorithms implemented in the repository",
+        "The number of developers who have contributed commits to the codebase over time",
+        "The code must handle many different scenarios and computations, not just compute a single output",
+        "The difficulty of installing the repository's build toolchain on new machines"
+      ],
+      "answer": 2,
+      "explanation": "Unlike HumanEval-style tasks that compute one output, real-world problems must deal with many scenarios and computations — alongside size, diversity, dependencies, and non-functional concerns like authentication and logging.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "4"
+      },
+      "difficulty": "easy",
+      "tags": ["real-world-problems"]
+    },
+    {
+      "id": "t11-q007",
+      "stem": "According to the lecture, the core difficulty of a SWE-bench task is best described as...",
+      "options": [
+        "identifying the small number of lines that must be edited amongst a sea of context spanning thousands of files",
+        "writing a large volume of brand-new code starting from an empty repository",
+        "translating the issue description from natural language into a formal specification",
+        "reproducing the reported bug on the evaluator's specific hardware"
+      ],
+      "answer": 0,
+      "explanation": "Issue descriptions average 195 words and codebases contain thousands of files, yet the fix usually touches only a few lines — so the challenge is localization within massive context.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "11"
+      },
+      "difficulty": "easy",
+      "tags": ["swe-bench", "localization"]
+    },
+    {
+      "id": "t11-q008",
+      "stem": "During SWE-bench construction, ~90,000 PRs from 12 popular open-source Python repositories were filtered down to 2,294 task instances. Which criterion was essential for a PR to become a benchmark task?",
+      "options": [
+        "The PR had to be authored by an official maintainer of the repository",
+        "The PR had to modify fewer than ten lines of production code",
+        "The PR's linked issue had to remain open for at least one month",
+        "At least one test had to change status from fail to pass once the PR's fix was applied"
+      ],
+      "answer": 3,
+      "explanation": "Candidate PRs had to resolve a GitHub issue and change test files; instances without at least one fail-to-pass test were filtered out, since that flip is what enables automatic verification of a solution.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "10"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-bench", "benchmarks"]
+    },
+    {
+      "id": "t11-q009",
+      "stem": "Your SWE agent receives an issue mentioning 'QueryParameter' and 'field_info' in a repository with thousands of files. What must the localization stage accomplish?",
+      "options": [
+        "Load the entire repository into the prompt so that no relevant code is missed",
+        "Narrow the search down to the 1-3 relevant files using targeted search over the codebase",
+        "Ask the model to guess the file names from the repository's README alone",
+        "Run the complete test suite first so every failing assertion is enumerated"
+      ],
+      "answer": 1,
+      "explanation": "The agent cannot read everything in a 100K-line codebase; localization uses clues from the issue (symbol names) and search tools in a ReAct-style loop to find the handful of files that need editing.",
+      "source": {
+        "file": "Recitation 11  Solve real-world SE problems.pdf",
+        "title": "Recitation 11 — Solving Real-World SE Problems",
+        "kind": "recitation",
+        "pages": "38-42"
+      },
+      "difficulty": "medium",
+      "tags": ["localization", "agents"]
+    },
+    {
+      "id": "t11-q010",
+      "stem": "In the original SWE-bench experiments, what does 'oracle retrieval' mean?",
+      "options": [
+        "An LLM ranks all repository files by their predicted relevance to the issue text",
+        "A human expert manually selects which files should be included in the prompt",
+        "The model is given exactly the files that were edited by the reference patch that solved the issue",
+        "BM25 is re-run using the text of the gold patch as the search query"
+      ],
+      "answer": 2,
+      "explanation": "Oracle retrieval uses the reference solution to pick the context files, giving the model an idealized upper bound on retrieval quality; sparse (BM25) retrieval was the realistic alternative.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "12"
+      },
+      "difficulty": "medium",
+      "tags": ["oracle-retrieval", "swe-bench"]
+    },
+    {
+      "id": "t11-q011",
+      "stem": "Even under oracle retrieval — where the LLM is handed exactly the files edited by the reference fix — SWE-bench resolution rates remained very low. What is the BEST conclusion?",
+      "options": [
+        "Locating context is not the only bottleneck; models also struggle to reason about and correctly edit real code, motivating agentic approaches",
+        "BM25 retrieval would have outperformed the oracle if it had been given a richer set of search keywords",
+        "The oracle selected the wrong files, so retrieval quality was the sole problem to be solved",
+        "The benchmark's test suites must have been passing even before any fix was applied"
+      ],
+      "answer": 0,
+      "explanation": "Since performance stayed low even with perfect file selection, the difficulty goes beyond retrieval — this motivated agents that reason about bug location and root cause, propose strategies, and iterate, rather than single-shot generation.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "12-15"
+      },
+      "difficulty": "hard",
+      "tags": ["swe-bench", "agents", "retrieval"]
+    },
+    {
+      "id": "t11-q012",
+      "stem": "Your SWE agent's patch passes all tests, but it modifies 14 files including an authentication module. Per the recitation's human-in-the-loop guidance, what should the workflow do?",
+      "options": [
+        "Auto-merge the patch, since passing all tests is the accepted definition of resolved",
+        "Silently discard the patch and restart the localization stage from scratch",
+        "Lower the retry budget for future tasks so patches of this size cannot recur",
+        "Pause for human approval, because the patch changes many files and touches security-sensitive code"
+      ],
+      "answer": 3,
+      "explanation": "The recitation lists triggers for human approval: patches touching many files, security-sensitive code, high-risk static-analysis findings, excessive retries, or opening a PR. This patch hits two triggers even though tests pass.",
+      "source": {
+        "file": "Recitation 11  Solve real-world SE problems.pdf",
+        "title": "Recitation 11 — Solving Real-World SE Problems",
+        "kind": "recitation",
+        "pages": "65-66"
+      },
+      "difficulty": "medium",
+      "tags": ["human-in-the-loop", "agents"]
+    },
+    {
+      "id": "t11-q013",
+      "stem": "In the recitation's verification stage, which static-analysis tool is used specifically to detect security vulnerabilities in the patched code?",
+      "options": [
+        "flake8",
+        "pylint",
+        "bandit",
+        "pytest"
+      ],
+      "answer": 2,
+      "explanation": "The verification stage runs flake8 for style and simple bugs, pylint for code smells and naming, and bandit for security vulnerabilities; pytest is a test runner, not a static analyzer.",
+      "source": {
+        "file": "Recitation 11  Solve real-world SE problems.pdf",
+        "title": "Recitation 11 — Solving Real-World SE Problems",
+        "kind": "recitation",
+        "pages": "52-53"
+      },
+      "difficulty": "easy",
+      "tags": ["static-analysis", "verification"]
+    },
+    {
+      "id": "t11-q014",
+      "stem": "The 'Codebase-Memory' work uses Tree-sitter to help LLM agents explore repositories. How is the extracted code structure made available to agents, and with what benefit?",
+      "options": [
+        "The full ASTs are serialized into every prompt, doubling answer quality at roughly double the token cost",
+        "A knowledge graph built from the parsed code structure is stored in SQLite and exposed via an MCP server, achieving competitive quality at ten times lower token cost",
+        "The parse trees are converted into dense embeddings and then searched with the BM25 ranking algorithm",
+        "Each function is summarized by a second LLM and the summaries are cached inside the repository's README"
+      ],
+      "answer": 1,
+      "explanation": "The pipeline parses the repo with Tree-sitter, builds a knowledge graph in SQLite, and lets agents query it through an MCP interface — the authors report competitive quality at ~10x lower token cost.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "18-19"
+      },
+      "difficulty": "medium",
+      "tags": ["tree-sitter", "knowledge-graph", "mcp"]
+    },
+    {
+      "id": "t11-q015",
+      "stem": "An agent finds a two-line bug in a 400-line LLM-generated file. Per the lecture, why is asking the LLM for only the modified lines (applied via an editor tool) usually better than regenerating the whole file?",
+      "options": [
+        "It preserves the rest of the code unchanged, avoiding new errors the LLM might introduce while regenerating everything",
+        "Regenerating a file is impossible once the code has already been committed to a feature branch",
+        "Editor tools automatically prove that the replacement lines are functionally correct before applying them",
+        "Regenerating the full file always exceeds the model's maximum output token limit"
+      ],
+      "answer": 0,
+      "explanation": "Even a correct regeneration is unlikely to be identical to the original elsewhere, so regenerating risks introducing fresh errors in code you did not want changed. Targeted line edits are especially effective when the change is small.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "20"
+      },
+      "difficulty": "medium",
+      "tags": ["editing", "code-generation"]
+    },
+    {
+      "id": "t11-q016",
+      "stem": "You are designing tools for a coding agent. Following SWE-agent's Agent-Computer Interface (ACI) principles, environment feedback returned to the agent should be...",
+      "options": [
+        "as verbose as possible, so the agent never lacks any piece of information",
+        "withheld until the whole task completes, in order to keep the context clean",
+        "restricted to raw process exit codes only, to minimize token consumption",
+        "informative but concise — substantive information about the environment state without unnecessary details"
+      ],
+      "answer": 3,
+      "explanation": "The ACI principles call for simple, compact actions and high-quality feedback that is informative yet concise; verbose dumps and bare exit codes both violate that balance.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "21"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-agent", "aci"]
+    },
+    {
+      "id": "t11-q017",
+      "stem": "SWE-agent includes a code syntax checker that runs on agent edits. Within the ACI design, what role does this guardrail play?",
+      "options": [
+        "It replaces test execution entirely, so the benchmark's tests never need to be run",
+        "It fine-tunes the model on syntactically valid code while the episode is running",
+        "It mitigates error propagation by blocking erroneous edits, helping the agent recognize and quickly correct mistakes",
+        "It compresses the environment feedback so that it fits within the context window"
+      ],
+      "answer": 2,
+      "explanation": "ACI principle 4 says guardrails mitigate error propagation and hasten recovery; the authors credit tools that prevent edits when the linter finds errors as a key reason SWE-agent outperformed other techniques.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "21-23"
+      },
+      "difficulty": "hard",
+      "tags": ["swe-agent", "guardrails"]
+    },
+    {
+      "id": "t11-q018",
+      "stem": "The SWE-Bench+ critique found 'answer leak' in 32.67% of resolved instances. What does answer leak mean in this context?",
+      "options": [
+        "The solution was outlined directly in the issue report or its comments, so the model could copy it",
+        "The gold patch file was accidentally left inside the repository snapshot given to the model",
+        "Different models shared their answers with each other through a common evaluation cache",
+        "The test files printed the expected output values, letting models hard-code them"
+      ],
+      "answer": 0,
+      "explanation": "In roughly a third of resolved instances the fix was effectively spelled out in the issue text or comments — so success there reflects copying, not problem-solving. Weak tests and training-data leakage were the other two critiques.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "24"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-bench+", "benchmarks"]
+    },
+    {
+      "id": "t11-q019",
+      "stem": "SWE-Bench+ reported that about 94% of SWE-bench instances and their pull requests predate the LLMs' training cutoff dates. Why does this undermine trust in high SWE-bench scores?",
+      "options": [
+        "Old code relies on deprecated APIs that modern models are unable to call correctly",
+        "The issues and their solutions may have appeared in training data, so high scores may reflect memorization rather than genuine problem-solving",
+        "Older pull requests contain fewer test cases, which makes those tasks impossible to verify",
+        "Repositories created before the cutoff can no longer be cloned by evaluation harnesses"
+      ],
+      "answer": 1,
+      "explanation": "If the model saw the issues and fixes during training, benchmark success is contaminated — 'akin to sharing problems and solutions for an upcoming test with students before the test', as OpenAI later put it.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "24-29"
+      },
+      "difficulty": "hard",
+      "tags": ["contamination", "benchmarks"]
+    },
+    {
+      "id": "t11-q020",
+      "stem": "In 2026, OpenAI argued that SWE-bench Verified no longer measured real capability. Besides likely training exposure to solutions, what did their audit find about many remaining failures?",
+      "options": [
+        "Most failures were caused by network outages inside the evaluation sandbox",
+        "Models simply refused to attempt roughly half of the benchmark's tasks",
+        "Agents exhausted their context windows before they finished reading the issue",
+        "59.4% of audited failing problems had flawed test cases that reject functionally correct submissions"
+      ],
+      "answer": 3,
+      "explanation": "The audit found that a majority of the problems models fail on have flawed tests rejecting correct fixes, leading researchers to doubt that 80%+ scores reflect genuine software engineering ability.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "29"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-bench-verified", "flawed-tests"]
+    },
+    {
+      "id": "t11-q021",
+      "stem": "SWE-rebench criticizes 'incomparable results due to scaffolding' on SWE-bench leaderboards. What does this refer to?",
+      "options": [
+        "Scores are heavily influenced by engineered prompts, multi-agent frameworks, retry mechanisms, and best-of-N sampling, so raw model comparisons are confounded",
+        "The physical infrastructure used to run the benchmark differs across teams in GPU speed and memory",
+        "Different teams grade the generated patches using incompatible unit-testing frameworks",
+        "Repositories in the benchmark ship with placeholder scaffold code that some agents learn to exploit"
+      ],
+      "answer": 0,
+      "explanation": "Performance on SWE-bench often reflects the surrounding harness engineering as much as the model itself, which is one of the motivations SWE-rebench cites for a standardized, centrally run evaluation.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-rebench", "scaffolding"]
+    },
+    {
+      "id": "t11-q022",
+      "stem": "To make model comparisons fair, how does SWE-rebench standardize its evaluation?",
+      "options": [
+        "Each model vendor submits its own best agent trajectory, and only the maximum score across submissions is kept",
+        "Every model is wrapped in the most powerful commercial scaffold currently available on the leaderboard",
+        "A single team evaluates all models using the same minimal ReAct-style agentic framework, identical prompts, and the developers' recommended default hyperparameters",
+        "Models are evaluated exclusively on tasks that were published before their training cutoff dates"
+      ],
+      "answer": 2,
+      "explanation": "Centralized, standardized evaluation with one minimal ReAct-style harness removes the scaffolding confound; contamination is instead addressed by continuously refreshing tasks from new GitHub issues.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "31"
+      },
+      "difficulty": "hard",
+      "tags": ["swe-rebench", "evaluation"]
+    },
+    {
+      "id": "t11-q023",
+      "stem": "Agent trajectories are stochastic, so a single benchmark run can mislead. How does SWE-rebench account for this variability?",
+      "options": [
+        "It sets the sampling temperature to zero so that every agent run becomes fully deterministic",
+        "Each model runs the full benchmark five times, and results are reported with the standard error of the mean (SEM) plus pass@5",
+        "It averages the scores of the three best community reproductions of each model's result",
+        "It discards any task on which two independent runs of the same model disagree"
+      ],
+      "answer": 1,
+      "explanation": "Running each model five times and reporting SEM and pass@5 gives a statistically grounded assessment, unlike the practice of reporting only a best-performing run, which skews results.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "30-31"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-rebench", "stochasticity"]
+    },
+    {
+      "id": "t11-q024",
+      "stem": "Which SWE-bench extension targets behavior-preserving restructuring of repositories, such as decomposing a monolithic repo into microservices?",
+      "options": [
+        "SWE-bench Multimodal",
+        "FEA-Bench",
+        "Multi-SWE-bench",
+        "SWE-Refactor"
+      ],
+      "answer": 3,
+      "explanation": "SWE-Refactor covers behavior-preserving restructuring. Multimodal adds visual bug reports and screenshots, Multi-SWE-bench extends to more languages, and FEA-Bench focuses on adding features rather than fixing bugs.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "32"
+      },
+      "difficulty": "easy",
+      "tags": ["benchmarks", "refactoring"]
+    },
+    {
+      "id": "t11-q025",
+      "stem": "In the statement `user = UserServices()`, the language runtime must resolve the name UserServices to a class defined somewhere else in the project. Which dependency type is this?",
+      "options": [
+        "A symbol/code dependency",
+        "A library/module dependency",
+        "A runtime dependency formed dynamically",
+        "A build-system dependency"
+      ],
+      "answer": 0,
+      "explanation": "Symbol/code dependencies occur when code references names defined elsewhere. Library/module dependencies arise from import/include/package mechanisms, and runtime dependencies are dynamic ones that cannot be determined statically.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "35"
+      },
+      "difficulty": "easy",
+      "tags": ["dependencies"]
+    },
+    {
+      "id": "t11-q026",
+      "stem": "An LLM generates `import fastjson_utils`, a plausible-sounding package that does not actually exist on PyPI. Why is this 'phantom package' a security risk and not merely a correctness bug?",
+      "options": [
+        "Imports of nonexistent modules crash the Python interpreter, enabling a denial-of-service attack on the host",
+        "An attacker can register that name on PyPI with a malicious payload — a supply-chain attack vector unique to LLM-generated code",
+        "The bogus import silently downgrades the project's other packages to older, vulnerable versions",
+        "Phantom packages disable the repository's automated dependency scanner during CI runs"
+      ],
+      "answer": 1,
+      "explanation": "Because many LLMs hallucinate the same plausible names, attackers can pre-register those names on npm or PyPI with malicious code. Phantom packages also harm correctness and silently break builds, but the supply-chain angle is the security threat.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "36"
+      },
+      "difficulty": "medium",
+      "tags": ["phantom-packages", "security"]
+    },
+    {
+      "id": "t11-q027",
+      "stem": "In the DI-BENCH benchmark, what exactly is the model given, and what must it produce?",
+      "options": [
+        "Only a list of import statements; it must write the source files that would use them",
+        "A complete build configuration; it must generate source code matching the declared dependencies",
+        "A repository whose build configuration has its dependencies masked; it must infer the required packages and their correct versions",
+        "Two conflicting repositories; it must merge their dependency lists without version conflicts"
+      ],
+      "answer": 2,
+      "explanation": "DI-BENCH formalizes dependency inference: given a repo's source files and a build config with dependencies masked/removed, the LLM must reconstruct which packages — and which versions — are needed for the code to run.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "38"
+      },
+      "difficulty": "easy",
+      "tags": ["di-bench", "dependencies"]
+    },
+    {
+      "id": "t11-q028",
+      "stem": "In the DI-BENCH results tables, a model shows a high FR score. How should you interpret this?",
+      "options": [
+        "Good — FR is the fraction of repositories whose dependencies were fully resolved",
+        "Good — FR measures how fast the generated build configuration executes",
+        "Bad — FR counts the required dependencies that the model omitted from the build file",
+        "Bad — Fake Rate measures hallucinated dependencies that do not exist, and lower is better"
+      ],
+      "answer": 3,
+      "explanation": "FR is the Fake Rate: the rate of generated dependencies that don't actually exist. The study found all models produce some hallucinated dependencies, and FR is explicitly a lower-is-better metric alongside Exec and P/R/F1.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "40-42"
+      },
+      "difficulty": "medium",
+      "tags": ["di-bench", "hallucination"]
+    },
+    {
+      "id": "t11-q029",
+      "stem": "DI-BENCH compares three context strategies: All-In-One, File-Iterate, and Imports-Only. Which statement about them is accurate?",
+      "options": [
+        "Imports-Only extracts just the import statements (using tree-sitter), so it still works when a large repository cannot fit into the context window",
+        "All-In-One feeds the model one file at a time, which lets it scale to arbitrarily large repositories",
+        "File-Iterate provides only the build configuration file while hiding all of the source files",
+        "Imports-Only gives the model the masked dependency list itself as a starting hint"
+      ],
+      "answer": 0,
+      "explanation": "All-In-One provides the entire repo (infeasible for large repos), File-Iterate feeds files one by one, and Imports-Only supplies only the import statements extracted with tree-sitter — a compact signal that scales.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "40-41"
+      },
+      "difficulty": "hard",
+      "tags": ["di-bench", "context"]
+    },
+    {
+      "id": "t11-q030",
+      "stem": "According to DI-BENCH's failure analysis, what is the MOST common failure category, and how does inference accuracy scale as the number of dependencies grows?",
+      "options": [
+        "Invalid Dependency Version in Build is most common, and accuracy is unaffected by the number of dependencies",
+        "Missing Dependency in Test — models omit packages required during testing — and accuracy decreases significantly as dependencies grow",
+        "Dependency Not Found in Build is most common, and accuracy improves with more dependencies because there is more import evidence",
+        "Circular dependency errors dominate, and accuracy depends primarily on the repository's programming language"
+      ],
+      "answer": 1,
+      "explanation": "The most common failure is Missing Dependency in Test (packages needed during test evaluation are omitted), and accuracy drops significantly as dependency count grows. Nonexistent packages/versions are separate, rarer categories.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "42"
+      },
+      "difficulty": "hard",
+      "tags": ["di-bench", "dependencies"]
+    },
+    {
+      "id": "t11-q031",
+      "stem": "In the DevEval benchmark, which combination of artifacts is placed in the prompt for the LLM when it generates the target function?",
+      "options": [
+        "The function signature, the developer-written reference code, and the test cases",
+        "The English requirement, the reference dependencies, and the full test suite",
+        "The function signature, the English requirement, and (possibly partial) repository/file context",
+        "The repository context, the gold patch, and the list of cross-file dependencies"
+      ],
+      "answer": 2,
+      "explanation": "DevEval prompts with items 1-3: signature, requirement, and repository context (none, partial file, or entire local file). The reference code, reference dependencies, and test cases are held out for evaluation, not shown to the model.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "44"
+      },
+      "difficulty": "hard",
+      "tags": ["deveval", "benchmarks"]
+    },
+    {
+      "id": "t11-q032",
+      "stem": "DevEval's Recall@1 analysis of GPT-4 across dependency types found that, even when local file context was provided, ...",
+      "options": [
+        "intra-class dependencies remained the hardest because class bodies are typically very long",
+        "the model invoked every available dependency but consistently passed the wrong arguments",
+        "recall climbed to nearly 100% as soon as any amount of context was supplied",
+        "cross-file dependencies remained hardest, and the model often ignored dependencies available in the provided context"
+      ],
+      "answer": 3,
+      "explanation": "Context improves dependency generation, but LLMs still struggle — especially with cross-file dependencies — and often ignore dependencies defined in the given context. This reinforces the need for agents that search the repo for required context.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "45-46"
+      },
+      "difficulty": "medium",
+      "tags": ["deveval", "recall@k", "dependencies"]
+    },
+    {
+      "id": "t11-q033",
+      "stem": "Among the leading coding agents surveyed in 2026, which one is characterized as the best-known 'autonomous SE' agent — managing the full lifecycle from planning and coding to testing and deploying, with humans reviewing rather than driving?",
+      "options": [
+        "Devin",
+        "Cursor",
+        "Claude Code",
+        "GitHub Copilot"
+      ],
+      "answer": 0,
+      "explanation": "Devin is positioned as the autonomous end of the spectrum. Cursor is the IDE-based option with flexible model choice, and Claude Code is the interactive conversational agent strong on hard multi-file coding work.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "48-49"
+      },
+      "difficulty": "easy",
+      "tags": ["agents", "devin"]
+    },
+    {
+      "id": "t11-q034",
+      "stem": "Which of the following best describes OpenHands?",
+      "options": [
+        "A proprietary IDE plugin that is tightly bundled with a single vendor's LLM",
+        "An open-source agent platform with a built-in sandbox for bash, Python, and web browsing, usable with most major LLMs",
+        "A benchmark of curated GitHub issues used to evaluate commercial coding agents",
+        "A dependency-inference tool built on top of tree-sitter parse trees"
+      ],
+      "answer": 1,
+      "explanation": "OpenHands is an open-source platform with an event-driven architecture, GUI, multi-agent collaboration, and a sandbox for executing shell commands, Python code, and web browsing — considered the best open-source choice for production work.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "51"
+      },
+      "difficulty": "easy",
+      "tags": ["openhands", "agents"]
+    },
+    {
+      "id": "t11-q035",
+      "stem": "In GitTaskBench, an agent produces a valid, non-empty output audio file for a speech-enhancement task, but the audio scores below the PESQ 2.0 quality threshold. How is this run scored?",
+      "options": [
+        "It fails both metrics, since quality thresholds gate every measurement in the benchmark",
+        "It passes the Task Pass Rate but fails the Execution Completion Rate",
+        "It counts toward the Execution Completion Rate (ECR) but not the Task Pass Rate (TPR)",
+        "It passes both metrics, because generating a processable output file is the success criterion"
+      ],
+      "answer": 2,
+      "explanation": "ECR only checks that the agent completed the task with an appropriate, processable output; TPR additionally requires task-specific quality criteria (e.g., PESQ >= 2.0 and SNR >= 15dB for speech enhancement), which this run misses.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "53-54"
+      },
+      "difficulty": "medium",
+      "tags": ["gittaskbench", "metrics"]
+    },
+    {
+      "id": "t11-q036",
+      "stem": "In the successful GitTaskBench transcript (converting an image background to green screen), what standard workflow did the agent follow to solve the task with the given repository?",
+      "options": [
+        "Write the conversion code first, then search the repository only if the tests fail",
+        "Delete the repository's example scripts and reimplement the library from scratch",
+        "Ask the human user to install all dependencies before performing any analysis",
+        "README analysis, then dependency installation and setup, then implementation — verifying imports and outputs along the way"
+      ],
+      "answer": 3,
+      "explanation": "The agent explicitly followed 'README analysis to dependency setup, to implementation': it found the --type green parameter in the docs, installed packages, verified the import worked, then executed and confirmed completion.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "58-59"
+      },
+      "difficulty": "medium",
+      "tags": ["gittaskbench", "agents"]
+    },
+    {
+      "id": "t11-q037",
+      "stem": "In the instructor's Claude Code session, the agent built a desktop organizer that sorted files into generic type buckets (Images, Documents, ...), whereas the instructor actually wanted topic-based folders (Research, Insurance, ...). Per the lecture summary, this illustrates that...",
+      "options": [
+        "LLM output needs verification because models make assumptions about incomplete specifications, and those assumptions may not match the developer's intent",
+        "coding agents are unable to categorize files by topic without task-specific fine-tuning",
+        "terminal-based agents are architecturally unable to ask the user clarifying questions",
+        "the model hallucinated a filesystem API that does not exist on macOS"
+      ],
+      "answer": 0,
+      "explanation": "The lecture's two reasons to verify LLM output are hallucination and unstated assumptions on incomplete specs. Here the code worked but embodied an assumption (type buckets) that missed the user's intent — and Claude did ask clarifying questions elsewhere.",
+      "source": {
+        "file": "2026 Topic 11 Real-world problems.pdf",
+        "title": "Topic 11 — Real-World Problems",
+        "kind": "lecture",
+        "pages": "70-74"
+      },
+      "difficulty": "medium",
+      "tags": ["claude-code", "assumptions", "verification"]
+    },
+    {
+      "id": "t11-q038",
+      "stem": "Your agent's patch makes all FAIL_TO_PASS tests pass, but two PASS_TO_PASS tests that previously passed now fail. Under SWE-rebench-style scoring, is the task resolved?",
+      "options": [
+        "Yes — making the target FAIL_TO_PASS tests pass is by itself sufficient for resolution",
+        "No — resolution is binary and requires BOTH that FAIL_TO_PASS tests now pass AND that PASS_TO_PASS tests stay green",
+        "Partially — the task earns proportional credit for the fraction of tests that pass",
+        "Yes, provided the static-analysis scores improved between the base commit and the patch"
+      ],
+      "answer": 1,
+      "explanation": "Scoring is all-or-nothing: the patch must fix the failing tests without breaking anything that worked before. Failing PASS_TO_PASS tests means the fix introduced a regression, so the task is unresolved.",
+      "source": {
+        "file": "Recitation 11  Solve real-world SE problems.pdf",
+        "title": "Recitation 11 — Solving Real-World SE Problems",
+        "kind": "recitation",
+        "pages": "21-22,49-51"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-rebench", "evaluation", "tests"]
+    },
+    {
+      "id": "t11-q039",
+      "stem": "The recitation wires its localization, patch, and verification agents together using LangGraph. Which three primitives does LangGraph provide for this workflow?",
+      "options": [
+        "Prompts, chains, and output parsers shared by all agents",
+        "Threads, locks, and message queues for parallel execution",
+        "State (a shared memory object), nodes (steps in the workflow), and edges (rules that decide where to go next)",
+        "Embeddings, retrievers, and rerankers for codebase search"
+      ],
+      "answer": 2,
+      "explanation": "A SWE agent is a loop, not a single LLM call, so it needs shared state passed between nodes and conditional edges to decide whether to retry, relocalize, escalate to a human, or stop.",
+      "source": {
+        "file": "Recitation 11  Solve real-world SE problems.pdf",
+        "title": "Recitation 11 — Solving Real-World SE Problems",
+        "kind": "recitation",
+        "pages": "54-57"
+      },
+      "difficulty": "easy",
+      "tags": ["langgraph", "agents"]
+    },
+    {
+      "id": "t11-q040",
+      "stem": "In the recitation's LangGraph workflow, verification has just failed and the agent has used 2 of its 5 allowed attempts. According to the conditional-edge rules, what happens next?",
+      "options": [
+        "The graph terminates immediately and records the task as unresolved",
+        "The graph jumps straight to human_review, since every verification failure requires approval",
+        "generate_patch is re-run with exactly the same input, deliberately skipping any reflection step",
+        "The graph routes to reflect_on_failure and then generates a new patch; only when attempts reach the budget does it end as unresolved"
+      ],
+      "answer": 3,
+      "explanation": "While attempts remain under budget, failure triggers reflect_on_failure followed by another generate_patch (or re-localization if localization seems wrong); human_review is reserved for risky patches, and END-as-unresolved only fires at the budget.",
+      "source": {
+        "file": "Recitation 11  Solve real-world SE problems.pdf",
+        "title": "Recitation 11 — Solving Real-World SE Problems",
+        "kind": "recitation",
+        "pages": "60-64"
+      },
+      "difficulty": "hard",
+      "tags": ["langgraph", "conditional-edges", "reflexion"]
+    }
+  ]
+}

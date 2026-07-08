@@ -1,0 +1,806 @@
+{
+  "topic": "t10",
+  "title": "Generating Good Code & NF Properties",
+  "questions": [
+    {
+      "id": "t10-q001",
+      "stem": "According to analyses cited in the lecture, why would a majority of algorithmically successful solutions on benchmarks like SWE-Bench still fail in production?",
+      "options": [
+        "They introduce new security flaws, performance regressions, or coding-standard violations",
+        "They fail to compile once moved into production build environments",
+        "They overfit to public test cases and crash on any real-world input",
+        "They take too long to generate, so teams cannot ship them on time"
+      ],
+      "answer": 0,
+      "explanation": "The cited analysis states that most benchmark-passing solutions would fail in production due to new security flaws, performance regressions, or coding-standard violations — functional correctness alone does not capture production readiness.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "4-5"
+      },
+      "difficulty": "easy",
+      "tags": ["non-functional", "correctness"]
+    },
+    {
+      "id": "t10-q002",
+      "stem": "Benchmarking LLM-generated code for NON-FUNCTIONAL properties covers several dimensions. Which of the following is NOT one of them?",
+      "options": [
+        "Maintainability — code that is understandable and follows best practices",
+        "Security — the absence of vulnerabilities in the generated code",
+        "Whether the code passes the benchmark's functional unit tests",
+        "Efficiency — latency, resource utilization, and runtime behavior"
+      ],
+      "answer": 2,
+      "explanation": "Passing unit tests measures functional correctness, which is exactly what non-functional benchmarking goes beyond. Maintainability, vulnerabilities, efficiency, and well-written code are all NF dimensions.",
+      "source": {
+        "file": "in-class-quiz-10-Generating good code,pptx.pdf",
+        "title": "In-class Quiz 10 — Generating Good Code",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": ["non-functional", "benchmarks"]
+    },
+    {
+      "id": "t10-q003",
+      "stem": "A requirements document states: \"The system must achieve 99.95% uptime.\" Which non-functional property does this requirement exemplify?",
+      "options": [
+        "Reliability",
+        "Availability",
+        "Performance",
+        "Usability"
+      ],
+      "answer": 1,
+      "explanation": "Availability measures a system's uptime and its ability to remain operational and accessible; the lecture's example is exactly a 99.95% uptime requirement. Reliability concerns performing functions consistently and accurately, not uptime percentage.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "8"
+      },
+      "difficulty": "easy",
+      "tags": ["non-functional", "availability"]
+    },
+    {
+      "id": "t10-q004",
+      "stem": "How did Martin Fowler and Ken Beck, who coined the term, characterize code smells?",
+      "options": [
+        "Precise, objective criteria that prove the presence of a bug",
+        "Indications of trouble that can be solved by a refactoring",
+        "Compiler warnings that must be resolved before a release",
+        "Security weaknesses catalogued in the CWE Top 25 list"
+      ],
+      "answer": 1,
+      "explanation": "Code smells are \"indications that there is trouble that can be solved by a refactoring\" — they are indicative and subjective, increasing the likelihood of bugs without being bugs themselves.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "9"
+      },
+      "difficulty": "easy",
+      "tags": ["code-smells", "refactoring"]
+    },
+    {
+      "id": "t10-q005",
+      "stem": "Reviewing LLM-generated code, you find a class that exposes its internal data structures directly to all callers. In the smell taxonomy taught in class, this is best classified as a:",
+      "options": [
+        "Implementation smell in the improper-alignment category",
+        "Design smell in the encapsulation category",
+        "Architectural smell in the layer-skipping category",
+        "Design smell in the hierarchy category"
+      ],
+      "answer": 1,
+      "explanation": "Excessive exposure of internal details is the encapsulation design smell. Hierarchy smells concern inheritance trees, and implementation smells are lower-level issues like naming or dead code.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "10"
+      },
+      "difficulty": "medium",
+      "tags": ["code-smells", "design"]
+    },
+    {
+      "id": "t10-q006",
+      "stem": "A code audit of your system finds that a UI component issues SQL queries directly to the database, bypassing the intermediate service layer. Which architectural smell is this?",
+      "options": [
+        "Hub-like module",
+        "Chatty service interaction",
+        "Unstable dependency",
+        "Layer skipping"
+      ],
+      "answer": 3,
+      "explanation": "Layer skipping occurs when a component bypasses an intermediate layer and calls directly into a lower one — the lecture's example is exactly a UI calling the database directly. Chatty interaction is about too many small messages between services.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "12"
+      },
+      "difficulty": "medium",
+      "tags": ["architectural-smells", "design"]
+    },
+    {
+      "id": "t10-q007",
+      "stem": "You want to scan a codebase specifically for security issues and vulnerabilities. Which set of tools does the lecture name for this purpose?",
+      "options": [
+        "PyLint, flake8, and Prettier",
+        "gem5, HumanEval, and MBPP",
+        "PMD, Checkstyle, and ESLint",
+        "Bandit, SonarQube, and CodeQL"
+      ],
+      "answer": 3,
+      "explanation": "The lecture names Bandit, SonarQube, and CodeQL as tools commonly used to detect security issues and vulnerabilities. Linters like PyLint and Checkstyle are used mainly for maintainability checks.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "13"
+      },
+      "difficulty": "easy",
+      "tags": ["security", "static-analysis"]
+    },
+    {
+      "id": "t10-q008",
+      "stem": "In \"Refining ChatGPT-Generated Code\", what did the authors conclude about the relationship between code quality issues and test outcomes?",
+      "options": [
+        "Quality issues appear only in code that fails the test cases",
+        "Code that passes tests is essentially free of quality issues",
+        "Quality issues commonly occur both in code that passes and in code that fails tests",
+        "Failing code has fewer quality issues because it tends to be shorter"
+      ],
+      "answer": 2,
+      "explanation": "The study found code quality issues commonly happen in both passing and failing code, highlighting the need to address quality alongside functional correctness rather than assuming passing code is clean.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "16"
+      },
+      "difficulty": "medium",
+      "tags": ["code-quality", "studies"]
+    },
+    {
+      "id": "t10-q009",
+      "stem": "In the code-quality study discussed in class, LLM-generated code was considered \"clean\" when it:",
+      "options": [
+        "Has no linter-reported issues, possibly excepting whitespace, newlines, and naming conventions",
+        "Contains no security vulnerabilities according to a Bandit scan",
+        "Passes all of the provided unit tests on the first attempt",
+        "Is labeled \"clean\" by an LLM-as-a-judge examining its NF properties"
+      ],
+      "answer": 0,
+      "explanation": "Cleanliness was measured by how many issues static analysis tools find, ignoring whitespace, newline, and naming-convention issues. Passing unit tests measures functional correctness, not cleanliness.",
+      "source": {
+        "file": "in-class-quiz-10-Generating good code,pptx.pdf",
+        "title": "In-class Quiz 10 — Generating Good Code",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "easy",
+      "tags": ["clean-code", "linters"]
+    },
+    {
+      "id": "t10-q010",
+      "stem": "A generated function nests if/elif blocks on order type, priority, and region, creating many execution paths — the tooManyBranches smell. Which testing consequence does the lecture highlight for such code?",
+      "options": [
+        "The function cannot be unit tested at all until refactored",
+        "Branch-heavy code always triggers error-level static analysis findings",
+        "Coverage tools are unable to instrument deeply nested branches",
+        "Full test coverage requires a test case for every path combination"
+      ],
+      "answer": 3,
+      "explanation": "tooManyBranches makes code hard to test because full coverage requires a test case for every path combination; it also causes cognitive overload and fragility. It can still be tested — it is just costly.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "19"
+      },
+      "difficulty": "medium",
+      "tags": ["code-smells", "testing"]
+    },
+    {
+      "id": "t10-q011",
+      "stem": "In \"Investigating The Smells of LLM Generated Code\", for which smell category did LLM-generated code actually do BETTER than the human reference code?",
+      "options": [
+        "Documentation",
+        "Modularisation",
+        "Encapsulation",
+        "Resource handling"
+      ],
+      "answer": 2,
+      "explanation": "While LLM-generated code generally showed more smells than the reference code, encapsulation was the exception where LLM code did better than the human-written reference.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "20"
+      },
+      "difficulty": "medium",
+      "tags": ["code-smells", "studies"]
+    },
+    {
+      "id": "t10-q012",
+      "stem": "In the SWE-bench Lite study that ran CodeQL on functionally correct patches, how did the LLM-generated patches compare to the gold patches?",
+      "options": [
+        "They triggered substantially more CodeQL rules, especially maintainability rules",
+        "They matched the gold patches on maintainability but lagged on security",
+        "They triggered fewer rules because LLMs consistently follow style guides",
+        "They differed from gold patches only on recommendation-level findings"
+      ],
+      "answer": 0,
+      "explanation": "The generated patches triggered substantially more CodeQL rules than the gold patches, and this gap was especially large for maintainability rules — despite all patches being functionally correct.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "21"
+      },
+      "difficulty": "medium",
+      "tags": ["codeql", "maintainability"]
+    },
+    {
+      "id": "t10-q013",
+      "stem": "The SWE-bench Lite quality study kept only 17 patches for its CodeQL analysis. Why exactly 17?",
+      "options": [
+        "Only 17 problems in the benchmark had gold patches available",
+        "Those were the only patches functionally correct for all three LLMs, enabling a fair comparison",
+        "CodeQL could successfully parse only 17 of the generated patches",
+        "The remaining patches exceeded the models' context windows"
+      ],
+      "answer": 1,
+      "explanation": "They evaluated each patch for correctness and kept only the 17 patches that were functionally correct for all three LLMs, so the NF comparison across models (and against gold patches) was on equal footing.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "21"
+      },
+      "difficulty": "hard",
+      "tags": ["studies", "methodology"]
+    },
+    {
+      "id": "t10-q014",
+      "stem": "In the CodeQL severity classification used in the SWE-bench quality study, what does an Error (E) finding denote?",
+      "options": [
+        "A style deviation that requires reformatting the code",
+        "A minor improvement suggestion for readability",
+        "A critical flaw that may cause failures or security vulnerabilities",
+        "A deprecated API usage that still functions correctly"
+      ],
+      "answer": 2,
+      "explanation": "Error denotes critical flaws that may cause failures or security vulnerabilities; Warning denotes problem patterns; Recommendation suggests minor maintainability or readability improvements.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "21"
+      },
+      "difficulty": "medium",
+      "tags": ["codeql", "severity"]
+    },
+    {
+      "id": "t10-q015",
+      "stem": "Your agent pipeline produces functionally correct patches that consistently flunk maintainability and security checks. According to the QA study's conclusion, the ROOT CAUSE is that LLMs:",
+      "options": [
+        "Have context windows too small to include coding style guides",
+        "Lack access to static analysis tools while generating code",
+        "Are throttled by benchmarks that time out before refinement",
+        "Predict likely next tokens, capturing superficial code patterns rather than engineering principles"
+      ],
+      "answer": 3,
+      "explanation": "The study concludes models implicitly prioritize \"passing the test\" over \"passing with quality\" because next-token training captures superficial patterns of code, not underlying engineering principles — NFQCs are not treated as primary objectives.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "23"
+      },
+      "difficulty": "medium",
+      "tags": ["non-functional", "llm-limitations"]
+    },
+    {
+      "id": "t10-q016",
+      "stem": "Comparing GPT-5.2 with GPT-3.5-Turbo on non-functional evaluation, which pattern did the cited study report?",
+      "options": [
+        "GPT-5.2 dominated every NF dimension by a wide margin",
+        "GPT-5.2 was better on efficiency and resource usage but worse on maintainability and security",
+        "GPT-5.2 was worse across all NF dimensions despite better correctness",
+        "The two models scored identically on the overall NF metric"
+      ],
+      "answer": 1,
+      "explanation": "GPT-5.2 significantly outperformed GPT-3.5-Turbo on efficiency and resource usage but did worse on maintainability and security, beating it overall on the nonfunctional score by less than 2 percentage points.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "24"
+      },
+      "difficulty": "hard",
+      "tags": ["benchmarks", "models"]
+    },
+    {
+      "id": "t10-q017",
+      "stem": "What do the letters of the RACE benchmark stand for?",
+      "options": [
+        "Readability, mAintainability, Correctness, and Efficiency",
+        "Reliability, Availability, Consistency, and Elegance",
+        "Runtime, Accuracy, Complexity, and Encapsulation",
+        "Refactoring, Abstraction, Coupling, and Evolution"
+      ],
+      "answer": 0,
+      "explanation": "RACE benchmarks multi-dimensional code generation along Readability, mAintainability, Correctness, and Efficiency, evaluating 28 different LLMs on these dimensions.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "27"
+      },
+      "difficulty": "easy",
+      "tags": ["race", "benchmarks"]
+    },
+    {
+      "id": "t10-q018",
+      "stem": "Methodologically, how does the RACE benchmark differ from the studies that measured code quality with PMD, Checkstyle, or Pylint?",
+      "options": [
+        "It relies entirely on human expert reviewers to grade the code",
+        "It measures NF properties only on solutions that fail the tests",
+        "It uses its own custom metrics for NF properties rather than standard static analysis tools",
+        "It reuses SonarQube's severity levels to weight every issue"
+      ],
+      "answer": 2,
+      "explanation": "Unlike studies built on standard linters, RACE defines its own metrics for NF properties, and when measuring property X it explicitly instructs the LLM in the prompt to optimize for X.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "27-28"
+      },
+      "difficulty": "medium",
+      "tags": ["race", "methodology"]
+    },
+    {
+      "id": "t10-q019",
+      "stem": "You prompt an LLM to generate code that is simultaneously readable, modular, AND time-efficient. Based on the RACE benchmark results, what should you expect as more requirements are stacked into the prompt?",
+      "options": [
+        "Quality improves because the constraints focus the model",
+        "Correctness rises while the NF scores stay unchanged",
+        "Results are unaffected — models ignore the extra requirements",
+        "The performance of all models gradually declines as prompt complexity increases"
+      ],
+      "answer": 3,
+      "explanation": "RACE found that when prompt complexity increases by requiring multiple quality dimensions simultaneously, the performance of all models gradually declines.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "medium",
+      "tags": ["race", "prompting"]
+    },
+    {
+      "id": "t10-q020",
+      "stem": "Which statement accurately reflects the RACE benchmark's model-level results?",
+      "options": [
+        "Most models exceeded 80% on the time-complexity dimension",
+        "Except for o1-mini and Claude-3.5-Sonnet, all models scored below 45% on modularity",
+        "Qwen2.5-Coder-7B-Ins beat GPT-4o-mini on comments and modularity",
+        "o1-mini achieved a near-perfect score on space complexity"
+      ],
+      "answer": 1,
+      "explanation": "Only o1-mini and Claude-3.5-Sonnet exceeded 45% on modularity. Even the best model, o1-mini, reached just 60.3 on time complexity, and GPT-4o-mini beat Qwen2.5-Coder-7B-Ins on comments, modularity, and space complexity.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "hard",
+      "tags": ["race", "results"]
+    },
+    {
+      "id": "t10-q021",
+      "stem": "You must pick the prompting/setup strategy that minimizes SonarQube-reported issues in generated Python solutions. According to \"Is LLM-Generated Code More Maintainable & Reliable than Human-Written Code?\", which choice performs best?",
+      "options": [
+        "Zero-shot prompting of the base model",
+        "Few-shot prompting of the base model",
+        "Chain-of-thought prompting of the base model",
+        "Prompting a fine-tuned version of the model"
+      ],
+      "answer": 3,
+      "explanation": "Fine-tuning clearly outperformed the other approaches; few-shot came next and even beat human-written code except on introductory problems. Zero-shot was weakest.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "34-36"
+      },
+      "difficulty": "medium",
+      "tags": ["fine-tuning", "sonarqube"]
+    },
+    {
+      "id": "t10-q022",
+      "stem": "SonarQube classifies the issues it detects into which four severity levels?",
+      "options": [
+        "Error, Warning, Recommendation, and Info",
+        "High, Medium, Low, and Trace",
+        "Fatal, Severe, Moderate, and Cosmetic",
+        "Blocker, Critical, Major, and Minor"
+      ],
+      "answer": 3,
+      "explanation": "SonarQube's four severity levels are blocker, critical, major, and minor. Error/Warning/Recommendation is CodeQL's classification, not SonarQube's.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "35"
+      },
+      "difficulty": "easy",
+      "tags": ["sonarqube", "severity"]
+    },
+    {
+      "id": "t10-q023",
+      "stem": "After an LLM \"repair\" pass, Bandit suddenly reports zero issues — but an entire endpoint function has quietly disappeared from the file. Which recitation warning does this illustrate?",
+      "options": [
+        "Metrics can improve while the code gets worse, e.g., the LLM deletes the problematic code",
+        "Bandit cannot analyze functions that exceed one hundred lines",
+        "Security scanners systematically under-report after any refactoring",
+        "The LLM safely fixed the issue by inlining the endpoint elsewhere"
+      ],
+      "answer": 0,
+      "explanation": "The recitation warns that LLM \"fixes\" may delete problematic code, change behavior, or hide warnings — \"the warning is gone because the function is gone.\" Improvement must be verified, not inferred from cleaner tool reports.",
+      "source": {
+        "file": "Recitation 9  Code Quality Clinic.pdf",
+        "title": "Recitation 9 — Code Quality Clinic",
+        "kind": "recitation",
+        "pages": "57-59"
+      },
+      "difficulty": "medium",
+      "tags": ["repair", "metrics"]
+    },
+    {
+      "id": "t10-q024",
+      "stem": "A team applies \"design-optimized\" prompts asking the LLM to fix the non-functional issues in its previously resolved SWE-bench patches. Alongside the NF improvements for GPT-4o, what side effect did the study observe?",
+      "options": [
+        "Memory usage doubled even though runtime improved",
+        "The number of security vulnerabilities rose sharply",
+        "The functional correctness of the previously resolved patches decreased",
+        "Maintainability issues increased despite the targeted prompts"
+      ],
+      "answer": 2,
+      "explanation": "The design-optimized prompts reduced maintainability issues and runtime for GPT-4o, but the functional correctness of previously resolved patches decreased — fixing NF properties can break functionality.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "40"
+      },
+      "difficulty": "medium",
+      "tags": ["prompting", "trade-offs"]
+    },
+    {
+      "id": "t10-q025",
+      "stem": "What is PythonSecurityEval?",
+      "options": [
+        "A dataset of 470 natural-language prompts for evaluating LLMs' ability to generate secure code",
+        "A Python linter that focuses on security hotspots and weak cryptography",
+        "The catalogue of the 25 most dangerous software weaknesses",
+        "A fine-tuned model specialized in patching vulnerabilities"
+      ],
+      "answer": 0,
+      "explanation": "PythonSecurityEval consists of 470 natural-language prompts designed to evaluate the ability of LLMs to generate secure code; the CWE Top 25 is a separate weakness catalogue.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "41"
+      },
+      "difficulty": "easy",
+      "tags": ["security", "datasets"]
+    },
+    {
+      "id": "t10-q026",
+      "stem": "What distinguishes the FDSP approach to remediating security vulnerabilities from simply forwarding the Bandit report to the LLM?",
+      "options": [
+        "FDSP fine-tunes the model on curated examples of secure code",
+        "FDSP supplies the Bandit issues together with LLM-generated strategies for fixing them",
+        "FDSP uses few-shot prompting with vulnerable/fixed code pairs",
+        "FDSP has a second LLM vote on which candidate patch is safest"
+      ],
+      "answer": 1,
+      "explanation": "FDSP's key idea is that the LLM first proposes natural-language solution strategies for the Bandit-reported issues, and code is then regenerated per strategy — going beyond merely passing the raw static-analysis report to the model.",
+      "source": {
+        "file": "in-class-quiz-10-Generating good code,pptx.pdf",
+        "title": "In-class Quiz 10 — Generating Good Code",
+        "kind": "quiz",
+        "pages": "9-10"
+      },
+      "difficulty": "medium",
+      "tags": ["fdsp", "security"]
+    },
+    {
+      "id": "t10-q027",
+      "stem": "A repair pipeline sends generated code back to the LLM to produce feedback, then feeds the code plus that feedback back into the LLM to correct bugs — WITHOUT using any static analyzer. In the security-repair study's terminology, this baseline is called:",
+      "options": [
+        "Verbalization",
+        "Bandit feedback",
+        "Self-Debugging",
+        "Direct prompting"
+      ],
+      "answer": 2,
+      "explanation": "Self-Debugging has the LLM generate its own feedback on the code and then fix it using that feedback. Verbalization and Bandit feedback both incorporate Bandit's report, and direct prompting simply asks whether the code has a security issue.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "46"
+      },
+      "difficulty": "hard",
+      "tags": ["security", "self-debugging"]
+    },
+    {
+      "id": "t10-q028",
+      "stem": "Which quantitative result did the \"Can LLMs Patch Security Issues?\" study report for FDSP with GPT-4 on PythonSecurityEval?",
+      "options": [
+        "Vulnerable code dropped from 40.2% to 7.4%",
+        "Vulnerable code dropped from 87% to 40.2%",
+        "FDSP tied with the verbalization approach at 8.7%",
+        "Bandit-based feedback yielded no measurable improvement"
+      ],
+      "answer": 0,
+      "explanation": "FDSP with GPT-4 reduced vulnerable generated code from 40.2% to 7.4%, edging out verbalization's 8.7%. Overall, approaches that included Bandit feedback clearly beat those that excluded it.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "48"
+      },
+      "difficulty": "hard",
+      "tags": ["fdsp", "results"]
+    },
+    {
+      "id": "t10-q029",
+      "stem": "According to the studies discussed in class, non-functional issues found in LLM-generated code often:",
+      "options": [
+        "Turn out to be fewer than those found in human-written code in nearly every study",
+        "Can be partially remediated by feeding software-quality-tool feedback back to the LLM",
+        "Are absent from code generated by GPT-4 and later models",
+        "Are so severe that running the generated software is dangerous"
+      ],
+      "answer": 1,
+      "explanation": "Multiple studies show that feeding static-analysis feedback (e.g., from Bandit or Pylint) back to the LLM partially fixes NF issues. LLM code is generally not cleaner than human code, and even GPT-4 output contains vulnerabilities.",
+      "source": {
+        "file": "in-class-quiz-10-Generating good code,pptx.pdf",
+        "title": "In-class Quiz 10 — Generating Good Code",
+        "kind": "quiz",
+        "pages": "6-7"
+      },
+      "difficulty": "medium",
+      "tags": ["remediation", "feedback"]
+    },
+    {
+      "id": "t10-q030",
+      "stem": "The \"Static Analysis as a Feedback Loop\" study combines Pylint and Bandit findings. How does it present the detected issues to the LLM for repair?",
+      "options": [
+        "It sends only the raw JSON output of both tools",
+        "It converts each issue into a failing unit test",
+        "It reports just the count of issues per category",
+        "It annotates the issues inline in the code using a description/start-issue/end-issue template"
+      ],
+      "answer": 3,
+      "explanation": "The study highlights each issue inside the code using a <description><start issue><code><end issue> template and returns the annotated code to the LLM, iterating up to 10 times to reduce the weighted issue score.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "49-50"
+      },
+      "difficulty": "medium",
+      "tags": ["feedback", "static-analysis"]
+    },
+    {
+      "id": "t10-q031",
+      "stem": "The lecture notes that \"code efficiency\" can mean multiple things. Which three notions does it list?",
+      "options": [
+        "Latency, resource utilization, and runtime efficiency",
+        "Readability, modularity, and quality of comments",
+        "Throughput, uptime, and ease of use",
+        "Compilation speed, binary size, and portability"
+      ],
+      "answer": 0,
+      "explanation": "Code efficiency covers latency (response time), resource utilization (system resources consumed), and runtime efficiency (algorithmic run-time of the code).",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "53"
+      },
+      "difficulty": "easy",
+      "tags": ["efficiency", "performance"]
+    },
+    {
+      "id": "t10-q032",
+      "stem": "In the normalized efficiency methodology from \"On Evaluating the Efficiency of Source Code Generated by LLMs\", after filtering out incorrect solutions, how is Mi(p) — model Mi's runtime on problem p — determined?",
+      "options": [
+        "The average runtime across all test cases and solutions",
+        "The runtime of the single fastest retained solution",
+        "The longest recorded runtime among the runs",
+        "The median runtime, chosen to suppress outliers"
+      ],
+      "answer": 2,
+      "explanation": "Each retained solution is run on each test case, runtimes are recorded, and the LONGEST runtime is taken as Mi(p) — a worst-case measure of the model's efficiency on that problem.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "55"
+      },
+      "difficulty": "hard",
+      "tags": ["efficiency", "metrics"]
+    },
+    {
+      "id": "t10-q033",
+      "stem": "In that efficiency benchmark, why is each Mi(p) divided by S(M,p) — the sum of all benchmarked LLMs' runtimes on problem p — before averaging across problems?",
+      "options": [
+        "To convert runtime measurements into memory-usage units",
+        "To penalize LLMs that generate multiple candidate solutions",
+        "To reward models that achieve a higher Pass@10 score",
+        "So every problem contributes equal weight regardless of its absolute runtime scale"
+      ],
+      "answer": 3,
+      "explanation": "Normalizing by S(M,p) turns each score into a 0-1 fraction per problem, so norm(Mi) reflects runtime efficiency with each problem weighted equally — long-running problems cannot dominate the average.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "56"
+      },
+      "difficulty": "hard",
+      "tags": ["efficiency", "metrics"]
+    },
+    {
+      "id": "t10-q034",
+      "stem": "Why did the efficiency study execute the generated programs on the gem5 CPU simulator instead of directly on real hardware?",
+      "options": [
+        "gem5 executes Python programs faster than native CPUs do",
+        "To avoid extraneous influences on the CPU from affecting the measurements",
+        "The benchmark programs could not be compiled for real hardware",
+        "To measure energy consumption, which real hardware cannot report"
+      ],
+      "answer": 1,
+      "explanation": "Running on the gem5 simulator isolates the measurement from extraneous influences on the CPU (background load, hardware variability), giving reproducible runtime comparisons.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "56"
+      },
+      "difficulty": "hard",
+      "tags": ["efficiency", "methodology"]
+    },
+    {
+      "id": "t10-q035",
+      "stem": "What relationship did the efficiency benchmark find between a model's ability to generate CORRECT code (Pass@10) and its ability to generate EFFICIENT code?",
+      "options": [
+        "A strong positive correlation between the two abilities",
+        "Correctness ability is not positively correlated with efficiency ability",
+        "A perfect inverse correlation — more correct means slower",
+        "Correlation appears only for models above 30B parameters"
+      ],
+      "answer": 1,
+      "explanation": "The study concluded that Pass@10 is not positively correlated with runtime efficiency; it also found larger LLMs are not necessarily more efficient and that training strategy and data matter (e.g., DeepSeek Coder Instruct vs. Base).",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "57"
+      },
+      "difficulty": "medium",
+      "tags": ["efficiency", "results"]
+    },
+    {
+      "id": "t10-q036",
+      "stem": "In the closing discussion on whether maintainability will still matter, how do the quoted Claude/GPT responses reframe the central question about code quality?",
+      "options": [
+        "From \"is the code fast?\" to \"is the code elegant?\"",
+        "From \"does it pass the tests?\" to \"is it human-readable?\"",
+        "From \"is it secure?\" to \"is it well documented?\"",
+        "From \"can a developer understand this?\" to \"can the system that produced it iterate on it reliably?\""
+      ],
+      "answer": 3,
+      "explanation": "If the same AI that wrote the code can read, explain, and modify it, human readability matters less; the question shifts to whether trusted automated systems can safely transform and iterate on the code.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "60-61"
+      },
+      "difficulty": "medium",
+      "tags": ["maintainability", "future"]
+    },
+    {
+      "id": "t10-q037",
+      "stem": "Your team ships software for a medical device. Per the lecture's closing discussion, why does human readability of the LLM-generated code STILL matter in this setting?",
+      "options": [
+        "Safety-critical, regulated systems require human review and auditability for legal and ethical reasons",
+        "LLMs are technically unable to regenerate code for medical systems",
+        "Static analysis tools are not certified to run on medical software",
+        "Readable code executes measurably faster on embedded devices"
+      ],
+      "answer": 0,
+      "explanation": "Among the caveats: safety-critical or regulated domains (aviation, medical, finance) legally or ethically require human review and auditability, so human-understandable code remains essential there.",
+      "source": {
+        "file": "2026 Topic 10 - Generating good code,NF code properties.pdf",
+        "title": "Topic 10 — Generating Good Code & NF Properties",
+        "kind": "lecture",
+        "pages": "63"
+      },
+      "difficulty": "medium",
+      "tags": ["maintainability", "safety-critical"]
+    },
+    {
+      "id": "t10-q038",
+      "stem": "An LLM generated a Python script that stores a hardcoded password and calls eval on user input. Per the recitation's \"clinic staff\", which tool is designed to flag exactly these risky patterns?",
+      "options": [
+        "flake8",
+        "pylint",
+        "Bandit",
+        "Prettier"
+      ],
+      "answer": 2,
+      "explanation": "Bandit is the security-focused checker for Python, catching hardcoded passwords, unsafe eval, shell injection, insecure temp files, weak crypto, and unsafe YAML loading. flake8 and pylint target style, bugs, and maintainability.",
+      "source": {
+        "file": "Recitation 9  Code Quality Clinic.pdf",
+        "title": "Recitation 9 — Code Quality Clinic",
+        "kind": "recitation",
+        "pages": "33"
+      },
+      "difficulty": "easy",
+      "tags": ["bandit", "security"]
+    },
+    {
+      "id": "t10-q039",
+      "stem": "According to the recitation, which pairing of static analysis tool to development stage is recommended?",
+      "options": [
+        "Bandit for frequent quick checks; flake8 right before deployment",
+        "flake8 for frequent fast checks; pylint before commit; Bandit before merge/deployment",
+        "pylint for quick checks; Bandit before commit; flake8 before release",
+        "All three tools should run only in CI after merging to main"
+      ],
+      "answer": 1,
+      "explanation": "flake8 is fast and suits frequent checks as a first filter, pylint's deeper analysis is useful before commit, and Bandit's security focus matters most before merge/deployment — a speed vs. depth vs. noise trade-off.",
+      "source": {
+        "file": "Recitation 9  Code Quality Clinic.pdf",
+        "title": "Recitation 9 — Code Quality Clinic",
+        "kind": "recitation",
+        "pages": "46"
+      },
+      "difficulty": "easy",
+      "tags": ["static-analysis", "workflow"]
+    },
+    {
+      "id": "t10-q040",
+      "stem": "Static analysis has flagged issues in your LLM-generated module. Following the recitation's principle that \"the tool report is the prompt\", which repair prompt is BEST?",
+      "options": [
+        "\"Fix this code and improve it anywhere you see problems.\"",
+        "\"Rewrite the file from scratch so the old warnings no longer apply.\"",
+        "\"Fix the issues reported by flake8, pylint, and Bandit while preserving behavior.\"",
+        "\"Add suppression annotations so the linters stop reporting these issues.\""
+      ],
+      "answer": 2,
+      "explanation": "The recitation replaces the vague \"fix this code\" with a prompt grounded in the tool reports: fix the reported issues, preserve behavior, do not suppress warnings without justification, and explain the changes. Suppressing warnings hides problems instead of fixing them.",
+      "source": {
+        "file": "Recitation 9  Code Quality Clinic.pdf",
+        "title": "Recitation 9 — Code Quality Clinic",
+        "kind": "recitation",
+        "pages": "38-39"
+      },
+      "difficulty": "medium",
+      "tags": ["prompting", "repair"]
+    }
+  ]
+}

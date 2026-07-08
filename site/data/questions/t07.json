@@ -1,0 +1,846 @@
+{
+  "topic": "t07",
+  "title": "Agent Memory",
+  "questions": [
+    {
+      "id": "t07-q001",
+      "stem": "An agent maintains several stores of information. Which of these functions as SHORT-TERM memory?",
+      "options": [
+        "A knowledge graph built from prior completed tasks",
+        "The session's conversation history included in the current prompt context",
+        "Embeddings of past sessions stored in a vector database",
+        "A list of past agent mistakes persisted to disk"
+      ],
+      "answer": 1,
+      "explanation": "Short-term memory is in-context information currently in the prompt window, such as session history. The other options all describe external, persistent storage, which is long-term memory.",
+      "source": {
+        "file": "in-class-quiz-7-Agent-Memory-1.pdf",
+        "title": "In-class Quiz 7.1 — Agent Memory",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": ["short-term-memory", "context"]
+    },
+    {
+      "id": "t07-q002",
+      "stem": "An LLM cannot answer questions about your company's internal, unpublished API. Giving the agent access to the internal documentation addresses which motivation for agent memory?",
+      "options": [
+        "Learning from past trials to avoid repeating mistakes",
+        "Maintaining consistency of agent behavior over time",
+        "Providing proprietary data the LLM could not have learned during training",
+        "Reducing the latency of LLM responses"
+      ],
+      "answer": 2,
+      "explanation": "Proprietary or very recent information is unknown to the LLM, so the agent must supply it from external memory. Learning and consistency are other memory motivations but do not describe access to unpublished data.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "4"
+      },
+      "difficulty": "easy",
+      "tags": ["memory-motivation", "proprietary-data"]
+    },
+    {
+      "id": "t07-q003",
+      "stem": "A household robot fails to open the broken front door and notes it must use the side door. For the robot to head straight for the side door in a NEW session next week, where must that fact live?",
+      "options": [
+        "In long-term memory persisted in external storage",
+        "In the current session's in-context history",
+        "In the LLM's pre-training weights",
+        "In the sampling temperature configuration"
+      ],
+      "answer": 0,
+      "explanation": "Short-term, in-context memory is lost when the session ends; only long-term memory persisted externally survives across runs, letting the agent learn from past trials. Pre-training cannot contain this fact and temperature has nothing to do with recall.",
+      "source": {
+        "file": "in-class-quiz-7-Agent-Memory-1.pdf",
+        "title": "In-class Quiz 7.1 — Agent Memory",
+        "kind": "quiz",
+        "pages": "6-7"
+      },
+      "difficulty": "medium",
+      "tags": ["long-term-memory", "learning"]
+    },
+    {
+      "id": "t07-q004",
+      "stem": "In a pipeline where Agent 1 finds a vulnerability, Agent 2 verifies it, and Agent 3 fixes it, what is the main role of shared external memory?",
+      "options": [
+        "It guarantees that the agents will not hallucinate",
+        "It replaces the need for any coordinating agent",
+        "It forces all agents to use the same underlying LLM",
+        "It lets each agent read the results written by prior agents without sharing one context window"
+      ],
+      "answer": 3,
+      "explanation": "Shared external memory is the coordination layer through which each agent reads what earlier agents produced, without cramming all history into a single shared context window. It does not eliminate hallucination or coordination.",
+      "source": {
+        "file": "in-class-quiz-7-Agent-Memory-1.pdf",
+        "title": "In-class Quiz 7.1 — Agent Memory",
+        "kind": "quiz",
+        "pages": "10-11"
+      },
+      "difficulty": "medium",
+      "tags": ["shared-memory", "multi-agent"]
+    },
+    {
+      "id": "t07-q005",
+      "stem": "Under the working/episodic/semantic/procedural classification of agent memory, coding conventions, workflows, tool availability, and planning heuristics — often defined per project — belong to which type?",
+      "options": [
+        "Episodic memory",
+        "Working memory",
+        "Procedural memory",
+        "Semantic memory"
+      ],
+      "answer": 2,
+      "explanation": "Procedural memory holds behavioral policies and skills: tool availability, coding conventions, workflows, and planning heuristics. Episodic stores past experiences, semantic stores world knowledge, and working memory holds currently active information.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "12"
+      },
+      "difficulty": "easy",
+      "tags": ["procedural-memory", "memory-types"]
+    },
+    {
+      "id": "t07-q006",
+      "stem": "Which description matches WORKING memory in the cognitive classification of agent memory?",
+      "options": [
+        "Small, fast, volatile storage of currently active information such as perceptual inputs",
+        "Compressed, persistent storage of the agent's knowledge about the world",
+        "A record of experience gathered from earlier decision cycles",
+        "Behavioral policies and skills maintained per project"
+      ],
+      "answer": 0,
+      "explanation": "Working memory maintains active, readily available information like perceptual inputs and generated reasoning; it is small, fast, and volatile. The other options describe semantic, episodic, and procedural memory respectively.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "12"
+      },
+      "difficulty": "easy",
+      "tags": ["working-memory", "memory-types"]
+    },
+    {
+      "id": "t07-q007",
+      "stem": "A coding agent stores two notes: (1) \"In run #14, npm install failed behind the proxy, so I switched to the internal mirror\" and (2) \"Installs behind the corporate proxy generally require the internal mirror.\" How do these map to memory types?",
+      "options": [
+        "(1) is semantic knowledge; (2) is episodic experience",
+        "(1) is episodic experience; (2) is semantic knowledge",
+        "Both are episodic, since both were derived from experience",
+        "(1) is working context; (2) is procedural memory"
+      ],
+      "answer": 1,
+      "explanation": "Episodic memory records what happened in a specific prior run; semantic memory stores abstractions that hold across cases. Note (1) describes one concrete episode while note (2) is a generalization, even though it originated from experience.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "69"
+      },
+      "difficulty": "hard",
+      "tags": ["episodic-memory", "semantic-memory"]
+    },
+    {
+      "id": "t07-q008",
+      "stem": "In the three-way division of agent memory (working context, episodic experience, semantic knowledge), EPISODIC experience is best described as:",
+      "options": [
+        "Domain facts and general heuristics that hold across many cases",
+        "Open files, temporary variables, and partial plans of the current task",
+        "Behavioral skills such as available tools and workflows",
+        "A record of prior runs: decision points, tool calls, failures, and outcomes"
+      ],
+      "answer": 3,
+      "explanation": "Episodic experience records what happened in prior runs — decisions, tool calls, failures, outcomes, and reflections — and serves as concrete precedent. Cross-case abstractions are semantic knowledge; the live task state is working context.",
+      "source": {
+        "file": "in-class-quiz-7-agent-memory-2.pdf",
+        "title": "In-class Quiz 7.2 — Agent Memory",
+        "kind": "quiz",
+        "pages": "6-8"
+      },
+      "difficulty": "medium",
+      "tags": ["episodic-memory", "memory-types"]
+    },
+    {
+      "id": "t07-q009",
+      "stem": "In the LangChain conversational-memory example shown in class, what is the purpose of the thread_id?",
+      "options": [
+        "It lets different agents or conversations keep separate stored histories",
+        "It caps the number of tokens stored for each conversation",
+        "It selects which LLM will process the request",
+        "It encrypts the stored conversation history"
+      ],
+      "answer": 0,
+      "explanation": "Each thread_id identifies a distinct history store, so different agents or conversations can maintain their own histories independently. It has nothing to do with token limits, model selection, or encryption.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "15"
+      },
+      "difficulty": "easy",
+      "tags": ["langchain", "conversational-memory"]
+    },
+    {
+      "id": "t07-q010",
+      "stem": "Your agent's chat is nearing the context-window limit. Which memory-management strategy BEST preserves key information from early in the conversation while staying within the limit?",
+      "options": [
+        "Keep only the most recent k interactions",
+        "Drop all history and answer from the latest user message alone",
+        "Summarize older interactions into a compact form kept in context",
+        "Keep the full history and truncate from the beginning when it overflows"
+      ],
+      "answer": 2,
+      "explanation": "Summarization compresses older exchanges while retaining their key facts. Keeping only recent turns or truncating from the start discards early context entirely, and dropping all history breaks conversational continuity.",
+      "source": {
+        "file": "in-class-quiz-7-Agent-Memory-1.pdf",
+        "title": "In-class Quiz 7.1 — Agent Memory",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "medium",
+      "tags": ["summarization", "context-window"]
+    },
+    {
+      "id": "t07-q011",
+      "stem": "With history trimming (a sliding window), an agent limits the growth of conversational memory by:",
+      "options": [
+        "Summarizing every message into a single paragraph",
+        "Keeping only the most recent k interactions (or last x tokens) and dropping the rest",
+        "Moving all older messages into a vector database",
+        "Compressing messages into knowledge-graph triples"
+      ],
+      "answer": 1,
+      "explanation": "History trimming keeps a sliding window of the last k interactions or last x tokens and discards everything older. It is distinct from summarization, which condenses old content instead of dropping it.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "17"
+      },
+      "difficulty": "easy",
+      "tags": ["trimming", "sliding-window"]
+    },
+    {
+      "id": "t07-q012",
+      "stem": "In the lecture's chat-summarization program, maybe_summarize triggers once MAX_TURNS_BEFORE_SUMMARY messages accumulate. What happens to the most recent message?",
+      "options": [
+        "It is summarized together with all the older messages",
+        "It is discarded once the summary has been written",
+        "It is moved into archival storage on disk",
+        "It is kept in full in state.messages and excluded from the summary"
+      ],
+      "answer": 3,
+      "explanation": "The program summarizes messages[:-1] and keeps the current (last) message verbatim as the new contents of state.messages, so the freshest turn stays available in full detail rather than being compressed.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "18-19"
+      },
+      "difficulty": "medium",
+      "tags": ["summarization", "langchain"]
+    },
+    {
+      "id": "t07-q013",
+      "stem": "The chat-summarization example defines two LLMs — one to process user prompts and one to summarize the message history. What flexibility does this design provide?",
+      "options": [
+        "Summarization can be delegated to a cheaper or faster model than the main chat model",
+        "The two models can share a single context window between them",
+        "It doubles the context window available to the chat model",
+        "It guarantees that summaries never lose information"
+      ],
+      "answer": 0,
+      "explanation": "Separating the summarizer LLM lets you choose a different (often cheaper or faster) model for the simpler summarization task, or reuse the same one. It does not enlarge any context window or make summaries lossless.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "18"
+      },
+      "difficulty": "medium",
+      "tags": ["summarization", "langchain"]
+    },
+    {
+      "id": "t07-q014",
+      "stem": "According to the lecture, the value of summarizing memory such as a long chat history is that it:",
+      "options": [
+        "Offloads memory to an external data store",
+        "Guarantees that no information is ever lost",
+        "Compresses the size of memory and focuses it on the key points",
+        "Makes retrieval fully deterministic"
+      ],
+      "answer": 2,
+      "explanation": "Summary memory compresses the history and concentrates it on the key points. It does not offload to external stores, and by its nature it can lose information rather than guarantee preservation.",
+      "source": {
+        "file": "in-class-quiz-7-agent-memory-2.pdf",
+        "title": "In-class Quiz 7.2 — Agent Memory",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": ["summarization", "compression"]
+    },
+    {
+      "id": "t07-q015",
+      "stem": "After several rounds of re-summarization, an agent's summary no longer mentions weather facts from the early turns. Which revision, shown in the lecture, addresses this information loss?",
+      "options": [
+        "Lower the summarizer LLM's temperature so summaries are more stable",
+        "Compress Human/AI message pairs and append each pair summary to the existing summary",
+        "Re-summarize the entire history more frequently so less is lost per pass",
+        "Give the summarizer a larger context window so it sees all the turns"
+      ],
+      "answer": 1,
+      "explanation": "The fix keeps the existing summary intact and appends new pair-wise summaries of recent Human/AI exchanges, so earlier content is never re-summarized away. Repeatedly regenerating one global summary is exactly what dropped the weather facts.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "23-25"
+      },
+      "difficulty": "hard",
+      "tags": ["summarization", "information-loss"]
+    },
+    {
+      "id": "t07-q016",
+      "stem": "The lecture compares memory summarization in agents to which process in human memory?",
+      "options": [
+        "Hippocampus-to-cortex consolidation, as in sleep and replay",
+        "Short-term sensory buffering in the retina",
+        "Muscle memory formed by physical repetition",
+        "Selective attention during perception"
+      ],
+      "answer": 0,
+      "explanation": "The lecture likens summarizing agent memory to human memory consolidation from the hippocampus to the cortex, as studied in sleep/replay neuroscience — both compress experience into durable key points.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "28"
+      },
+      "difficulty": "easy",
+      "tags": ["summarization", "analogy"]
+    },
+    {
+      "id": "t07-q017",
+      "stem": "What distinguishes STRUCTURED memory from simply storing raw conversation text?",
+      "options": [
+        "Information is stored only as embeddings for semantic search",
+        "Only summaries are stored, never the underlying facts",
+        "Facts must be stored in a proprietary database engine",
+        "Facts are organized in a data structure (e.g., a list, tree, or graph) for direct retrieval"
+      ],
+      "answer": 3,
+      "explanation": "Structured memory arranges facts in a data structure such as a list, tree, or graph so the relevant fact can be retrieved directly rather than fished out of free text. Embedding-based storage is the separate vector-database approach.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "33"
+      },
+      "difficulty": "easy",
+      "tags": ["structured-memory"]
+    },
+    {
+      "id": "t07-q018",
+      "stem": "Which statement correctly describes a knowledge graph used as agent memory?",
+      "options": [
+        "Edges store the entities and nodes store the relationships",
+        "Relationships are left implicit and inferred only at query time",
+        "Entities are labeled nodes and relationships are explicit labeled edges, possibly several between two entities",
+        "Each pair of entities may be linked by at most one relationship"
+      ],
+      "answer": 2,
+      "explanation": "In a knowledge graph, nodes represent entities and labeled edges make relationships explicit; two entities can share multiple relationships (e.g., 'born in' and 'worked in'). Relationships are given explicitly, not inferred.",
+      "source": {
+        "file": "in-class-quiz-7-agent-memory-2.pdf",
+        "title": "In-class Quiz 7.2 — Agent Memory",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "easy",
+      "tags": ["knowledge-graph"]
+    },
+    {
+      "id": "t07-q019",
+      "stem": "Compared with keeping agent memory as plain conversation text, a key advantage of a knowledge graph is that it:",
+      "options": [
+        "Always occupies less storage space than the text it came from",
+        "Makes entity relationships explicit and supports precise graph-based queries",
+        "Retrieves facts faster than any vector database",
+        "Removes any need for embeddings in the system"
+      ],
+      "answer": 1,
+      "explanation": "Knowledge graphs capture entities and their relationships explicitly, enabling precise structured and pattern-based queries that plain text cannot support. Claims of universally smaller storage or faster-than-vector retrieval are not guaranteed.",
+      "source": {
+        "file": "in-class-quiz-7-Agent-Memory-1.pdf",
+        "title": "In-class Quiz 7.1 — Agent Memory",
+        "kind": "quiz",
+        "pages": "8-9"
+      },
+      "difficulty": "medium",
+      "tags": ["knowledge-graph", "structured-memory"]
+    },
+    {
+      "id": "t07-q020",
+      "stem": "In the lecture's NetworkX example, how is the knowledge graph populated from source documents?",
+      "options": [
+        "The LLM is prompted to extract (subject, relation, object) triples from each text",
+        "A parser extracts noun phrases and links every co-occurring pair",
+        "Documents are embedded and nearest neighbors become edges",
+        "The user manually enters nodes and edges through a UI"
+      ],
+      "answer": 0,
+      "explanation": "The pipeline prompts the LLM to return factual relationships as JSON triples of the form (subject, relation, object); the triples are then added as labeled edges to a NetworkX directed graph.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "37-39"
+      },
+      "difficulty": "easy",
+      "tags": ["knowledge-graph", "triples"]
+    },
+    {
+      "id": "t07-q021",
+      "stem": "The triple-extraction prompt insists on short, consistent entity names ('Paris', not 'The city of Paris'). Why does this matter for the resulting knowledge graph?",
+      "options": [
+        "It reduces the token cost of the extraction call",
+        "It prevents the LLM from hallucinating relations",
+        "It makes the graph render more legibly in matplotlib",
+        "Mentions of one entity merge into a single node, keeping its facts connected"
+      ],
+      "answer": 3,
+      "explanation": "If the same entity appears under different surface forms, it becomes multiple disconnected nodes and its facts cannot be traversed together. Consistent naming ensures all facts about an entity attach to one node.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "38"
+      },
+      "difficulty": "medium",
+      "tags": ["knowledge-graph", "entity-resolution"]
+    },
+    {
+      "id": "t07-q022",
+      "stem": "A team answers questions over its knowledge graph by dumping every triple into the LLM prompt alongside the question. The KG grows to millions of edges. What is the primary problem with this approach?",
+      "options": [
+        "Triples cannot be serialized as plain text",
+        "The LLM will refuse to accept graph-shaped input",
+        "It does not scale — the full set of triples no longer fits in the context window",
+        "NetworkX cannot store that many edges in memory"
+      ],
+      "answer": 2,
+      "explanation": "Supplying all triples in the prompt is limited by the context window and stops working as the graph grows. Production systems store the KG in a graph database like Neo4j and query it with a language like Cypher.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "45-47"
+      },
+      "difficulty": "medium",
+      "tags": ["knowledge-graph", "scalability"]
+    },
+    {
+      "id": "t07-q023",
+      "stem": "Per the lecture's comparison, which is a correct contrast between answering KG queries with an LLM (given all the triples) versus with a graph query language like Cypher?",
+      "options": [
+        "The LLM is deterministic, while Cypher can vary between runs",
+        "The LLM may hallucinate or miss paths, while Cypher returns exactly what is in the graph",
+        "Cypher is limited by the context window, while the LLM scales to millions of nodes",
+        "The LLM handles arbitrary-depth multi-hop queries, while Cypher is fragile beyond 2-3 hops"
+      ],
+      "answer": 1,
+      "explanation": "The LLM approach can hallucinate or miss paths, gives non-deterministic answers, is context-window limited, and is fragile beyond 2-3 hops; Cypher is deterministic, exact, scales to millions of nodes, and handles arbitrary depth. Options a, c, and d invert these properties.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "47"
+      },
+      "difficulty": "hard",
+      "tags": ["knowledge-graph", "cypher"]
+    },
+    {
+      "id": "t07-q024",
+      "stem": "In the LLM-plus-KG query pipeline from the software-repository QA paper, what is the correct flow for answering a natural-language question Q?",
+      "options": [
+        "The LLM turns Q into a formal query K; the KG engine executes K to get result R; the LLM translates R into a natural-language answer",
+        "The KG engine parses Q directly; the LLM verifies the result; the engine phrases the final answer",
+        "The LLM answers Q from its own weights; the KG is consulted only to double-check the facts",
+        "All triples are sent along with Q to the LLM, which traverses the graph within its context"
+      ],
+      "answer": 0,
+      "explanation": "The LLM is used twice: first to translate the natural-language question into a formal KG query, and after execution to translate the formal result back into a natural-language answer. The KG engine, not the LLM, executes the query.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "48-49"
+      },
+      "difficulty": "medium",
+      "tags": ["knowledge-graph", "query-pipeline"]
+    },
+    {
+      "id": "t07-q025",
+      "stem": "The paper 'Synergizing LLMs and Knowledge Graphs' builds a knowledge graph over GitHub projects. What did it aim to support, and what was the outcome?",
+      "options": [
+        "Generating new code from graph patterns, with mixed results",
+        "Compressing entire repositories so they fit into the context window",
+        "Detecting license violations across repositories automatically",
+        "Answering repository questions (e.g., which developers fixed the most bugs) more accurately than baseline methods"
+      ],
+      "answer": 3,
+      "explanation": "The paper builds a KG of GitHub project data to answer questions like 'what is the latest commit' or 'which developers had the most unfixed bugs', and shows the KG approach produces more accurate answers than two baseline methods.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "50-52"
+      },
+      "difficulty": "medium",
+      "tags": ["knowledge-graph", "github"]
+    },
+    {
+      "id": "t07-q026",
+      "stem": "MemGPT introduced 'virtual context management' for LLMs. What does this system actually do?",
+      "options": [
+        "It physically enlarges the LLM's context window to hold several times more data",
+        "It manages an external memory hierarchy plus the context-window content, enabling dynamic context construction",
+        "It allocates additional disk space automatically whenever memory fills up",
+        "It fine-tunes the LLM on past conversations so they need not be stored"
+      ],
+      "answer": 1,
+      "explanation": "Modeled on OS virtual memory, MemGPT manages external memory and what occupies the fixed context window, paging information in and out. It does not enlarge the window itself, add disk, or fine-tune the model.",
+      "source": {
+        "file": "in-class-quiz-7-agent-memory-2.pdf",
+        "title": "In-class Quiz 7.2 — Agent Memory",
+        "kind": "quiz",
+        "pages": "9-11"
+      },
+      "difficulty": "medium",
+      "tags": ["memgpt", "virtual-context"]
+    },
+    {
+      "id": "t07-q027",
+      "stem": "In a MemGPT-style system, recall storage reaches 90% capacity mid-session. According to the design, what happens next?",
+      "options": [
+        "MemGPT silently deletes the oldest half of recall storage without informing the LLM",
+        "The session terminates until the user manually clears memory",
+        "The LLM is alerted about the memory event and can invoke MemGPT functions, e.g., to compress and archive content",
+        "The context window is temporarily expanded to absorb the overflow"
+      ],
+      "answer": 2,
+      "explanation": "MemGPT surfaces memory events (like 'recall storage is at 90% capacity') to the LLM, which can then call MemGPT-provided functions to compress, archive, or search memory; MemGPT itself only steps in when necessary.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "55"
+      },
+      "difficulty": "medium",
+      "tags": ["memgpt", "memory-management"]
+    },
+    {
+      "id": "t07-q028",
+      "stem": "In the MemGPT memory hierarchy, where do prior sessions and recent-but-inactive information reside?",
+      "options": [
+        "In recall storage, part of external memory",
+        "In the read-only system instructions",
+        "In the working context inside the context window",
+        "In the FIFO queue's rolling message history"
+      ],
+      "answer": 0,
+      "explanation": "Recall storage (external memory) holds prior sessions and recent but inactive information; archival storage holds documents, facts, and embeddings. The working context and FIFO queue live inside the context window itself.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "56"
+      },
+      "difficulty": "hard",
+      "tags": ["memgpt", "memory-hierarchy"]
+    },
+    {
+      "id": "t07-q029",
+      "stem": "You diagnose a misbehaving agent and find it retrieves the wrong memories for its tasks. Which fix targets the actual problem?",
+      "options": [
+        "Add more data to archival memory",
+        "Swap in a more powerful base LLM",
+        "Reduce the size of the context window",
+        "Improve the scoring function that ranks which memories to fetch"
+      ],
+      "answer": 3,
+      "explanation": "Wrong memories being fetched is a retrieval-ranking problem, so the scoring function (e.g., relevance, recency, importance) is what needs improving. Adding more data or a stronger LLM does not fix poor memory selection.",
+      "source": {
+        "file": "in-class-quiz-7-agent-memory-2.pdf",
+        "title": "In-class Quiz 7.2 — Agent Memory",
+        "kind": "quiz",
+        "pages": "12-14"
+      },
+      "difficulty": "medium",
+      "tags": ["memory-retrieval", "scoring"]
+    },
+    {
+      "id": "t07-q030",
+      "stem": "In the Generative Agents ('Interactive Simulacra') paper, memories are ranked for retrieval using which three factors?",
+      "options": [
+        "Length, position, and novelty",
+        "Relevance, recency, and importance",
+        "Accuracy, brevity, and diversity",
+        "Frequency, sentiment, and source"
+      ],
+      "answer": 1,
+      "explanation": "Memories are scored by relevance to the current situation, recency of access, and importance (how poignant the agent judges the memory to be); the top-ranked memories are then supplied to the LLM.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "60"
+      },
+      "difficulty": "medium",
+      "tags": ["generative-agents", "memory-scoring"]
+    },
+    {
+      "id": "t07-q031",
+      "stem": "Asked who Klaus would spend an hour with, an agent using only raw observations picks whoever he met most often. With reflection, it instead suggests Maria, who shares his research passion. What does reflection add?",
+      "options": [
+        "A larger retrieval budget so more raw memories fit into the context",
+        "A recency boost that favors the latest interactions",
+        "Periodic higher-level insights generalized from many memories, retrievable like other memories",
+        "A rule engine that overrides the LLM's answer when it disagrees"
+      ],
+      "answer": 2,
+      "explanation": "Reflections are more abstract thoughts generated periodically by generalizing over related memory observations; stored alongside regular memories, they let the agent answer questions that raw observation counts (like meeting frequency) cannot.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "62-63"
+      },
+      "difficulty": "hard",
+      "tags": ["reflection", "generative-agents"]
+    },
+    {
+      "id": "t07-q032",
+      "stem": "Context engineering is best defined as:",
+      "options": [
+        "Fine-tuning a model so that its context window becomes larger",
+        "Designing and curating everything the model sees — prompt, history, retrieved documents, tool results — within the context window",
+        "Compressing embedding vectors to shrink a vector database",
+        "Replacing long-term memory with in-context learning"
+      ],
+      "answer": 1,
+      "explanation": "Context engineering is the practice of designing, structuring, and optimizing the entire input the LLM receives — instructions, history, retrieved documents, and structured data — so it produces better outputs. It changes the input, not the model.",
+      "source": {
+        "file": "in-class-quiz-7-Agent-Memory-1.pdf",
+        "title": "In-class Quiz 7.1 — Agent Memory",
+        "kind": "quiz",
+        "pages": "12-13"
+      },
+      "difficulty": "easy",
+      "tags": ["context-engineering"]
+    },
+    {
+      "id": "t07-q033",
+      "stem": "A teammate says: 'We already do prompt engineering, so context engineering is the same thing.' What is the accurate correction?",
+      "options": [
+        "Context engineering is just prompt engineering applied to system prompts",
+        "Prompt engineering is for chatbots; context engineering applies only to RAG pipelines",
+        "Context engineering is a narrower subfield that covers only few-shot examples",
+        "Prompt engineering crafts the instruction itself; context engineering curates the whole input environment the model sees"
+      ],
+      "answer": 3,
+      "explanation": "Prompt engineering is about wording the instruction — the question, format, and role. Context engineering is broader: deciding which documents to retrieve, which history to keep, summarize, or discard, and how it all fits in the window.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "66"
+      },
+      "difficulty": "medium",
+      "tags": ["context-engineering", "prompt-engineering"]
+    },
+    {
+      "id": "t07-q034",
+      "stem": "Two advisors answer 'Should I take CS 301?' using the same system prompt, but one also retrieves the course catalog, the student's record, peer reviews, and a conversation summary. Why is the second answer better?",
+      "options": [
+        "The curated context supplies what the model needs to know; the prompt only told it how to behave",
+        "The retrieved text raises the model's effective parameter count",
+        "Longer inputs always yield more accurate outputs",
+        "The retrieval step fine-tunes the model on the student's data"
+      ],
+      "answer": 0,
+      "explanation": "With prompt engineering alone the LLM can only answer generically; context engineering retrieves the specific facts (prerequisites, grades, reviews) the model needs. Longer input per se is not the point — relevant, high-signal content is.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "68"
+      },
+      "difficulty": "medium",
+      "tags": ["context-engineering", "retrieval"]
+    },
+    {
+      "id": "t07-q035",
+      "stem": "The lecture contrasts two context-assembly strategies: supplying minimal filtered context versus supplying rich but well-structured context. Which statement reflects the lecture's view?",
+      "options": [
+        "Minimal context is strictly better because tokens cost money",
+        "Rich context is strictly better because more information never hurts",
+        "It is a spectrum with trade-offs (missing context vs. token expense); Claude Code leans toward rich, structured context",
+        "Modern agents avoid the choice by fine-tuning on the codebase instead"
+      ],
+      "answer": 2,
+      "explanation": "The two strategies trade off possibly missing context against token expense, and the lecture stresses this is a spectrum, not a binary choice. Claude Code follows the rich-but-structured approach, relying on a large context window.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "72"
+      },
+      "difficulty": "medium",
+      "tags": ["context-assembly", "claude-code"]
+    },
+    {
+      "id": "t07-q036",
+      "stem": "A long Claude Code session triggers compaction. Which parts of the conversation get summarized, and which survive intact?",
+      "options": [
+        "The earliest turns are summarized first, since they are the oldest",
+        "The most recent turns are summarized, since they are freshest in the model's mind",
+        "All turns are summarized equally to keep the history uniform",
+        "The middle turns are summarized; early problem-setup turns and recent active-work turns stay intact"
+      ],
+      "answer": 3,
+      "explanation": "Compaction targets the middle of the conversation: early turns that set up the problem and recent turns with active work are preserved, while the middle is condensed to decisions, changes, and key facts.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "76"
+      },
+      "difficulty": "medium",
+      "tags": ["compaction", "claude-code"]
+    },
+    {
+      "id": "t07-q037",
+      "stem": "In a Claude Code coding session, the context fills up unusually fast. Based on the lecture, what is the most likely dominant consumer of context space?",
+      "options": [
+        "The static system prompt, which is re-sent uncached on every turn",
+        "Inline tool results, such as full file contents from reads and complete bash outputs",
+        "The user's typed messages, which accumulate quickly",
+        "The tool definitions, which are reloaded after every call"
+      ],
+      "answer": 1,
+      "explanation": "Tool results live inline in the conversation history — a file read returns the full contents and a command returns all its output — making them the biggest space consumers and prime candidates for compaction. The system prompt is static and cacheable.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "76-77"
+      },
+      "difficulty": "medium",
+      "tags": ["claude-code", "context-window"]
+    },
+    {
+      "id": "t07-q038",
+      "stem": "While Claude Code works, the user edits a file outside the session. How does the harness inform the LLM of the change without disrupting the conversation flow?",
+      "options": [
+        "It restarts the session so the LLM re-reads all files from scratch",
+        "It appends a brand-new assistant turn describing the change",
+        "It injects a <system-reminder> tag that rides along inside an existing user message or tool result",
+        "It retroactively edits the original tool result to match the new file"
+      ],
+      "answer": 2,
+      "explanation": "Runtime injections are delivered as <system-reminder> tags attached to existing messages or tool results rather than as separate turns, getting information (file changed, date changed, linter output) into context without disrupting the flow.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "78"
+      },
+      "difficulty": "medium",
+      "tags": ["claude-code", "runtime-injection"]
+    },
+    {
+      "id": "t07-q039",
+      "stem": "Under Claude Code's auto-memory guidelines, which of the following should NOT be saved as a memory?",
+      "options": [
+        "Code architecture patterns that are derivable from reading the code",
+        "User preferences and expertise, e.g., 'senior engineer, new to React'",
+        "Confirmed feedback such as 'don't mock the DB'",
+        "Project facts such as 'merge freeze starts May 5'"
+      ],
+      "answer": 0,
+      "explanation": "Auto memory skips anything derivable from the environment — code patterns and architecture (readable from code), git history, debugging fixes already in the code, and anything already in CLAUDE.md. User, feedback, and project information are the memory types it does save.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "79"
+      },
+      "difficulty": "hard",
+      "tags": ["auto-memory", "claude-code"]
+    },
+    {
+      "id": "t07-q040",
+      "stem": "Claude Code delegates an expensive codebase exploration to a subagent, which runs in its own context window and returns only a compact summary. What is the key trade-off of this strategy?",
+      "options": [
+        "The subagent shares the parent's context window, so nothing is actually saved",
+        "Subagents cannot use tools, which limits what they can explore",
+        "The parent's own history is erased when the subagent returns",
+        "If the subagent missed something or summarized poorly, that information is lost to the parent"
+      ],
+      "answer": 3,
+      "explanation": "Subagent isolation keeps the main context clean, but the parent must trust the returned summary — the same information-loss risk seen with LLM-based summarization. Subagents do run tools, in a fully separate context.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "80"
+      },
+      "difficulty": "hard",
+      "tags": ["subagents", "context-isolation"]
+    },
+    {
+      "id": "t07-q041",
+      "stem": "You ask Claude Code to find the 'authentication logic', but the relevant file auth_utils.py never contains that phrase and is not found. Which design decision explains this failure?",
+      "options": [
+        "Its markdown memory files exclude Python sources from search",
+        "Its context window is too small to hold the search results",
+        "It searches files with Grep pattern matching, not an embedding database, so semantic similarity is missed",
+        "Subagent isolation prevents search results from reaching the parent agent"
+      ],
+      "answer": 2,
+      "explanation": "Claude Code relies on Grep-style pattern search and does not use an embedding database, so 'authentication logic' will not match a file unless the words actually appear in it — semantic similarity is not understood.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "81"
+      },
+      "difficulty": "hard",
+      "tags": ["claude-code", "semantic-search"]
+    },
+    {
+      "id": "t07-q042",
+      "stem": "The lecture closes with 'LLMs are only as good as the information you give them.' What does this imply for agent builders?",
+      "options": [
+        "Choosing the strongest available model removes the need for memory",
+        "The context supplied to the LLM can matter more than the raw strength of the model itself",
+        "Agents should minimize context to avoid biasing the model",
+        "Memory engineering only matters when using weak models"
+      ],
+      "answer": 1,
+      "explanation": "Agent memory and context engineering are critical components of good software agents — the lecture states the context given to the LLM may be more important than the strength of the LLM itself, regardless of model choice.",
+      "source": {
+        "file": "2026 Topic 7 - Agent Memory.pdf",
+        "title": "Topic 7 — Agent Memory",
+        "kind": "lecture",
+        "pages": "82"
+      },
+      "difficulty": "easy",
+      "tags": ["context-engineering", "memory"]
+    }
+  ]
+}

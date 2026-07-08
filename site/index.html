@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <title>LLM Exam Prep — Streak Quiz</title>
+  <meta name="description" content="Exam-prep streak quiz for the Programming Using LLMs course" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <script>
+    // Apply persisted theme before first paint to avoid flash
+    try {
+      const s = JSON.parse(localStorage.getItem('llmquiz.v1') || '{}').settings || {};
+      if (s.theme === 'light' || s.theme === 'dark') document.documentElement.dataset.theme = s.theme;
+      if (s.reducedMotion) document.documentElement.dataset.reducedMotion = 'true';
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/">
+      <span class="brand-flame" aria-hidden="true">🔥</span>
+      <span class="brand-name">LLM&nbsp;Exam&nbsp;Prep</span>
+    </a>
+    <nav class="topnav" aria-label="Main">
+      <a href="#/streak" data-nav="streak">Streak</a>
+      <a href="#/exam" data-nav="exam">Exam</a>
+      <a href="#/stats" data-nav="stats">Stats</a>
+      <a href="#/settings" data-nav="settings" aria-label="Settings" class="nav-icon">⚙</a>
+    </nav>
+  </header>
+
+  <main id="app" class="app">
+    <div class="boot-loading" id="boot-loading">
+      <div class="skeleton-card"></div>
+      <p>Loading question bank…</p>
+    </div>
+  </main>
+
+  <noscript><p style="padding:2rem;text-align:center">This app needs JavaScript.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

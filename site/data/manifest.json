@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "totalQuestions": 500,
+  "topics": [
+    {
+      "id": "t00",
+      "title": "Introduction",
+      "shortTitle": "Intro",
+      "count": 40,
+      "file": "data/questions/t00.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 0 — Introduction",
+          "file": "2026 Topic 0- Introduction.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+          "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 1 — LLM Basics",
+          "file": "in-class-quiz-1-LLM-Basics.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t02",
+      "title": "Handling Ambiguity & Inconsistency",
+      "shortTitle": "Ambiguity",
+      "count": 40,
+      "file": "data/questions/t02.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 2 — Handling Ambiguity & Inconsistency",
+          "file": "2026 Topic 2 - Handling ambiguity  inconsistency.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 2 — Using LLM APIs",
+          "file": "Recitation 2 - Using LLMs API.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 2 — LLM API",
+          "file": "in-class-quiz-2-LLM-API.pdf"
+        },
+        {
+          "kind": "homework",
+          "title": "Homework 1",
+          "file": "HW1 (2).pdf"
+        }
+      ]
+    },
+    {
+      "id": "t03",
+      "title": "Prompt Engineering",
+      "shortTitle": "Prompting",
+      "count": 45,
+      "file": "data/questions/t03.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 3 — Prompt Engineering",
+          "file": "2026 Topic 3 - Prompt Engineering.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 3 — Prompt Engineering",
+          "file": "in-class-quiz-3-Prompt-eng.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 3 — Prompt Patterns Lab",
+          "file": "Recitation 3 - Prompt patterns lab.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t04",
+      "title": "Intro to AI Agents & Benchmarking",
+      "shortTitle": "Agents Intro",
+      "count": 45,
+      "file": "data/questions/t04.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+          "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 4 — LangGraph, Benchmarks & Evals",
+          "file": "in-class-quiz-4-LangGraph-benchmarks-evals.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+          "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf"
+        },
+        {
+          "kind": "homework",
+          "title": "Homework 2 — LangGraph",
+          "file": "HW2 (1).pdf"
+        }
+      ]
+    },
+    {
+      "id": "t05",
+      "title": "AI Agents",
+      "shortTitle": "AI Agents",
+      "count": 42,
+      "file": "data/questions/t05.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 5 — AI Agents",
+          "file": "2026 Topic 5 - AI Agents.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 5 — Agents",
+          "file": "in-class-quiz-5-agents.pdf"
+        },
+        {
+          "kind": "homework",
+          "title": "Homework 3 — Tool Calling",
+          "file": "HW3 (2).pdf"
+        }
+      ]
+    },
+    {
+      "id": "t06",
+      "title": "Collaborative Agents",
+      "shortTitle": "Collab Agents",
+      "count": 42,
+      "file": "data/questions/t06.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 6 — Collaborative Agents",
+          "file": "2026 Topic 6- Collaborative Agents.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 6 — Collaborative Agents",
+          "file": "in-class-quiz-6-collaborative-agents.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+          "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t07",
+      "title": "Agent Memory",
+      "shortTitle": "Memory",
+      "count": 42,
+      "file": "data/questions/t07.json",
+      "sources": [
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 7.1 — Agent Memory",
+          "file": "in-class-quiz-7-Agent-Memory-1.pdf"
+        },
+        {
+          "kind": "lecture",
+          "title": "Topic 7 — Agent Memory",
+          "file": "2026 Topic 7 - Agent Memory.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 7.2 — Agent Memory",
+          "file": "in-class-quiz-7-agent-memory-2.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t08",
+      "title": "Word Embeddings and RAG",
+      "shortTitle": "RAG",
+      "count": 45,
+      "file": "data/questions/t08.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 8 — Word Embeddings and RAG",
+          "file": "2026 topic 8 - Word  embeddings and RAG.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 8 — RAG",
+          "file": "in-class-quiz-8-RAG.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 8 — RAG",
+          "file": "Recitation8 RAG.pdf"
+        },
+        {
+          "kind": "homework",
+          "title": "Homework 4 — Agentic RAG",
+          "file": "HW 4.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t09",
+      "title": "Agent Strategies for Hard Problems",
+      "shortTitle": "Hard Problems",
+      "count": 40,
+      "file": "data/questions/t09.json",
+      "sources": [
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 9 — Agent Strategies for Hard Problems",
+          "file": "in-class-quiz-9- Agent-strategies-hard-probs.pdf"
+        },
+        {
+          "kind": "lecture",
+          "title": "Topic 9 — Agent Strategies for Hard Problems",
+          "file": "2026 Topic 9- Agent strategies for hard problems.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 10 — Taming the Dragon",
+          "file": "Recitation 10  Taming the Dragon.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t10",
+      "title": "Generating Good Code & NF Properties",
+      "shortTitle": "Good Code",
+      "count": 40,
+      "file": "data/questions/t10.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 10 — Generating Good Code & NF Properties",
+          "file": "2026 Topic 10 - Generating good code,NF code properties.pdf"
+        },
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 10 — Generating Good Code",
+          "file": "in-class-quiz-10-Generating good code,pptx.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 9 — Code Quality Clinic",
+          "file": "Recitation 9  Code Quality Clinic.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t11",
+      "title": "Real-World Problems",
+      "shortTitle": "Real World",
+      "count": 40,
+      "file": "data/questions/t11.json",
+      "sources": [
+        {
+          "kind": "quiz",
+          "title": "In-class Quiz 11 — Real-World Problems",
+          "file": "in-class-quiz-11-Real-World_Problems.pdf"
+        },
+        {
+          "kind": "lecture",
+          "title": "Topic 11 — Real-World Problems",
+          "file": "2026 Topic 11 Real-world problems.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 11 — Solving Real-World SE Problems",
+          "file": "Recitation 11  Solve real-world SE problems.pdf"
+        }
+      ]
+    },
+    {
+      "id": "t12",
+      "title": "Verification",
+      "shortTitle": "Verification",
+      "count": 39,
+      "file": "data/questions/t12.json",
+      "sources": [
+        {
+          "kind": "lecture",
+          "title": "Topic 12 — Verification",
+          "file": "2026 Topic 12 - Verification.pdf"
+        },
+        {
+          "kind": "recitation",
+          "title": "Recitation 13 — The Grand Finale",
+          "file": "_Recitation 13  The Grand Finale.pdf"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,970 @@
+{
+  "topic": "t06",
+  "title": "Collaborative Agents",
+  "questions": [
+    {
+      "id": "t06-q001",
+      "stem": "In the basic code-generation feedback loop (as in \"Synthesize, Execute & Debug\"), what is supplied back to the LLM when the generated code fails its unit tests?",
+      "options": [
+        "The runtime error messages and failing-test output, together with the previously generated code",
+        "Only the original problem description, so the LLM starts from scratch",
+        "A human-written patch that the LLM must merge into the code",
+        "The execution traces of the tests that passed, to reinforce correct behavior"
+      ],
+      "answer": 0,
+      "explanation": "The debugger agent collects the runtime errors and failed-test output and feeds them, along with the earlier code, to the LLM to regenerate a fix. Restarting from only the description would discard the diagnostic signal the loop is built around.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "6-7"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "feedback-loop",
+        "code-generation"
+      ]
+    },
+    {
+      "id": "t06-q002",
+      "stem": "According to the lecture, agent self-reflection is best defined as:",
+      "options": [
+        "Fine-tuning the agent's model on a log of its past failed actions",
+        "Comparing the agent's answer against answers produced by other agents",
+        "A generation task where an agent reviews the results of its actions and tries to identify why they did not achieve the desired result",
+        "Re-running the same prompt at a higher temperature to obtain a different action"
+      ],
+      "answer": 2,
+      "explanation": "Self-reflection is a special generation task: the agent examines its own action's outcome and verbalizes why it failed. It requires no weight updates and no other agents — those options describe fine-tuning and debate instead.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "8"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "self-reflection"
+      ]
+    },
+    {
+      "id": "t06-q003",
+      "stem": "Compared with simply feeding raw error messages back to the programmer agent, what step does the Reflexion approach add to the code-generation loop?",
+      "options": [
+        "It executes the tests a second time in a sandbox to filter out flaky failures",
+        "An agent reflects on the errors and verbalizes what went wrong, and this insight is given to the programmer agent for regeneration",
+        "It generates additional unit tests to increase coverage before debugging",
+        "It fine-tunes the debugger model on the collected error logs"
+      ],
+      "answer": 1,
+      "explanation": "Reflexion inserts a reflection agent that analyzes the error messages and verbalizes the underlying problem; this richer feedback (rather than raw errors) improves the chance of regenerating correct code. Test generation is the AgentCoder addition, not Reflexion's.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "9-10"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "reflexion",
+        "self-reflection"
+      ]
+    },
+    {
+      "id": "t06-q004",
+      "stem": "Beyond the failing program and its error messages, the more elaborate reflection prompt shown in class adds which two elements?",
+      "options": [
+        "The unit-test suite and a line-coverage report",
+        "A chain-of-thought exemplar and an explicit temperature instruction",
+        "The developer's commit history and the project style guide",
+        "The original problem description and a bug category derived from pre-processing the error messages"
+      ],
+      "answer": 3,
+      "explanation": "The elaborate prompt includes the original problem description used to generate the code plus a bug category obtained by pre-processing and categorizing the errors, giving the LLM more context for a precise diagnosis.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "12"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "reflection-prompt",
+        "debugging"
+      ]
+    },
+    {
+      "id": "t06-q005",
+      "stem": "Which sequence best describes AgentCoder's code-synthesis workflow?",
+      "options": [
+        "Generate code, generate unit tests for it, execute those tests on the code, and regenerate the code if tests fail",
+        "Generate code, compare it against coding best practices, and rewrite any non-conforming parts",
+        "Generate code, run only the unit tests supplied by the user, and debug failures",
+        "Generate several code candidates in parallel and let a judge agent vote for the best one"
+      ],
+      "answer": 0,
+      "explanation": "AgentCoder's distinguishing feature is that a test designer agent generates its own unit tests, a test executor runs them, and failures drive code regeneration. Relying solely on user-provided tests misses the test-generation agent that gives the system its power.",
+      "source": {
+        "file": "in-class-quiz-6-collaborative-agents.pdf",
+        "title": "In-class Quiz 6 — Collaborative Agents",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "agentcoder",
+        "test-generation"
+      ]
+    },
+    {
+      "id": "t06-q006",
+      "stem": "AgentCoder's Test Designer Agent prompts the LLM to create test cases satisfying which three criteria?",
+      "options": [
+        "Basic test cases, edge test cases, and large-scale inputs for performance and scalability",
+        "Unit tests, integration tests, and end-to-end tests",
+        "Positive tests, negative tests, and randomized fuzzing inputs",
+        "Fast tests, deterministic tests, and mutation-resistant tests"
+      ],
+      "answer": 0,
+      "explanation": "The Test Designer is instructed to generate basic test cases, cover edge cases, and cover large-scale inputs to assess performance and scalability. The other triads are real testing taxonomies but not AgentCoder's prompt criteria.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "16"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "agentcoder",
+        "test-designer"
+      ]
+    },
+    {
+      "id": "t06-q007",
+      "stem": "An AgentCoder-style test designer produces a test that FAILS on a program that is actually a correct implementation of the task. In the lecture's terminology, this generated test is a:",
+      "options": [
+        "False positive",
+        "Flaky test",
+        "False negative",
+        "True negative"
+      ],
+      "answer": 2,
+      "explanation": "A false negative is when the generated test says the program is incorrect even though it is really correct. A false positive is the reverse — the test blesses an incorrect program.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "18-19"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "false-negative",
+        "test-generation"
+      ]
+    },
+    {
+      "id": "t06-q008",
+      "stem": "Generated unit tests can err in two directions. According to the lecture, which outcome poses the more serious risk once the delivered code is actually used?",
+      "options": [
+        "A false negative, because rejecting correct code wastes regeneration cycles and compute",
+        "Both are equally serious since each misleads the programmer agent the same way",
+        "Neither matters once self-consistency validation has been applied",
+        "A false positive, because an incorrect implementation is accepted and can produce faulty results when the code runs"
+      ],
+      "answer": 3,
+      "explanation": "The lecture notes that rejecting a correct implementation (false negative) is 'not so bad,' but accepting an incorrect one (false positive) can lead to faulty results in operation. Self-consistency reduces, but never eliminates, incorrect tests.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "39"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "false-positive",
+        "trust"
+      ]
+    },
+    {
+      "id": "t06-q009",
+      "stem": "How did the AgentCoder authors measure whether the tests produced by the test designer agent were accurate?",
+      "options": [
+        "They asked human developers to review a random sample of the generated tests",
+        "They ran the generated tests on the ground-truth program and deemed a test correct if the ground-truth program passed it",
+        "They checked whether the generated tests achieved full branch coverage on the generated code",
+        "They compared each generated test against the benchmark's official test suite for exact matches"
+      ],
+      "answer": 1,
+      "explanation": "Accuracy was measured by executing the generated tests against the known-correct ground-truth implementation: a test is correct if the ground truth passes it. By this measure the designer agent was almost 90% accurate.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "20,26"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "agentcoder",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "t06-q010",
+      "stem": "In the AgentCoder ablation study, the \"programmer + test designer\" configuration differs from the full three-agent system mainly in that it:",
+      "options": [
+        "Never executes any code — the programmer only analyzes the generated tests and decides whether to modify the code",
+        "Executes only the benchmark-provided tests instead of the generated ones",
+        "Skips test generation and relies on the programmer's self-review",
+        "Uses a separate judge agent to select among candidate programs"
+      ],
+      "answer": 0,
+      "explanation": "In that configuration the generated code and tests are fed back to the programmer to reason about, but there is no code execution and thus no execution feedback. Using only prompt-supplied tests with execution describes the 'programmer + test executor' variant instead.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "21-22"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "agentcoder",
+        "ablation"
+      ]
+    },
+    {
+      "id": "t06-q011",
+      "stem": "Per the AgentCoder authors, why can having the SAME agent generate both the code and its unit tests hurt performance?",
+      "options": [
+        "The combined prompt exceeds the model's context window, truncating the tests",
+        "The agent alternates between the two tasks indefinitely and never terminates",
+        "The tests can be biased by flaws in the agent's own code — e.g., if the code ignores edge cases, the tests inherit that flaw — and dual duties distract the agent's focus",
+        "Test generation requires a fine-tuned model while code generation does not"
+      ],
+      "answer": 2,
+      "explanation": "The authors hypothesize that a single agent loses objectivity — its tests are biased by the code it wrote — and that juggling both tasks distracts its focus. Infinite alternation between tasks is a tempting but unsupported reason.",
+      "source": {
+        "file": "in-class-quiz-6-collaborative-agents.pdf",
+        "title": "In-class Quiz 6 — Collaborative Agents",
+        "kind": "quiz",
+        "pages": "10-11"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "role-separation",
+        "agentcoder"
+      ]
+    },
+    {
+      "id": "t06-q012",
+      "stem": "Fine-tuning an LLM refers to:",
+      "options": [
+        "Using LLM-generated unit tests to raise the model's accuracy on a programming domain",
+        "Adapting a pre-trained model by training it on a smaller, task-specific dataset",
+        "Having the agent analyze similar past requests to reduce its failure rate",
+        "Having agent A critique agent B's initial solution so B can improve it"
+      ],
+      "answer": 1,
+      "explanation": "Fine-tuning takes a pre-trained foundational model and continues training it on a domain-specific dataset for specialized performance. Critique between agents is debate/reflection, not fine-tuning.",
+      "source": {
+        "file": "in-class-quiz-6-collaborative-agents.pdf",
+        "title": "In-class Quiz 6 — Collaborative Agents",
+        "kind": "quiz",
+        "pages": "4-6"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "fine-tuning"
+      ]
+    },
+    {
+      "id": "t06-q013",
+      "stem": "Which statement about the mechanics of fine-tuning is accurate?",
+      "options": [
+        "It changes only the system prompt while the model stays frozen",
+        "It attaches an external retrieval index without touching the model",
+        "It retrains only the tokenizer so domain terms become single tokens",
+        "It updates the underlying weights of the model by training on new labeled data"
+      ],
+      "answer": 3,
+      "explanation": "Fine-tuning changes the model's underlying weights via training on task-specific examples — unlike prompt engineering or RAG, which leave the weights untouched.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "29-30"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "fine-tuning",
+        "weights"
+      ]
+    },
+    {
+      "id": "t06-q014",
+      "stem": "In fine-tuned unit-test generation, a generator with a HIGH attack rate is one whose tests:",
+      "options": [
+        "Always predict the output that the correct implementation produces",
+        "Execute quickly enough to run on every regeneration cycle",
+        "Provide inputs likely to expose errors — an incorrect implementation g yields g(x) != y",
+        "Use few tokens so many tests fit in the debugging prompt"
+      ],
+      "answer": 2,
+      "explanation": "Attack rate measures the ability to catch faulty code: for an incorrect implementation g of the task, the test input should make g produce the wrong output. Matching the correct implementation's output is the separate 'output accuracy' objective.",
+      "source": {
+        "file": "in-class-quiz-6-collaborative-agents.pdf",
+        "title": "In-class Quiz 6 — Collaborative Agents",
+        "kind": "quiz",
+        "pages": "7-9"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "attack-rate",
+        "unit-tests"
+      ]
+    },
+    {
+      "id": "t06-q015",
+      "stem": "Research cited in class found that zero-shot models show a strong trade-off between attack rate and output accuracy in unit-test generation. What is the reason?",
+      "options": [
+        "The inputs most likely to trigger errors are challenging edge cases, whose correct outputs are hardest for the model to predict",
+        "Both properties improve together with model size, so the trade-off only appears in small models",
+        "High-attack tests take longer to run, forcing the generator to sacrifice accuracy for speed",
+        "Accurate outputs require long reasoning chains that overflow the context window on edge cases"
+      ],
+      "answer": 0,
+      "explanation": "Error-triggering inputs tend to be difficult edge cases, and precisely those inputs are the ones whose expected outputs the model most often gets wrong — so raising attack rate lowers output accuracy in zero-shot settings.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "31"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "attack-rate",
+        "trade-off"
+      ]
+    },
+    {
+      "id": "t06-q016",
+      "stem": "When building the fine-tuning dataset for a unit-test generator, a candidate input-output pair (x,y) for problem description d is accepted only if:",
+      "options": [
+        "An LLM judge rates the pair as plausible for the description d",
+        "Both the ground-truth implementation f and the perturbed implementation g return y on x",
+        "The input x already appears somewhere in the Tulu-3 dataset",
+        "The ground-truth implementation satisfies f(x) = y while a buggy implementation g, created by perturbing f, gives g(x) != y"
+      ],
+      "answer": 3,
+      "explanation": "Samples must exhibit both target properties: the correct code f passes the test (output accuracy) and a deliberately perturbed buggy version g fails it (attack rate). If both f and g agreed, the test could not discriminate correct from incorrect code.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "34"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "fine-tuning",
+        "unit-tests"
+      ]
+    },
+    {
+      "id": "t06-q017",
+      "stem": "How is self-consistency used to further validate a generated unit test (x,y) for problem description d?",
+      "options": [
+        "The test is run on k different candidate programs and kept if most of them pass it",
+        "k different agents debate the test and a judge decides whether to keep it",
+        "The LLM is asked k times to produce the correct output for input x, and the test is kept only if a majority of the k answers produce y",
+        "The test is paraphrased k times and kept only if all paraphrases compile"
+      ],
+      "answer": 2,
+      "explanation": "Self-consistency queries the LLM k times for the output on input x given d; the pair (x,y) is accepted as a valid test only if the majority of the k generations agree on y. Agreement across diverse reasoning paths raises confidence in the test's correctness.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "36-37"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "self-consistency",
+        "validation"
+      ]
+    },
+    {
+      "id": "t06-q018",
+      "stem": "Your generated code passes every unit test produced by a fine-tuned, self-consistency-validated test generator, and correctness is critical for your application. According to the lecture, you should:",
+      "options": [
+        "Ship the code — this pipeline yields fully trustworthy tests",
+        "Still manually check the generated code, since even validated generated tests are never 100% correct",
+        "Re-run the same tests at temperature 0 to confirm the results deterministically",
+        "Add a multi-agent debate round, which guarantees any remaining bugs are found"
+      ],
+      "answer": 1,
+      "explanation": "Even with fine-tuning and self-consistency, generated unit tests are not 100% correct, so when certainty is required you must still manually verify the code — like all LLM-generated artifacts. No technique in the lecture removes this need.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "39"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "trust",
+        "verification"
+      ]
+    },
+    {
+      "id": "t06-q019",
+      "stem": "The lecture characterizes collaborative agent architectures along which three dimensions?",
+      "options": [
+        "Communication model, control flow, and topology",
+        "Latency, throughput, and cost",
+        "Planning, memory, and tool use",
+        "Prompting strategy, model choice, and dataset"
+      ],
+      "answer": 0,
+      "explanation": "The three dimensions are the communication model (how agents exchange information), control flow (who decides which agents run and how results combine), and topology (who can talk to whom).",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "42-43"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "architecture",
+        "dimensions"
+      ]
+    },
+    {
+      "id": "t06-q020",
+      "stem": "In the shared-blackboard communication model:",
+      "options": [
+        "Agents exchange information via direct peer-to-peer messages",
+        "Only the orchestrator may read what other agents have written",
+        "Agents share model weights that are updated after every step",
+        "Each agent writes its output to shared state, and every agent can see the entire history of agent outputs"
+      ],
+      "answer": 3,
+      "explanation": "With a blackboard, all outputs go to a common shared state visible to every agent, giving each agent the full interaction history. Direct peer-to-peer exchange is the contrasting message-passing model.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "44"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "blackboard",
+        "communication"
+      ]
+    },
+    {
+      "id": "t06-q021",
+      "stem": "You are building a multi-agent system that responds to incoming alerts, where each agent independently decides whether a given alert is relevant to it and reacts on its own. Which control-flow style fits best?",
+      "options": [
+        "Orchestrated — a central agent assigns each alert to a worker",
+        "Chain — alerts flow through the agents in a fixed order",
+        "Hierarchical — a manager delegates each alert down a tree of workers",
+        "Autonomous — agents act independently, triggered by events or changes to global state"
+      ],
+      "answer": 3,
+      "explanation": "When each agent self-selects work in reaction to events, autonomous control flow (agents triggered by events or global-state changes, e.g. via an event bus) is the natural fit; an orchestrator would centralize a decision the agents are meant to make themselves.",
+      "source": {
+        "file": "in-class-quiz-6-collaborative-agents.pdf",
+        "title": "In-class Quiz 6 — Collaborative Agents",
+        "kind": "quiz",
+        "pages": "12-14"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "autonomous",
+        "control-flow"
+      ]
+    },
+    {
+      "id": "t06-q022",
+      "stem": "Orchestrated multi-agent models give clear control and are easier to refine toward desired results. Per the lecture, what is their main downside?",
+      "options": [
+        "The orchestrator is a single point of failure and a potential bottleneck",
+        "Agents cannot be given specialized roles under an orchestrator",
+        "They require a shared blackboard, which leaks context between agents",
+        "The orchestrator can only invoke agents sequentially, never concurrently"
+      ],
+      "answer": 0,
+      "explanation": "The trade-off for clear central control is that the orchestrator becomes a single point of failure and can bottleneck the system. Orchestrators can in fact invoke agents sequentially or concurrently, so that option is a misconception.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "45,48"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "orchestration",
+        "trade-offs"
+      ]
+    },
+    {
+      "id": "t06-q023",
+      "stem": "Which trade-off correctly characterizes a hierarchical multi-agent topology, where parents delegate tasks to children and communication is only between parent and child?",
+      "options": [
+        "It maximizes information sharing but requires every agent to talk to every other agent",
+        "It is the easiest topology to debug but cannot contain more than two layers",
+        "It scales better than flat orchestration and is modular, but adds latency from multiple layers and increases coordination complexity",
+        "It removes any single point of failure but forces all agents to share one context window"
+      ],
+      "answer": 2,
+      "explanation": "Hierarchies scale and modularize well because each parent manages only its children, but every extra layer adds latency and coordination overhead. Restricting communication to parent-child links is the opposite of everyone-talks-to-everyone.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "47-48"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "hierarchy",
+        "topology"
+      ]
+    },
+    {
+      "id": "t06-q024",
+      "stem": "In the CAMEL role-playing example (a stock trader agent and a Python programmer agent), what happens after the human describes the task and the roles?",
+      "options": [
+        "An orchestrator decomposes the task and dispatches subtasks to both agents in parallel",
+        "The LLM refines the task with more detail, then the two role agents take turns executing and updating the collaboration state",
+        "The two agents debate competing designs until a judge selects the winner",
+        "Each agent independently produces a full solution and the human merges them"
+      ],
+      "answer": 1,
+      "explanation": "In CAMEL the LLM first refines the human's task description, and then the role agents — the user agent specifying programming tasks and the programmer agent executing them — alternate turns, updating a shared collaboration state. There is no central orchestrator or judge.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "50"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "camel",
+        "role-playing"
+      ]
+    },
+    {
+      "id": "t06-q025",
+      "stem": "In the Coder framework for resolving GitHub issues, a test that reproduces the issue already exists, and the system must now determine which code is responsible for the bug. Which agent role performs this step?",
+      "options": [
+        "Fault Localizer",
+        "Reproducer",
+        "Editor",
+        "Verifier"
+      ],
+      "answer": 0,
+      "explanation": "The Fault Localizer identifies the code responsible for the issue. The Reproducer generates the reproducing test, the Editor performs the code changes, and the Verifier runs integration tests to confirm the fix.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "51"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "coder-framework",
+        "roles"
+      ]
+    },
+    {
+      "id": "t06-q026",
+      "stem": "In the Coder framework, which agent role selects the plan for resolving the issue and determines whether the issue is solved and, if not, what to do next?",
+      "options": [
+        "Verifier",
+        "Editor",
+        "Manager",
+        "Reproducer"
+      ],
+      "answer": 2,
+      "explanation": "The Manager owns the control decisions: it picks the resolution plan and judges whether the issue is resolved or further steps are needed. The Verifier only runs integration tests to check that the issue is fixed.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "51"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "coder-framework",
+        "manager"
+      ]
+    },
+    {
+      "id": "t06-q027",
+      "stem": "What is the core idea of Multi-Agent Debate (MAD)?",
+      "options": [
+        "Multiple agents split a task into subtasks and solve them independently in parallel",
+        "One agent generates a solution and a second agent silently rewrites it",
+        "Agents vote on pre-written candidate answers without generating arguments",
+        "Each agent proposes a solution, other agents challenge it, and over several rounds weaker arguments are exposed and a final answer is selected or synthesized"
+      ],
+      "answer": 3,
+      "explanation": "In MAD, agents propose solutions or viewpoints, critique each other over rounds so stronger arguments are refined, and a final answer is then selected or synthesized. It is an argumentation process, not task decomposition or silent rewriting.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "55"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "mad",
+        "debate"
+      ]
+    },
+    {
+      "id": "t06-q028",
+      "stem": "After a question is posed, which ordering matches the typical Multi-Agent Debate flow described in class?",
+      "options": [
+        "Aggregation, then critique, then independent initial answers",
+        "Independent initial answers, then critique, then optional revision rounds, then aggregation",
+        "Critique of the question itself, then a single shared answer, then voting",
+        "Revision rounds first, then initial answers, then a judge's critique"
+      ],
+      "answer": 1,
+      "explanation": "The typical flow is: multiple agents independently produce initial answers; agents critique each other's answers; optional revision rounds update the answers; and finally a judge or voting mechanism aggregates the result.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "56"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "mad",
+        "workflow"
+      ]
+    },
+    {
+      "id": "t06-q029",
+      "stem": "In a Multi-Agent Debate system, the judge/aggregator role is responsible for:",
+      "options": [
+        "Selecting or synthesizing the final output from the debated answers",
+        "Generating the initial candidate answers to the question",
+        "Attacking weaknesses in the other agents' arguments",
+        "Executing unit tests on each agent's proposed solution"
+      ],
+      "answer": 0,
+      "explanation": "Proposers generate initial answers and critics attack weaknesses; the judge/aggregator selects or synthesizes the final output. Proposer and critic can even be the same debate agent, but the judge role is distinct.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "56"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "mad",
+        "judge"
+      ]
+    },
+    {
+      "id": "t06-q030",
+      "stem": "In the phishing-email MAD example, one agent argues the \"affirmative\" and another the \"negative\" while a judge produces the final classification. What governs rules such as whether the agents take turns or generate their arguments in parallel?",
+      "options": [
+        "The judge's private system prompt",
+        "The shared blackboard's locking policy",
+        "An interaction protocol that defines the rules of the debate",
+        "A temperature schedule applied across rounds"
+      ],
+      "answer": 2,
+      "explanation": "An interaction protocol governs the debate's rules — for example, turn-taking versus parallel argument generation — while the judge manages the process and evaluates the arguments to produce the final classification.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "57"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "mad",
+        "protocol"
+      ]
+    },
+    {
+      "id": "t06-q031",
+      "stem": "In the MAD study on code summarization, the judge agent is asked to evaluate debater responses using which criteria?",
+      "options": [
+        "BLEU, ROUGE, and SIDE similarity scores against a reference summary",
+        "Expressiveness, content adequacy, and conciseness",
+        "Correctness, branch coverage, and execution speed",
+        "Expressiveness, attack rate, and output accuracy"
+      ],
+      "answer": 1,
+      "explanation": "The judge scores responses on expressiveness (clarity and readability), content adequacy (coverage of key details), and conciseness (avoiding unnecessary detail). SIDE is an evaluation metric used by the researchers, not a criterion the judge is prompted with.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "62-63"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "mad",
+        "code-summarization"
+      ]
+    },
+    {
+      "id": "t06-q032",
+      "stem": "What did the paper \"Is Multi-Agent Debate the Silver Bullet?\" conclude about applying default MAD to software-engineering tasks?",
+      "options": [
+        "MAD outperformed the ASCS baseline on every textual-similarity metric for summarization",
+        "MAD excelled at code translation but added nothing for code summarization",
+        "MAD only helped when the number of debaters exceeded ten",
+        "On the SIDE metric of code-summary semantic alignment MAD significantly beat ASCS, and MAD worked for summarization but showed limited performance on code translation"
+      ],
+      "answer": 3,
+      "explanation": "ASCS generally matched or beat MAD on similarity-to-human-summary metrics, but on SIDE — which measures semantic alignment between code and summary — default MAD significantly outperformed ASCS; MAD transferred well to summarization but not to translation.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "66"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "mad",
+        "results"
+      ]
+    },
+    {
+      "id": "t06-q033",
+      "stem": "You adapt MAD to classify requirements as functional or non-functional, following the design shown in class. Which setup matches that architecture?",
+      "options": [
+        "One debater argues the requirement is functional, another argues it is non-functional, and a judge decides who is right",
+        "Both debaters argue for the same label and a judge checks their reasoning for contradictions",
+        "Ten classifier agents each output a label and the majority label wins with no debate",
+        "A chain where an analyst labels the requirement and a tester validates the label"
+      ],
+      "answer": 0,
+      "explanation": "The class design assigns adversarial roles: a functional debater argues why the requirement is functional, a non-functional debater argues the opposite, and a judge picks the winner. This MAD setup beat the baseline of simply asking the LLM for the label.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "67-68"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "mad",
+        "requirements"
+      ]
+    },
+    {
+      "id": "t06-q034",
+      "stem": "One extension to MAD mentioned in class aims to increase evidence diversification. How does it work?",
+      "options": [
+        "Each debater runs at a different temperature to diversify its writing style",
+        "The number of revision rounds is increased until the debaters converge",
+        "Different agents are given different tools or data sources — e.g., one gets Internet search while another gets a RAG tool over a specific data source",
+        "Each debater is fine-tuned on a different slice of the training data"
+      ],
+      "answer": 2,
+      "explanation": "The extension equips agents with different tools and/or access to different data sources, so the debate draws on genuinely diverse evidence rather than just stylistic variation. This directly supports MAD's premise that diverse viewpoints improve the solution.",
+      "source": {
+        "file": "2026 Topic 6- Collaborative Agents.pdf",
+        "title": "Topic 6 — Collaborative Agents",
+        "kind": "lecture",
+        "pages": "69"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "mad",
+        "tools"
+      ]
+    },
+    {
+      "id": "t06-q035",
+      "stem": "Recitation 12 stresses that adding five agents instead of one does not automatically yield a better system. What primarily defines a multi-agent system, according to its key idea?",
+      "options": [
+        "The total number of tokens the agents exchange per task",
+        "The design of the communication structure among the agents, not just the number of agents",
+        "The size of the largest model used by any single agent",
+        "The number of distinct tools available across all agents"
+      ],
+      "answer": 1,
+      "explanation": "The recitation's key idea is that multi-agent systems are about designing the communication structure — who talks to whom, who decides, who verifies — rather than merely adding more agents.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "12-13"
+      },
+      "difficulty": "easy",
+      "tags": [
+        "orchestration",
+        "communication"
+      ]
+    },
+    {
+      "id": "t06-q036",
+      "stem": "In a chain pattern Requirement Analyst → Architect → Developer → Tester, the analyst misunderstands the task. Per Recitation 12, what is the likely outcome?",
+      "options": [
+        "The architect catches the error, because each chain agent re-validates its predecessor's work",
+        "The system halts immediately, since chains cannot proceed past an incorrect step",
+        "An orchestrator reroutes the task to a different analyst automatically",
+        "The mistake propagates: the architect designs the wrong system, the developer builds the wrong thing, and the tester may only check that the wrong thing works"
+      ],
+      "answer": 3,
+      "explanation": "A key chain weakness is that early mistakes propagate downstream — later agents tend to blindly trust earlier outputs and verification comes too late. There is no orchestrator in a pure chain, and agents do not re-validate upstream work by default.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "22-23"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "chain",
+        "error-propagation"
+      ]
+    },
+    {
+      "id": "t06-q037",
+      "stem": "In the star / hub-and-spoke pattern, which set of decisions belongs to the central controller?",
+      "options": [
+        "Which specialist to call, what task to give it, how to combine outputs, and when to stop",
+        "Writing the code for every subtask itself and using specialists only for review",
+        "Verifying every worker's output by running integration tests",
+        "Broadcasting each incoming message to all specialists simultaneously"
+      ],
+      "answer": 0,
+      "explanation": "The star's controller decides which specialist to call, what task to assign, how to combine their outputs, and when to stop. Broadcasting to everyone is closer to a mesh, and doing the work itself defeats the routing purpose of the hub.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "25-26"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "star",
+        "controller"
+      ]
+    },
+    {
+      "id": "t06-q038",
+      "stem": "You must build a system that brainstorms 20 creative product ideas and critiques them from many different perspectives, with no obvious ordering of steps. Which orchestration pattern from Recitation 12 fits best?",
+      "options": [
+        "Chain / waterfall",
+        "Workflow graph with approval gates",
+        "Mesh / swarm",
+        "Hierarchical supervisor-worker with verification"
+      ],
+      "answer": 2,
+      "explanation": "Mesh/swarm shines for open-ended tasks needing many perspectives, brainstorming, and debate with no obvious order. Chains need known phases, and workflow graphs or hierarchical verification target reliability rather than creative diversity.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "31-34,63"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "mesh",
+        "brainstorming"
+      ]
+    },
+    {
+      "id": "t06-q039",
+      "stem": "A free-form swarm of agents discusses an ambiguous bug. Over many rounds the agents grow more confident while converging on the same wrong diagnosis, and the discussion shows no sign of ending. Which mesh/swarm weaknesses does this illustrate?",
+      "options": [
+        "Controller bottleneck and single point of failure",
+        "Agents reinforcing each other's mistakes, plus the risk of endless discussion",
+        "Verification arriving too late in a fixed sequence of phases",
+        "A poor scoring mechanism selecting the wrong team of specialists"
+      ],
+      "answer": 1,
+      "explanation": "Mesh/swarm systems risk agents reinforcing each other's mistakes and endless discussion, and they are harder to control and debug. Controller bottlenecks belong to star topologies, late verification to chains, and team-scoring failures to dynamic graphs.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "35"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "mesh",
+        "failure-modes"
+      ]
+    },
+    {
+      "id": "t06-q040",
+      "stem": "An agent must solve a very long, structured puzzle in which a single wrong step ruins the final answer, and the task decomposes naturally into small units. Which pattern does Recitation 12 point to for this case?",
+      "options": [
+        "Mesh / swarm, so many agents can explore the puzzle freely",
+        "Chain / waterfall, since the puzzle steps have a natural order",
+        "Dynamic graphs, so the system can drop agents that stop being useful",
+        "Hierarchical supervisor-worker with verification, so each small subtask is checked before errors can compound"
+      ],
+      "answer": 3,
+      "explanation": "Hierarchical supervisor-worker with verification suits long tasks where errors compound and each small step must be correct: the supervisor decomposes, workers solve subtasks, and verifiers check them. A plain chain would let a single early mistake propagate to the end.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "38-40,64"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "hierarchical",
+        "verification"
+      ]
+    },
+    {
+      "id": "t06-q041",
+      "stem": "A company wants agents to answer customer-support tickets, but any refund must be approved by a human, and the system needs production-grade reliability with retries and observability. Which pattern from Recitation 12 is the BEST fit?",
+      "options": [
+        "A workflow graph (flow engineering) — an explicit state machine with guard nodes, checkpoints, and approval gates, e.g. built with LangGraph",
+        "A mesh/swarm so agents can debate whether each refund is justified",
+        "A pure chain, adding the human as the last agent in the sequence",
+        "A dynamic graph that decides at runtime whether a human is needed"
+      ],
+      "answer": 0,
+      "explanation": "Workflow graphs are recommended for production: an explicit state machine whose nodes are work steps and whose edges are conditional transitions supports guard nodes, checkpoints, human approval gates, retries, and observability — exactly what a human-approved refund flow needs. LangGraph is the example framework.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "43-48,61"
+      },
+      "difficulty": "medium",
+      "tags": [
+        "workflow-graph",
+        "approval-gate"
+      ]
+    },
+    {
+      "id": "t06-q042",
+      "stem": "An agent platform offers 30 possible expert agents, but a typical user query only needs about 3 of them. Why does Recitation 12 favor a dynamic-graph pattern here rather than always invoking all 30 experts?",
+      "options": [
+        "A star controller cannot technically connect to more than a handful of spokes",
+        "Invoking all experts would force a shared blackboard, which cannot hold 30 outputs",
+        "Dynamic graphs select the needed team at runtime, reducing unnecessary agent calls and balancing performance against cost",
+        "Dynamic graphs entirely eliminate the risk of bad routing decisions"
+      ],
+      "answer": 2,
+      "explanation": "Dynamic graphs decide at runtime which agents are needed and which are not, cutting unnecessary calls and balancing performance with cost — calling all 30 every time would be wasteful. They do NOT remove routing risk; in fact they require a good scoring or routing mechanism to work.",
+      "source": {
+        "file": "Recitation 12  Multi-Agent Orchestration Patterns.pdf",
+        "title": "Recitation 12 — Multi-Agent Orchestration Patterns",
+        "kind": "recitation",
+        "pages": "50-56,65"
+      },
+      "difficulty": "hard",
+      "tags": [
+        "dynamic-graph",
+        "cost"
+      ]
+    }
+  ]
+}

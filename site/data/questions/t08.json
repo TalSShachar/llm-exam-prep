@@ -1,0 +1,906 @@
+{
+  "topic": "t08",
+  "title": "Word Embeddings and RAG",
+  "questions": [
+    {
+      "id": "t08-q001",
+      "stem": "In Retrieval-Augmented Generation (RAG), how is external knowledge combined with the user's request?",
+      "options": [
+        "The LLM is fine-tuned on the external documents so its weights absorb the new knowledge",
+        "Relevant documents retrieved from an external knowledge base are appended to the prompt",
+        "The conversation history is summarized and stored back into the prompt",
+        "A database lookup replaces the LLM whenever a factual question is detected"
+      ],
+      "answer": 1,
+      "explanation": "RAG appends relevant documents retrieved from an external knowledge base to the prompt, enhancing the LLM's ability to produce accurate, relevant answers. It changes the prompt, not the model's weights, which is what distinguishes it from fine-tuning.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "4"
+      },
+      "difficulty": "easy",
+      "tags": ["rag", "definition"]
+    },
+    {
+      "id": "t08-q002",
+      "stem": "Which of the following is NOT one of the standalone-LLM challenges given in class as motivation for augmenting prompts with external data?",
+      "options": [
+        "Hallucinations and reliance on non-authoritative sources (data quality)",
+        "Knowledge frozen at the training cutoff (data currency)",
+        "Proprietary company documents the model was never trained on (data scope)",
+        "Response latency that is too high unless an external cache is used"
+      ],
+      "answer": 3,
+      "explanation": "The three motivations taught are data quality (hallucinations, non-authoritative sources), data currency (training cutoff), and data scope (proprietary documents). Latency is not one of them — RAG typically adds latency rather than reducing it.",
+      "source": {
+        "file": "in-class-quiz-8-RAG.pdf",
+        "title": "In-class Quiz 8 — RAG",
+        "kind": "quiz",
+        "pages": "6-7"
+      },
+      "difficulty": "easy",
+      "tags": ["rag", "motivation"]
+    },
+    {
+      "id": "t08-q003",
+      "stem": "In the architecture for using external data with an LLM, which component is responsible for finding relevant external data BEFORE the LLM is prompted?",
+      "options": [
+        "The retriever module",
+        "The generator module",
+        "The embedding trainer",
+        "The context summarizer"
+      ],
+      "answer": 0,
+      "explanation": "The retriever module converts the user's prompt into a query against a knowledge source and finds relevant external data before prompting the LLM. The generator module comes afterwards: it builds the enhanced prompt and interacts with the LLM.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "8-11"
+      },
+      "difficulty": "easy",
+      "tags": ["retriever", "architecture"]
+    },
+    {
+      "id": "t08-q004",
+      "stem": "Which statement best describes an embedding model, as defined in class?",
+      "options": [
+        "A hash function assigning each word a unique integer identifier",
+        "A compression scheme that reduces the number of bytes needed to store text",
+        "A learnable function mapping discrete data into continuous, dense vectors in a lower-dimensional space",
+        "A lookup table containing one binary indicator per vocabulary word"
+      ],
+      "answer": 2,
+      "explanation": "An embedding model is a learnable function that maps complex, discrete data (words, images, users) into continuous, dense, lower-dimensional vectors, capturing semantic and contextual meaning in compact numerical form. Hashes and one-hot tables capture no semantics.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "13"
+      },
+      "difficulty": "easy",
+      "tags": ["embeddings", "definition"]
+    },
+    {
+      "id": "t08-q005",
+      "stem": "A vocabulary has 7,000 words. Compared with one-hot encodings of these words, word embeddings are:",
+      "options": [
+        "Higher-dimensional and sparse, but they capture semantic relationships",
+        "The same dimension as the vocabulary, but dense instead of sparse",
+        "Lower-dimensional and dense, and they capture relationships between words",
+        "Lower-dimensional and sparse, sacrificing semantic relationships for space"
+      ],
+      "answer": 2,
+      "explanation": "One-hot vectors have dimension 7,000 (one per word), are almost all zeros, and encode no semantics. Word embeddings are much lower-dimensional, dense (mostly non-zero values), and their distances and directions reflect relationships among words.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "16-17"
+      },
+      "difficulty": "easy",
+      "tags": ["embeddings", "one-hot"]
+    },
+    {
+      "id": "t08-q006",
+      "stem": "What key property should a good embedding have with respect to similar objects?",
+      "options": [
+        "Similar objects are mapped to vectors that are close to each other in the vector space",
+        "Similar objects are mapped to vectors of equal magnitude but any direction",
+        "Similar objects are mapped to orthogonal vectors so they stay distinguishable",
+        "Similar objects share the exact same vector to save storage space"
+      ],
+      "answer": 0,
+      "explanation": "The defining property of embeddings is that if two objects are similar in some way, their vector representations lie close to each other in the space — 'words appearing in similar contexts tend to possess similar meanings' and should map to nearby locations.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "15-18"
+      },
+      "difficulty": "easy",
+      "tags": ["embeddings", "similarity"]
+    },
+    {
+      "id": "t08-q007",
+      "stem": "In a word embedding, consider the vectors for man, woman, king, queen, and princess. The word-offset computation vector(king) − vector(man) + vector(woman) is expected to land closest to:",
+      "options": [
+        "vector(princess)",
+        "vector(queen)",
+        "vector(man)",
+        "A random point with no semantic meaning"
+      ],
+      "answer": 1,
+      "explanation": "The offset king − man captures the 'royalty' relation with gender removed; adding woman yields a vector closest to queen, as shown by Mikolov's linguistic-regularities work. Princess is a tempting near-miss but the analogy specifically yields queen.",
+      "source": {
+        "file": "in-class-quiz-8-RAG.pdf",
+        "title": "In-class Quiz 8 — RAG",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": ["vector-arithmetic", "embeddings"]
+    },
+    {
+      "id": "t08-q008",
+      "stem": "Using the word-offset technique on word vectors, X = vector(\"biggest\") − vector(\"big\") + vector(\"small\") should yield a vector closest to which word?",
+      "options": [
+        "big",
+        "bigger",
+        "tiny",
+        "smallest"
+      ],
+      "answer": 3,
+      "explanation": "The offset biggest − big encodes the base-to-superlative relation; applying it to small gives smallest, the example from the lecture. This does not always work perfectly, but it demonstrates the algebraic regularities in embedding space.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "21"
+      },
+      "difficulty": "medium",
+      "tags": ["vector-arithmetic", "embeddings"]
+    },
+    {
+      "id": "t08-q009",
+      "stem": "How do contextualized embeddings (as produced by transformers) differ from static word embeddings?",
+      "options": [
+        "They are computed once during training and reused unchanged wherever the word appears",
+        "They are sized so the vectors always fit within the LLM's context window",
+        "They are computed dynamically from the sentence (context) in which the word is used",
+        "They are computed simultaneously with the vectors of all synonyms of the word"
+      ],
+      "answer": 2,
+      "explanation": "Transformers dynamically learn a word's representation based on the sentence (and surrounding sentences) it appears in, so the same word gets different vectors in different contexts. Static embeddings — the first option — compute one fixed vector per word.",
+      "source": {
+        "file": "in-class-quiz-8-RAG.pdf",
+        "title": "In-class Quiz 8 — RAG",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "medium",
+      "tags": ["contextualized-embeddings"]
+    },
+    {
+      "id": "t08-q010",
+      "stem": "Consider \"He would bow to the king\" and \"He tied it together with a bow\". What problem does a STATIC word embedding have here?",
+      "options": [
+        "It assigns 'bow' one fixed vector, so the two different meanings get the same representation",
+        "It assigns 'bow' a different random vector on every use, so retrieval becomes unstable",
+        "It drops ambiguous words like 'bow' from the vocabulary entirely during training",
+        "It represents 'bow' with a longer vector in order to encode both meanings at once"
+      ],
+      "answer": 0,
+      "explanation": "Static embeddings learn one representation per word and keep it no matter where the word is used, so polysemous words like 'bow' or 'lead' collapse to a single vector. Contextualized embeddings solve this by computing the vector from the surrounding sentence.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "23"
+      },
+      "difficulty": "medium",
+      "tags": ["contextualized-embeddings", "polysemy"]
+    },
+    {
+      "id": "t08-q011",
+      "stem": "Which ordering matches the five data-ingestion steps of a RAG pipeline taught in class?",
+      "options": [
+        "Chunk → Preprocess → Embed → Enhance → Store",
+        "Preprocess → Embed → Chunk → Enhance → Store",
+        "Preprocess → Chunk → Enhance → Embed → Store",
+        "Enhance → Preprocess → Chunk → Store → Embed"
+      ],
+      "answer": 2,
+      "explanation": "Ingestion first preprocesses (parses) raw data into clean text, chunks it into small coherent pieces, enhances chunks with helpful hints, creates a vector embedding per chunk, and finally stores the vectors in the vector DB. Embedding must follow chunking because each chunk gets its own vector.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "28"
+      },
+      "difficulty": "medium",
+      "tags": ["ingestion", "rag-pipeline"]
+    },
+    {
+      "id": "t08-q012",
+      "stem": "You convert a PDF full of tables into .txt for RAG ingestion and notice the extracted text is scrambled and the tables lost their meaning. Per the lecture's guidance, what should you do?",
+      "options": [
+        "Continue to chunking anyway; the embedding model is robust to noisy text",
+        "Increase chunk overlap so the scrambled regions appear in several chunks",
+        "Lower the embedding dimensionality so the noise carries less weight",
+        "Try a different parser or output format (e.g., .md or .html) and re-inspect before chunking"
+      ],
+      "answer": 3,
+      "explanation": "The lecture warns 'garbage in, garbage out': you must inspect the raw parsed text and, if it is broken, try another parser (e.g., llama parse) or another output format such as .md or .html that preserves structure. Overlap and embedding tweaks cannot repair corrupted input.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "29-31"
+      },
+      "difficulty": "medium",
+      "tags": ["parsing", "preprocessing"]
+    },
+    {
+      "id": "t08-q013",
+      "stem": "In RAG, what should an ideal data chunk look like?",
+      "options": [
+        "Multiple paragraphs, so each chunk carries as much information as possible",
+        "A small, coherent piece of information that captures one specific concept",
+        "Text small enough that its embedding fits in a 128-bit vector",
+        "Text with all punctuation removed to simplify the embedding step"
+      ],
+      "answer": 1,
+      "explanation": "Small, coherent chunks produce embeddings that capture a specific topic, enabling precise retrieval. Packing many paragraphs into one chunk dilutes the embedding across diverse subtopics, and vector size or punctuation removal are not the issue.",
+      "source": {
+        "file": "in-class-quiz-8-RAG.pdf",
+        "title": "In-class Quiz 8 — RAG",
+        "kind": "quiz",
+        "pages": "12-13"
+      },
+      "difficulty": "easy",
+      "tags": ["chunking"]
+    },
+    {
+      "id": "t08-q014",
+      "stem": "Why do practitioners typically make consecutive chunks overlap by roughly 10–20%?",
+      "options": [
+        "So information sitting at a chunk boundary is not cut off and lost",
+        "So the vector database has to store fewer embeddings overall",
+        "So every chunk ends up with exactly the same token count",
+        "So the ANN index can build its graph layers more quickly"
+      ],
+      "answer": 0,
+      "explanation": "Overlapping chunks (e.g., 10–20%) prevent critical information at chunk boundaries from being split in a way that makes it unretrievable. Overlap actually increases the number of stored embeddings and has nothing to do with equal sizing or index build speed.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "36"
+      },
+      "difficulty": "medium",
+      "tags": ["chunking", "overlap"]
+    },
+    {
+      "id": "t08-q015",
+      "stem": "During ingestion you rewrite the terse chunk \"commissions:USD 1.75% commission on deal\" as \"The client's foreign-currency commission for USD on this card is 1.75% per deal\". Which technique from the lecture is this?",
+      "options": [
+        "Query expansion applied at retrieval time",
+        "Recursive chunking with a separator hierarchy",
+        "Reranking the retrieved chunks with an LLM",
+        "Data enhancement via text planting — what Anthropic calls 'contextual retrieval'"
+      ],
+      "answer": 3,
+      "explanation": "Data enhancement 'plants' hints — metadata, section hierarchy, added context, query mimicking — into chunks at ingestion time so search and generation work better; Anthropic calls this contextual retrieval. It happens during ingestion, not at query time.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "38-39"
+      },
+      "difficulty": "medium",
+      "tags": ["data-enhancement", "ingestion"]
+    },
+    {
+      "id": "t08-q016",
+      "stem": "You embedded each entire 20-page report as one chunk, and retrieval keeps missing clearly relevant reports. Based on the chunk-size tradeoff taught in class, the most likely cause is:",
+      "options": [
+        "The chunks are too big: one embedding blends many subtopics, so a document matching the query in a few key ways is no longer close in vector space",
+        "The chunks are too small, so the key concepts have been separated across different chunks and none of them matches",
+        "Cosine similarity breaks down on long documents, so switching to Euclidean distance is required",
+        "The vector database silently truncates embeddings computed from texts longer than a few pages"
+      ],
+      "answer": 0,
+      "explanation": "Chunks that are too big make the embedding absorb too much information, so two texts that match in a few key ways may not end up close. Too-small chunks cause the opposite failure — key concepts split apart — but here each chunk is a whole 20-page report.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "76"
+      },
+      "difficulty": "hard",
+      "tags": ["chunking", "troubleshooting"]
+    },
+    {
+      "id": "t08-q017",
+      "stem": "Which chunking strategy splits text on a hierarchy of separators (e.g., \"\\n\\n\", then \"\\n\", then \" \"), keeping paragraphs intact whenever possible?",
+      "options": [
+        "Fixed-size chunking",
+        "Semantic chunking",
+        "Recursive chunking",
+        "Parent-child chunking"
+      ],
+      "answer": 2,
+      "explanation": "Recursive chunking tries the coarsest separator first and falls back to finer ones, which keeps paragraphs whole when possible. Fixed-size chunking ignores document structure, and semantic chunking splits where embedding distances signal a topic shift.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "26-27"
+      },
+      "difficulty": "easy",
+      "tags": ["chunking"]
+    },
+    {
+      "id": "t08-q018",
+      "stem": "You want chunk boundaries to fall exactly where the document's topic actually shifts, rather than at a fixed length or separator. Which chunking approach does this?",
+      "options": [
+        "Fixed-size chunking with strict character or token counts",
+        "Recursive chunking on a hierarchy of separator characters",
+        "Overlap chunking with a 10–20% sliding window",
+        "Semantic chunking based on embedding distances between sentences"
+      ],
+      "answer": 3,
+      "explanation": "Semantic chunking analyzes embedding distances between consecutive sentences to detect topic shifts and splits where the meaning actually changes. Fixed-size and recursive chunking split on counts or separators, which need not align with topic boundaries.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "27"
+      },
+      "difficulty": "medium",
+      "tags": ["chunking", "semantic"]
+    },
+    {
+      "id": "t08-q019",
+      "stem": "Tiny chunks match queries precisely but lack context, while big chunks have context but dilute their embeddings. How does parent-child retrieval resolve this dilemma?",
+      "options": [
+        "It embeds both a small and a large version of each chunk and averages the two vectors before indexing",
+        "It searches over small child chunks (~100 tokens) and, on a hit, feeds the larger parent chunk (~1000 tokens) to the LLM",
+        "It searches over the large parent chunks first and then answers using only the single best-matching child sentence",
+        "It keeps only the large chunks but raises the overlap percentage between them to restore precision"
+      ],
+      "answer": 1,
+      "explanation": "Parent-child retrieval uses child chunks for laser-focused vector matching and then returns the parent chunk to the LLM, giving both precise search and rich context. Searching parents first or averaging vectors would reintroduce the dilution problem.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "28-29"
+      },
+      "difficulty": "hard",
+      "tags": ["parent-child", "retrieval"]
+    },
+    {
+      "id": "t08-q020",
+      "stem": "Which of the following is a vector database rather than an embedding model?",
+      "options": [
+        "E5",
+        "all-MiniLM-L6-v2",
+        "Weaviate",
+        "BGE"
+      ],
+      "answer": 2,
+      "explanation": "Weaviate is one of the popular vector databases named in class (alongside Pinecone, Milvus, Chroma, Faiss, Qdrant). E5, BGE, and all-MiniLM-L6-v2 are embedding models that produce the vectors such databases store and retrieve.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "40"
+      },
+      "difficulty": "easy",
+      "tags": ["vector-db", "embedding-models"]
+    },
+    {
+      "id": "t08-q021",
+      "stem": "Why is cosine similarity often preferred over Euclidean distance for measuring semantic similarity between text embeddings?",
+      "options": [
+        "It incorporates vector magnitude, which encodes how important a document is",
+        "It compares the orientation (angle) of vectors and is independent of their magnitude",
+        "It can be computed in constant time regardless of the vector dimension",
+        "It is the only similarity function that HNSW-based indexes can support"
+      ],
+      "answer": 1,
+      "explanation": "Cosine similarity computes the cosine of the angle between vectors, focusing on direction rather than magnitude — which is exactly why it suits semantic text similarity. Euclidean distance, in contrast, is sensitive to vector magnitude.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "45"
+      },
+      "difficulty": "easy",
+      "tags": ["cosine-similarity", "distance-metrics"]
+    },
+    {
+      "id": "t08-q022",
+      "stem": "Searching \"pasta recipes\", a keyword engine misses the document \"spaghetti with tomato paste\", but a RAG system retrieves it. What explains this?",
+      "options": [
+        "The vector database expands every query using a built-in thesaurus of synonyms",
+        "The keyword engine failed only because its stemming rules were misconfigured",
+        "Embeddings place semantically related texts close together, so retrieval works without shared keywords",
+        "The LLM rewrote the stored document during ingestion so it contains the word 'pasta'"
+      ],
+      "answer": 2,
+      "explanation": "RAG performs semantic search: spaghetti is semantically related to pasta, so their embeddings are close even though the texts share no keyword. This is the core advantage over keyword search highlighted in the lecture summary.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "79"
+      },
+      "difficulty": "medium",
+      "tags": ["semantic-search", "retrieval"]
+    },
+    {
+      "id": "t08-q023",
+      "stem": "Why is a traditional SQL database (WHERE text LIKE '%keyword%') a poor fit as the retrieval store for RAG?",
+      "options": [
+        "Relational engines cannot scale beyond a few thousand rows of text",
+        "LIKE-style matching finds exact keywords, while RAG needs semantic similarity computed over vector distances",
+        "SQL requires a fixed schema, and free-text documents cannot be stored in table columns",
+        "SQL transaction guarantees add too much write latency during document ingestion"
+      ],
+      "answer": 1,
+      "explanation": "Traditional databases look for exact keyword matches, but RAG must find semantic similarity based on floating-point vector distances — a fundamentally different operation. Scale, schemas, and transactions are not the core mismatch.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "36-37"
+      },
+      "difficulty": "easy",
+      "tags": ["vector-db", "semantic-search"]
+    },
+    {
+      "id": "t08-q024",
+      "stem": "A vector DB holds millions of embeddings. Why do vector databases use Approximate Nearest Neighbor (ANN) algorithms instead of computing the exact distance to every stored vector on each query?",
+      "options": [
+        "Exact cosine similarity cannot be computed reliably on floating-point hardware at high dimensions",
+        "ANN returns exactly the same results as brute-force search but caches them between queries",
+        "Exact search is O(N) per query — too slow at scale — so ANN pre-organizes similar vectors to search in roughly O(log N)",
+        "ANN reduces every embedding to a single dimension so comparisons become cheap integer operations"
+      ],
+      "answer": 2,
+      "explanation": "Calculating exact distances against millions of vectors on every query is O(N) and too slow, so vector DBs group similar data in advance and search approximately in about O(log N). ANN trades a little exactness for large speed gains; it neither caches nor collapses dimensions.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "38"
+      },
+      "difficulty": "medium",
+      "tags": ["ann", "vector-db"]
+    },
+    {
+      "id": "t08-q025",
+      "stem": "Which pairing of approximate-nearest-neighbor approach and example algorithm matches the taxonomy presented in class?",
+      "options": [
+        "Hash-based — Hierarchical Navigable Small World",
+        "Tree-based — Locality-Sensitive Hashing",
+        "Quantization-based — K-Means Tree",
+        "Graph-based — Hierarchical Navigable Small World"
+      ],
+      "answer": 3,
+      "explanation": "The taxonomy is: hash-based (Locality-Sensitive Hashing), tree-based (K-Means Tree), graph-based (HNSW), and quantization-based (Inverted File Index). HNSW is the graph-based approach, currently considered state of the art.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "47"
+      },
+      "difficulty": "hard",
+      "tags": ["ann", "hnsw"]
+    },
+    {
+      "id": "t08-q026",
+      "stem": "The Hierarchical Navigable Small Worlds (HNSW) algorithm is used in vector databases to:",
+      "options": [
+        "Find the k vectors closest (most similar) to a given query vector",
+        "Ingest and chunk documents before they are embedded",
+        "Compute the exact minimal distance between two given vectors",
+        "Select the smallest embedding dimension that still preserves semantics"
+      ],
+      "answer": 0,
+      "explanation": "HNSW solves the approximate nearest neighbor problem: quickly finding the k vectors most similar to a query vector. It is a retrieval index, not an ingestion step, an exact-distance calculator, or a dimensionality-selection method.",
+      "source": {
+        "file": "in-class-quiz-8-RAG.pdf",
+        "title": "In-class Quiz 8 — RAG",
+        "kind": "quiz",
+        "pages": "10-11"
+      },
+      "difficulty": "easy",
+      "tags": ["hnsw", "ann"]
+    },
+    {
+      "id": "t08-q027",
+      "stem": "How does an HNSW search proceed through its layered graph?",
+      "options": [
+        "It starts at the bottom layer, which holds all nodes, and climbs upward pruning distant candidates at each level",
+        "It starts at an entry point in the uppermost layer, greedily moves to the closest node there, then descends a layer and repeats until the k nearest neighbors are found",
+        "It exhaustively scans every node in every layer of the hierarchy and merges the per-layer results",
+        "It hashes the query into one bucket per layer and returns the union of all the bucket contents"
+      ],
+      "answer": 1,
+      "explanation": "HNSW search begins at a pre-defined entry point in the top layer, greedily traverses to the closest element in that layer, then drops to the layer below and repeats — like a skip list — until the k nearest neighbors are found. It never scans exhaustively or hashes to buckets.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "49-50"
+      },
+      "difficulty": "medium",
+      "tags": ["hnsw", "search"]
+    },
+    {
+      "id": "t08-q028",
+      "stem": "Your product corpus is rewritten thousands of times per hour, and your HNSW-backed retrieval is struggling to keep up. Which point from the lecture is most relevant?",
+      "options": [
+        "HNSW performs well when the data does not change frequently; other techniques are often used for rapidly changing data",
+        "HNSW indexes cannot accept any insertions after their initial construction is complete",
+        "HNSW supports only Manhattan distance, which becomes unstable under frequent updates",
+        "HNSW recomputes all stored embeddings on every query, so updates multiply the query cost"
+      ],
+      "answer": 0,
+      "explanation": "The lecture notes HNSW performs well when data changes infrequently, and graph construction is expensive (about O(n log n) overall); other techniques are preferred for frequently changing data. Insertion is supported (O(log n) on average), so the other claims are false.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "48-51"
+      },
+      "difficulty": "hard",
+      "tags": ["hnsw", "complexity"]
+    },
+    {
+      "id": "t08-q029",
+      "stem": "With RAG, which sequence correctly describes how a user query is processed?",
+      "options": [
+        "The LLM answers first, and retrieved documents are then used only to fact-check the draft answer",
+        "The query is converted to a vector, the k closest chunks are retrieved from the vector DB, and the LLM is prompted with the original query plus those chunks",
+        "Every stored document is concatenated into the prompt and the LLM itself selects the relevant passages",
+        "The query is keyword-matched against the raw documents and the top-scoring pages are summarized into the prompt"
+      ],
+      "answer": 1,
+      "explanation": "Query retrieval has three steps: embed the query into a vector, retrieve the closest matching chunks from the DB, then prompt the LLM with the original query plus the retrieved chunks. Retrieval happens before generation, and only the top-k chunks — not everything — enter the prompt.",
+      "source": {
+        "file": "in-class-quiz-8-RAG.pdf",
+        "title": "In-class Quiz 8 — RAG",
+        "kind": "quiz",
+        "pages": "8-9"
+      },
+      "difficulty": "medium",
+      "tags": ["rag-pipeline", "retrieval"]
+    },
+    {
+      "id": "t08-q030",
+      "stem": "You ingested chunks with embedding model A, but a teammate's query service embeds queries with model B of the same vector dimension. Retrieval returns 100% irrelevant results. Why?",
+      "options": [
+        "The two models produce different embedding spaces, so the coordinates are not comparable and similarity search is meaningless",
+        "Model B's vectors simply need to be normalized to unit length before they match model A's space",
+        "Vectors of the same dimension are always comparable, so the real problem must be the chunk size",
+        "The vector DB converts between embedding models automatically but introduces noise on each conversion"
+      ],
+      "answer": 0,
+      "explanation": "The 'same model' rule: queries must be embedded with the exact model used for the document chunks, because different models define different coordinate spaces. Equal dimensionality does not make the spaces align, and no automatic conversion exists.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "42-44"
+      },
+      "difficulty": "medium",
+      "tags": ["embeddings", "troubleshooting"]
+    },
+    {
+      "id": "t08-q031",
+      "stem": "A RAG system has an offline (ingestion) stage and an online (per-query) stage. Which of these activities happens in the ONLINE stage?",
+      "options": [
+        "Splitting the source documents into chunks",
+        "Storing chunk embeddings in the vector database",
+        "Embedding the user's query",
+        "Parsing PDFs and HTML into plain text"
+      ],
+      "answer": 2,
+      "explanation": "Parsing, chunking, embedding documents, and storing them run offline, once per data update. Embedding the query, retrieving top-k chunks, and generating the answer run online for every query, where latency is critical.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "17-18"
+      },
+      "difficulty": "medium",
+      "tags": ["rag-pipeline", "architecture"]
+    },
+    {
+      "id": "t08-q032",
+      "stem": "Your Chroma collection stores news articles with a 'category' metadata field. A user wants results drawn only from 'Health' articles. Per the class example, the cleanest way to enforce this is to:",
+      "options": [
+        "Create and query a separate embedding model for each category",
+        "Append the word 'Health' to the query text and rely on the similarity score",
+        "Ask the LLM to discard non-Health chunks after the answer is generated",
+        "Pass a metadata 'where' filter in the collection.query() call"
+      ],
+      "answer": 3,
+      "explanation": "Chroma's query() accepts optional filters — a metadata 'where' filter (and 'where_document' for content) — which restrict retrieval to matching documents. Relying on similarity or post-hoc LLM filtering is unreliable, and per-category embedding models are unnecessary.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "63"
+      },
+      "difficulty": "medium",
+      "tags": ["chroma", "metadata"]
+    },
+    {
+      "id": "t08-q033",
+      "stem": "In the London-museums experiment, the same queries were sent to the LLM with and without RAG over the exhibits file. What was the outcome?",
+      "options": [
+        "With RAG the answers reflected the up-to-date exhibit data; without RAG they were imprecise and not current",
+        "Both setups answered equally well, because the LLM already knew the London museums",
+        "The RAG answers were worse, because the retrieved chunks confused the model",
+        "Without RAG the model simply refused to answer any of the seven queries"
+      ],
+      "answer": 0,
+      "explanation": "Without RAG the answers were not precise and did not address current exhibits; with RAG they reflected the up-to-date information in the database. This illustrates the data-currency motivation for RAG.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "64-65"
+      },
+      "difficulty": "easy",
+      "tags": ["rag", "experiment"]
+    },
+    {
+      "id": "t08-q034",
+      "stem": "Your team wants the RAG plumbing (chunking, embeddings, query engine) mostly handled for them, but insists on choosing its own vector database and swapping components later. Which option from the lecture fits best?",
+      "options": [
+        "A fully managed cloud-provider RAG service, such as OpenAI's or Google's",
+        "Building directly on a raw vector database and writing all of the plumbing yourselves",
+        "A framework such as LlamaIndex, which handles the pipeline yet lets you customize components",
+        "Skipping RAG entirely and relying on keyword search over the raw documents"
+      ],
+      "answer": 2,
+      "explanation": "A framework like LlamaIndex sits between running your own vector DB (full control, most work) and a managed cloud RAG (least work, least flexibility, vendor lock-in): it handles chunking, embeddings, and storage while letting you swap components like the vector DB.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "53-54"
+      },
+      "difficulty": "hard",
+      "tags": ["rag-tools", "tradeoffs"]
+    },
+    {
+      "id": "t08-q035",
+      "stem": "Your entire company FAQ is 15 short paragraphs, and questions about it use much the same vocabulary as the text itself. According to the lecture, what should you do?",
+      "options": [
+        "Build a vector database with an HNSW index so the solution is future-proof",
+        "Fine-tune the LLM on the FAQ paragraphs before deployment",
+        "Summarize the FAQ into one sentence and prompt with just that",
+        "Put the documents directly into the prompt (in-context learning); RAG is overkill here"
+      ],
+      "answer": 3,
+      "explanation": "RAG is not always relevant: when the corpus is small you can simply include the documents in the prompt (ICL), and when documents are findable by keyword search RAG is overkill. Building an index or fine-tuning adds cost with no benefit at this scale.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "78"
+      },
+      "difficulty": "medium",
+      "tags": ["rag", "when-to-use"]
+    },
+    {
+      "id": "t08-q036",
+      "stem": "In retrieval evaluation, what does Recall@K measure?",
+      "options": [
+        "Out of the K retrieved chunks, how many of them are actually relevant",
+        "How quickly the top-K results are returned back to the user",
+        "Whether the generated answer stays faithful to the retrieved context",
+        "Out of ALL relevant chunks in the dataset, how many were retrieved in the top K"
+      ],
+      "answer": 3,
+      "explanation": "Recall@K asks: of all the relevant chunks that exist, how many made it into the top K — it measures coverage. The first option is Precision@K, which measures the accuracy of the retrieved set.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "53-54"
+      },
+      "difficulty": "easy",
+      "tags": ["recall", "evaluation"]
+    },
+    {
+      "id": "t08-q037",
+      "stem": "For a query, the dataset contains 4 relevant chunks. Your retriever's top-5 results include 2 of them; the other 3 retrieved chunks are irrelevant. What are Recall@5 and Precision@5?",
+      "options": [
+        "Recall@5 = 0.5 and Precision@5 = 0.4",
+        "Recall@5 = 0.4 and Precision@5 = 0.5",
+        "Recall@5 = 0.8 and Precision@5 = 0.5",
+        "Recall@5 = 0.5 and Precision@5 = 0.6"
+      ],
+      "answer": 0,
+      "explanation": "Recall@5 = relevant retrieved / all relevant = 2/4 = 0.5. Precision@5 = relevant retrieved / retrieved = 2/5 = 0.4. Swapping the denominators is the classic mistake captured by the second option.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "55-58"
+      },
+      "difficulty": "hard",
+      "tags": ["recall", "precision", "evaluation"]
+    },
+    {
+      "id": "t08-q038",
+      "stem": "Your RAG system returns a wrong answer. According to the recitation, what should you check BEFORE blaming the LLM?",
+      "options": [
+        "Whether a larger LLM produces a better answer to the exact same prompt",
+        "Whether the generation temperature has been set too low for creativity",
+        "Whether the correct chunks were actually retrieved — if the evidence never reached the prompt, the LLM could not use it",
+        "Whether the system prompt demands accuracy forcefully enough from the model"
+      ],
+      "answer": 2,
+      "explanation": "Check retrieval first: if the correct evidence was not retrieved, the LLM probably lacked the information needed to answer. This is also why high Recall@K is critical — unretrieved evidence can never be used.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "76-77"
+      },
+      "difficulty": "medium",
+      "tags": ["debugging", "retrieval"]
+    },
+    {
+      "id": "t08-q039",
+      "stem": "A RAG answer confidently cites 'facts' that appear nowhere in the retrieved context. Which component of the RAG Triad does this violate?",
+      "options": [
+        "Answer relevance — addressing the user's actual intent",
+        "Context precision — retrieving chunks that are useful for the query",
+        "Throughput — the queries per second the system can sustain",
+        "Faithfulness — the answer staying true to the retrieved context"
+      ],
+      "answer": 3,
+      "explanation": "Faithfulness asks whether the answer stays true to the retrieved context (hallucination prevention), which is exactly what fabricated facts violate. Answer relevance concerns matching user intent, and context precision concerns retrieval quality, not generation.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "65"
+      },
+      "difficulty": "medium",
+      "tags": ["rag-triad", "evaluation"]
+    },
+    {
+      "id": "t08-q040",
+      "stem": "In your RAG pipeline, the two sentences jointly needed to answer a question ended up in different chunks, so neither chunk alone is similar enough to the query to be retrieved. Per the recitation's failure table, which stage failed?",
+      "options": [
+        "Parsing",
+        "Chunking",
+        "Embedding",
+        "Generation"
+      ],
+      "answer": 1,
+      "explanation": "'Relevant information is split across chunks' is the recitation's canonical chunking failure. Parsing failures corrupt or lose text, embedding failures put similar meanings far apart in vector space, and generation failures mean the LLM ignores or contradicts the context.",
+      "source": {
+        "file": "Recitation8 RAG.pdf",
+        "title": "Recitation 8 — RAG",
+        "kind": "recitation",
+        "pages": "67-68"
+      },
+      "difficulty": "hard",
+      "tags": ["failure-modes", "chunking"]
+    },
+    {
+      "id": "t08-q041",
+      "stem": "The code-vulnerability labeling paper taught in class compared random few-shot prompting, retrieval-augmented few-shot prompting, and retrieval-based labeling. What was the key result?",
+      "options": [
+        "Random few-shot prompting overtook retrieval-augmented prompting at high shot counts",
+        "Retrieval-based labeling kept improving steadily as more retrieved examples were used",
+        "Retrieval-augmented few-shot prompting consistently outperformed both alternatives across metrics and shot counts",
+        "All three strategies converged to identical performance once enough examples were provided"
+      ],
+      "answer": 2,
+      "explanation": "Retrieval-augmented few-shot prompting won consistently across all metrics and shot counts, showing that semantically relevant in-context examples guide the model best. Retrieval-based labeling was competitive only at k=1 and declined as more examples were used.",
+      "source": {
+        "file": "2026 topic 8 - Word  embeddings and RAG.pdf",
+        "title": "Topic 8 — Word Embeddings and RAG",
+        "kind": "lecture",
+        "pages": "72-73"
+      },
+      "difficulty": "hard",
+      "tags": ["few-shot", "vulnerabilities", "rag"]
+    },
+    {
+      "id": "t08-q042",
+      "stem": "In HW4, a customer asks for 'items that help me lose weight that are not related to exercise'. Why does the assignment require RAG over the product catalog for such queries rather than substring matching?",
+      "options": [
+        "Substring matching is case-sensitive and Walmart product names vary wildly in casing",
+        "The need is phrased in natural language and matching products need not share any keywords, so retrieval must use semantic similarity over a vector index",
+        "The CSV file format prevents running efficient string searches over the description column",
+        "Substring matching would be far too slow to run across the 787 products in the catalog"
+      ],
+      "answer": 1,
+      "explanation": "Queries like 'lose weight without exercise' describe a need, not a product name — no keyword match exists, so candidates must be retrieved by semantic similarity from the vector index (e.g., ChromaDB with all-MiniLM-L6-v2). An agent that only string-matches misses these queries and loses points.",
+      "source": {
+        "file": "HW 4.pdf",
+        "title": "Homework 4 — Agentic RAG",
+        "kind": "homework",
+        "pages": "4-5"
+      },
+      "difficulty": "medium",
+      "tags": ["homework", "semantic-search", "agentic-rag"]
+    },
+    {
+      "id": "t08-q043",
+      "stem": "In HW4, a user writes: 'I'm Michelle Garcia — am I a premier customer?' but supplies no credentials. Per the store policies, your agent should:",
+      "options": [
+        "Look her up by name in the cust_data collection and answer, since it is her own record",
+        "Answer with her status but carefully withhold her password and email address",
+        "Reveal only her product-interests, since interests are considered non-sensitive data",
+        "Ask for her email and password and authenticate before revealing any account data"
+      ],
+      "answer": 3,
+      "explanation": "Policy 4 is an authentication gate: a customer asking about their own account data must provide a matching email and password, and the agent must authenticate before revealing anything. Revealing private account data without authentication is heavily penalized by the grader.",
+      "source": {
+        "file": "HW 4.pdf",
+        "title": "Homework 4 — Agentic RAG",
+        "kind": "homework",
+        "pages": "3-6"
+      },
+      "difficulty": "medium",
+      "tags": ["homework", "policies", "authentication"]
+    },
+    {
+      "id": "t08-q044",
+      "stem": "HW4 scenario: Amanda is an authenticated premier customer with an $11.50 budget for wrist weights, and the cheapest set in the catalog is $11.99. What is the policy-correct arithmetic?",
+      "options": [
+        "Apply the 5% premier discount: 11.99 × 0.95 = $11.39, which fits her budget",
+        "Add 5%: 11.99 × 1.05 = $12.59, so nothing fits and she gets the no-match line",
+        "The discount applies only after $2000 of purchases in this transaction, so she pays $11.99",
+        "Round the sale price down to $11.50, since policy says to give the best match to the request"
+      ],
+      "answer": 0,
+      "explanation": "Premier customers get 5% off, so 11.99 × 0.95 = $11.39 ≤ $11.50 and the item fits the budget. The $2000 figure is the threshold for BECOMING premier, not a per-transaction condition, and prices must never be invented or rounded to please the customer.",
+      "source": {
+        "file": "HW 4.pdf",
+        "title": "Homework 4 — Agentic RAG",
+        "kind": "homework",
+        "pages": "7-8"
+      },
+      "difficulty": "hard",
+      "tags": ["homework", "policies", "arithmetic"]
+    },
+    {
+      "id": "t08-q045",
+      "stem": "HW4 requires a calculator tool for the discount and premier-threshold math. Per the assignment's safety rules, how should it evaluate arithmetic expressions?",
+      "options": [
+        "With Python's eval() wrapped in try/except so malformed input cannot crash the agent",
+        "By parsing the expression with the ast module and walking a whitelist of allowed operators",
+        "By letting the LLM compute the arithmetic in its head and return the numeric result",
+        "With exec() running inside a daemon thread that is killed if it exceeds a timeout"
+      ],
+      "answer": 1,
+      "explanation": "The assignment forbids raw eval()/exec() on anything the LLM returns: parse the expression with ast and evaluate only a whitelist of allowed operators and functions. Letting the LLM do arithmetic in its head is exactly what the calculator tool exists to prevent.",
+      "source": {
+        "file": "HW 4.pdf",
+        "title": "Homework 4 — Agentic RAG",
+        "kind": "homework",
+        "pages": "12"
+      },
+      "difficulty": "medium",
+      "tags": ["homework", "tools", "safety"]
+    }
+  ]
+}

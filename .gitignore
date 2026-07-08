@@ -1,0 +1,6 @@
+resources/
+resources-extracted/
+node_modules/
+*Zone.Identifier
+.DS_Store
+__MACOSX/

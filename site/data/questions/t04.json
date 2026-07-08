@@ -1,0 +1,906 @@
+{
+  "topic": "t04",
+  "title": "Intro to AI Agents & Benchmarking",
+  "questions": [
+    {
+      "id": "t04-q001",
+      "stem": "According to the course definition, an AI agent is best described as:",
+      "options": [
+        "A component that interleaves deterministic computations with LLM invocations, where LLM results can influence the program path taken",
+        "An LLM that has been fine-tuned to follow user instructions without any surrounding program code",
+        "A chatbot that stores the full conversation history so it can answer follow-up questions",
+        "A program that replaces every deterministic computation with a call to an LLM"
+      ],
+      "answer": 0,
+      "explanation": "The lecture defines an AI agent as a component mixing deterministic computation with LLM calls, where the LLM output can steer the control flow. Fine-tuning, chat history, or replacing all code with LLM calls are not part of the definition.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "3"
+      },
+      "difficulty": "easy",
+      "tags": ["agents", "definitions"]
+    },
+    {
+      "id": "t04-q002",
+      "stem": "What is the correct sequence for building and running a LangGraph workflow?",
+      "options": [
+        "Compile the graph first, then add nodes and edges, then invoke it",
+        "Invoke the graph directly; nodes and edges are compiled lazily on first use",
+        "Create nodes and edges of the graph, compile the graph, then invoke it with the required input",
+        "Create the nodes, invoke the graph once, then compile it to cache the execution plan"
+      ],
+      "answer": 2,
+      "explanation": "LangGraph requires you to build the graph (nodes and edges), compile it (using pregel operations for efficient execution), and only then invoke it. Compilation must happen before invocation, not after.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "5"
+      },
+      "difficulty": "easy",
+      "tags": ["langgraph", "workflow"]
+    },
+    {
+      "id": "t04-q003",
+      "stem": "In LangGraph, the special __end__ (END) node:",
+      "options": [
+        "Pauses the graph and waits for human approval before continuing",
+        "Terminates the run of the graph when execution reaches it",
+        "Persists the graph state to memory and then loops back to the entry node",
+        "Marks the node whose output is returned but keeps other branches running"
+      ],
+      "answer": 1,
+      "explanation": "END is a special terminal node: edges into it terminate the run. Human intervention and persistence are separate LangGraph features implemented with ordinary nodes, not with END.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "8"
+      },
+      "difficulty": "easy",
+      "tags": ["langgraph", "end-node"]
+    },
+    {
+      "id": "t04-q004",
+      "stem": "You create a StateGraph whose TypedDict state holds 'messages' and 'completion'. During execution of the compiled graph, what role does this state play?",
+      "options": [
+        "It is read-only configuration that is fixed when the graph is compiled",
+        "It is visible only to the entry node, which distributes copies to other nodes",
+        "It is recreated from scratch by every node, so values do not survive between nodes",
+        "It is passed from node to node, and each node can read it and update its entries"
+      ],
+      "answer": 3,
+      "explanation": "A StateGraph passes the state you define from node to node, and each node can update it — e.g., init_state fills 'messages' and the model-calling node writes 'completion'. It is neither read-only nor local to a single node.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "6-10"
+      },
+      "difficulty": "medium",
+      "tags": ["langgraph", "state"]
+    },
+    {
+      "id": "t04-q005",
+      "stem": "Which LangGraph feature allows a long-lived agent that runs many times, possibly on different threads, to access state from earlier invocations?",
+      "options": [
+        "Persistent memory, where agents save state and retrieve it at a later date",
+        "Conditional edges, which route execution based on prior runs",
+        "The compile step, which caches all previous execution results",
+        "Prompt templates, which embed prior outputs into new prompts"
+      ],
+      "answer": 0,
+      "explanation": "LangGraph supports persistent memory: agents can save all state and retrieve it later, letting long-lived or concurrent agents share state across invocations. Conditional edges and compilation control flow, not cross-run persistence.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "7"
+      },
+      "difficulty": "easy",
+      "tags": ["langgraph", "memory"]
+    },
+    {
+      "id": "t04-q006",
+      "stem": "Why build a LangGraph workflow rather than just sending one big prompt to an LLM?",
+      "options": [
+        "LangGraph makes the LLM itself more accurate by re-training it on your data",
+        "A workflow eliminates the need to write any prompts at all",
+        "Complex problems are best divided into stages, mixing parts done stochastically by an LLM with parts done deterministically by program code",
+        "Single LLM prompts cannot return structured output such as JSON"
+      ],
+      "answer": 2,
+      "explanation": "The lecture argues LangGraph shines when a problem is split into stages where some parts suit an LLM and others suit deterministic code — each node can invoke an LLM or compute a function. It does not retrain the model or remove prompting.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "12"
+      },
+      "difficulty": "medium",
+      "tags": ["langgraph", "agents"]
+    },
+    {
+      "id": "t04-q007",
+      "stem": "Your app asks the LLM for a country's population numbers and its CAGR. The population figures look reasonable, but the CAGR it computes is repeatedly wrong. Based on the lecture, the BEST fix is to:",
+      "options": [
+        "Raise the temperature so the model explores more possible calculations",
+        "Keep the LLM for retrieval but perform the arithmetic deterministically with a calculator tool",
+        "Ask the LLM to double-check its own arithmetic in a follow-up prompt",
+        "Switch to a larger model, since bigger models are reliable calculators"
+      ],
+      "answer": 1,
+      "explanation": "The lecture's population experiments show 'the LLM is not a calculator': given the numbers, growth statistics should be computed deterministically by a tool. Re-asking the model or raising temperature does not make arithmetic reliable.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "18-20"
+      },
+      "difficulty": "medium",
+      "tags": ["tools", "agents"]
+    },
+    {
+      "id": "t04-q008",
+      "stem": "You query an LLM five times for a country's current population (a date after its training cutoff) and get noticeably different numbers each time. What is the most likely explanation given in the lecture?",
+      "options": [
+        "For post-cutoff data the model relies on Web search and may pull from different sources on each run",
+        "The context window overflows, so parts of the question are truncated differently each time",
+        "The model's weights are updated between calls, changing its stored facts",
+        "Population data is filtered by safety systems, forcing the model to guess"
+      ],
+      "answer": 0,
+      "explanation": "The lecture notes that many LLMs answer post-training-cutoff questions using Internet search, and different runs may draw on different sources — hence inconsistent numbers. Model weights do not change between API calls.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "18-19"
+      },
+      "difficulty": "medium",
+      "tags": ["agents", "training-cutoff"]
+    },
+    {
+      "id": "t04-q009",
+      "stem": "Consider: add_conditional_edges(\"GetPopulation\", check_for_error, {True: \"PersistError\", False: \"ComputeGrowthRate\"}). What determines which node runs after GetPopulation?",
+      "options": [
+        "LangGraph runs both target nodes in parallel and keeps the first to finish",
+        "The GetPopulation node itself must call the next node by name",
+        "The return value of check_for_error is looked up in the mapping to select the next node",
+        "The compile step statically picks one branch based on the state schema"
+      ],
+      "answer": 2,
+      "explanation": "In a conditional edge, the routing function (check_for_error) is evaluated and its return value is matched against the dictionary keys to choose the successor node — True routes to PersistError, False to ComputeGrowthRate.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "29-30"
+      },
+      "difficulty": "medium",
+      "tags": ["langgraph", "conditional-edges"]
+    },
+    {
+      "id": "t04-q010",
+      "stem": "In a code-fixing workflow you want the next node to be fix_rt_err, fix_test_err, or return_result depending on the kind of error in the program's output. Per the lecture, how can an LLM drive this routing?",
+      "options": [
+        "The LLM rewrites the graph, adding and removing edges at runtime",
+        "The LLM sets the temperature of each candidate node and the hottest one runs",
+        "Each candidate node queries the LLM and the one with the longest answer wins",
+        "The LLM classifies the output value, and the returned class selects which edge is taken in a conditional edge mapping"
+      ],
+      "answer": 3,
+      "explanation": "The lecture shows an LLM used as the routing logic of a conditional edge: it classifies the output (runtime_error, test_error, no_error) and the class is looked up in the mapping to pick the next node. The graph structure itself is not rewritten.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "33"
+      },
+      "difficulty": "medium",
+      "tags": ["langgraph", "routing"]
+    },
+    {
+      "id": "t04-q011",
+      "stem": "What does LangChain's PromptTemplate class let you do?",
+      "options": [
+        "Automatically shorten prompts that exceed the context window",
+        "Define a natural-language template with input parameters that are resolved at run time to produce the final prompt string",
+        "Fine-tune the model on a set of example prompts",
+        "Translate a prompt into multiple languages before sending it to the LLM"
+      ],
+      "answer": 1,
+      "explanation": "PromptTemplate holds a template string with dynamic placeholders (f-string style) plus optional formatting instructions; calling format() with parameters produces the final prompt. It does not fine-tune, translate, or compress prompts.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "34-35"
+      },
+      "difficulty": "easy",
+      "tags": ["prompt-templates", "langchain"]
+    },
+    {
+      "id": "t04-q012",
+      "stem": "In the LangGraph financial-trading application shown in class, which agent runs deterministic backtesting and, on failure, returns either error traces for debugging or performance diagnostics for strategy refinement?",
+      "options": [
+        "The Strategy Evaluation (Tester) Agent",
+        "The Quant Trader Agent",
+        "The Data Analysis/Execution Agent",
+        "The Software Engineer Agent"
+      ],
+      "answer": 0,
+      "explanation": "The Strategy Evaluation (Tester) Agent runs deterministic backtesting and reports metrics, feeding back error traces or performance diagnostics. The Quant Trader synthesizes the strategy and the Software Engineer translates it into Python.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "36"
+      },
+      "difficulty": "hard",
+      "tags": ["multi-agent", "langgraph"]
+    },
+    {
+      "id": "t04-q013",
+      "stem": "Which four components make up an LLM benchmark for a specific task?",
+      "options": [
+        "A leaderboard, a training corpus, a scoring rubric, and human raters",
+        "A problem set, a fine-tuning dataset, a temperature setting, and a judge model",
+        "A set of problems, a standard way to prompt the LLM, a performance metric, and tests/ground truth to measure results",
+        "A model card, an API endpoint, a token budget, and a safety filter"
+      ],
+      "answer": 2,
+      "explanation": "A benchmark consists of a problem set, a standardized prompt format (kept constant across models), a metric, and tests with ground truth for scoring. Leaderboards and judges may use benchmarks but are not defining components.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "40"
+      },
+      "difficulty": "easy",
+      "tags": ["benchmarks", "definitions"]
+    },
+    {
+      "id": "t04-q014",
+      "stem": "Which benchmark evaluates commonsense reasoning about physical situations?",
+      "options": [
+        "MT-bench",
+        "AI2 Reasoning Challenge (ARC)",
+        "Open LLM Leaderboard",
+        "HellaSwag"
+      ],
+      "answer": 3,
+      "explanation": "HellaSwag targets commonsense reasoning relating to physical situations. MT-bench measures conversational/instruction-following ability, ARC measures knowledge and reasoning, and the Open LLM Leaderboard aggregates several benchmarks.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "41"
+      },
+      "difficulty": "easy",
+      "tags": ["benchmarks", "hellaswag"]
+    },
+    {
+      "id": "t04-q015",
+      "stem": "Which statement about the MMLU benchmark is accurate?",
+      "options": [
+        "It contains 164 handwritten Python programming problems with unit tests",
+        "It collects real GitHub issues from 12 popular Python repositories",
+        "It evaluates only medical and legal knowledge using open-ended essays",
+        "It spans 57 subject areas with roughly 14,000 multiple-choice test questions"
+      ],
+      "answer": 3,
+      "explanation": "MMLU covers 57 subjects (medicine, law, math, history, physics, etc.) with a 14,079-question multiple-choice test set. The 164 Python problems describe HumanEval, and the GitHub issues describe SWE-bench.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "42"
+      },
+      "difficulty": "easy",
+      "tags": ["mmlu", "benchmarks"]
+    },
+    {
+      "id": "t04-q016",
+      "stem": "Besides the 14,079-question test set, MMLU reserves 5 questions per subject area. What are these reserved questions used for?",
+      "options": [
+        "They form a hidden test set released only to model vendors",
+        "They serve as few-shot examples included in the prompt",
+        "They are used to fine-tune the model before testing",
+        "They calibrate human graders who score free-text answers"
+      ],
+      "answer": 1,
+      "explanation": "MMLU sets aside 5 questions per subject for few-shot prompting, and a separate 1,540-question validation set for selecting hyperparameters. The benchmark is multiple-choice, so no human grading of free text is involved.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "42"
+      },
+      "difficulty": "medium",
+      "tags": ["mmlu", "few-shot"]
+    },
+    {
+      "id": "t04-q017",
+      "stem": "By mid-2024, top models reached ~83% on MMLU (vs. GPT-3's 43.9% at release), motivating MMLU-Pro. One design change in MMLU-Pro is using 10 answer options per question instead of 4. Why?",
+      "options": [
+        "To let a question have several correct answers at once",
+        "To make the benchmark faster to run by batching options",
+        "To reduce the chance of a model scoring well by random guessing",
+        "To match the 10-domain structure of the new benchmark"
+      ],
+      "answer": 2,
+      "explanation": "Benchmarks get old as models improve, so MMLU-Pro was made harder: 10 options per question shrink the probability of a lucky guess. MMLU-Pro has 14 domains, and each question still has one correct answer.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "45-46"
+      },
+      "difficulty": "medium",
+      "tags": ["mmlu-pro", "benchmarks"]
+    },
+    {
+      "id": "t04-q018",
+      "stem": "The HumanEval benchmark (2021) was originally developed to:",
+      "options": [
+        "Rank chatbots by human preference votes in an arena",
+        "Evaluate Codex on 164 handwritten standalone Python programming problems",
+        "Test repository-level bug fixing across popular open-source projects",
+        "Measure multi-task language understanding across 57 subjects"
+      ],
+      "answer": 1,
+      "explanation": "HumanEval was created by OpenAI to evaluate Codex and consists of 164 handwritten problems focused on standalone Python functions. Repository-level fixing is SWE-bench, and 57-subject understanding is MMLU.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "50"
+      },
+      "difficulty": "easy",
+      "tags": ["humaneval", "code-generation"]
+    },
+    {
+      "id": "t04-q019",
+      "stem": "Each problem in HumanEval contains three parts. Which option lists them correctly?",
+      "options": [
+        "A prompt (function signature + docstring, possibly with examples), a canonical ground-truth solution, and unit tests",
+        "A GitHub issue, a failing test suite, and a reference patch",
+        "A natural-language question, four answer options, and a correct label",
+        "An input CSV file, a validation function, and an expected JSON answer"
+      ],
+      "answer": 0,
+      "explanation": "Every HumanEval problem has a prompt (docstring and signature), a canonical solution serving as ground truth, and unit tests to evaluate generated code. Issues/patches describe SWE-bench and multiple-choice items describe MMLU.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "50"
+      },
+      "difficulty": "medium",
+      "tags": ["humaneval", "code-generation"]
+    },
+    {
+      "id": "t04-q020",
+      "stem": "The pass@k metric for code generation measures:",
+      "options": [
+        "The likelihood that an LLM generates at least k correct solutions for a problem",
+        "The ratio c/k, where c is the number of correct samples out of k generated",
+        "The likelihood that at least one of k generated samples is correct",
+        "The average fraction of unit tests passed across k generated samples"
+      ],
+      "answer": 2,
+      "explanation": "pass@k is the probability that at least ONE of k samples passes the unit tests — not that k samples are correct, and not the ratio c/k. The average fraction of tests passed is the separate Test Case Average metric.",
+      "source": {
+        "file": "in-class-quiz-4-LangGraph-benchmarks-evals.pdf",
+        "title": "In-class Quiz 4 — LangGraph, Benchmarks & Evals",
+        "kind": "quiz",
+        "pages": "10-12"
+      },
+      "difficulty": "easy",
+      "tags": ["pass@k", "metrics"]
+    },
+    {
+      "id": "t04-q021",
+      "stem": "In the unbiased pass@k estimator, you generate n >= k samples, count c correct ones, and compute 1 - C(n-c,k)/C(n,k). What does the term C(n-c,k)/C(n,k) represent?",
+      "options": [
+        "The expected number of correct samples in any batch of k",
+        "The probability that all k samples chosen from the n are incorrect",
+        "The fraction of unit tests that the best sample fails",
+        "The variance of the naive pass@k estimate over repeated runs"
+      ],
+      "answer": 1,
+      "explanation": "C(n-c,k) counts ways to choose k samples entirely from the n-c incorrect ones, so dividing by C(n,k) gives the probability all k chosen samples are wrong; its complement is the probability at least one is correct.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "56-57"
+      },
+      "difficulty": "hard",
+      "tags": ["pass@k", "metrics"]
+    },
+    {
+      "id": "t04-q022",
+      "stem": "For one problem, a model generates n = 10 samples and c = 5 of them pass the unit tests. Using the unbiased estimator, pass@1 for this problem is approximately:",
+      "options": [
+        "5%",
+        "25%",
+        "50%",
+        "91.7%"
+      ],
+      "answer": 2,
+      "explanation": "With k = 1 the estimator reduces to c/n = 5/10 = 50% — the chance a single draw is a correct sample. 91.7% is roughly pass@3 for the same n and c, illustrating that more tries raise the success probability with diminishing returns.",
+      "source": {
+        "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf",
+        "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+        "kind": "recitation",
+        "pages": "38"
+      },
+      "difficulty": "hard",
+      "tags": ["pass@k", "metrics"]
+    },
+    {
+      "id": "t04-q023",
+      "stem": "The APPS benchmark reports a Test Case Average metric alongside Strict Accuracy. What is the main benefit of Test Case Average over pass/fail scoring?",
+      "options": [
+        "It gives partial credit: an almost-correct program passing 9/10 tests scores higher than a totally wrong one",
+        "It rewards programs that run faster, capturing efficiency as well as correctness",
+        "It removes the need to write unit tests for each problem",
+        "It guarantees the generated code is semantically equivalent to the reference solution"
+      ],
+      "answer": 0,
+      "explanation": "Test Case Average counts the fraction of test cases passed, so nearly-correct solutions are distinguished from completely wrong ones — closer to real-world debugging value. It still relies on unit tests and says nothing about speed.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "59"
+      },
+      "difficulty": "medium",
+      "tags": ["apps", "metrics"]
+    },
+    {
+      "id": "t04-q024",
+      "stem": "CodeBLEU compares generated code to a canonical solution using token, AST, and dataflow similarity. Which of the following is a genuine weakness of this metric?",
+      "options": [
+        "It requires executing the generated code against a full test suite",
+        "It cannot be computed when the generated code fails to compile",
+        "It only applies when at least k samples are generated per problem",
+        "Two semantically equivalent programs can be syntactically very different, so a correct program may still score low"
+      ],
+      "answer": 3,
+      "explanation": "CodeBLEU is a similarity measure, so a program that computes exactly the same thing in a different style can get a poor score. It is a static comparison — no test execution is needed — and it is independent of pass@k sampling.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "60"
+      },
+      "difficulty": "hard",
+      "tags": ["codebleu", "metrics"]
+    },
+    {
+      "id": "t04-q025",
+      "stem": "Which option lists metrics taught in class for judging the effectiveness of LLM code generation?",
+      "options": [
+        "Test case coverage, number of errors per program, and syntactic correctness",
+        "Pass@k, Test Case Average, and CodeBLEU",
+        "Perplexity, BLEU, and ROUGE",
+        "Latency, cost per token, and context utilization"
+      ],
+      "answer": 1,
+      "explanation": "The lecture's four code-generation metrics are pass@k, pass@1, Test Case Average, and CodeBLEU. 'Number of errors per program' and plain text metrics like ROUGE are not the taught code-generation metrics.",
+      "source": {
+        "file": "in-class-quiz-4-LangGraph-benchmarks-evals.pdf",
+        "title": "In-class Quiz 4 — LangGraph, Benchmarks & Evals",
+        "kind": "quiz",
+        "pages": "6-7"
+      },
+      "difficulty": "easy",
+      "tags": ["metrics", "code-generation"]
+    },
+    {
+      "id": "t04-q026",
+      "stem": "EvalPlus (with ~80x more tests than HumanEval) and MBPP+ (~35x more than MBPP) were created because:",
+      "options": [
+        "The original benchmarks' small test suites could let incorrect solutions slip through, so far more tests strengthen the evaluation",
+        "The original benchmarks were too hard for modern models to attempt",
+        "The original benchmarks only supported languages other than Python",
+        "Licensing changes made the original problem sets unavailable"
+      ],
+      "answer": 0,
+      "explanation": "EvalPlus and MBPP+ are strengthened versions of existing benchmarks: adding dramatically more tests catches solutions that pass the small original suites without truly being correct. The problems remain Python-based and available.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "62"
+      },
+      "difficulty": "medium",
+      "tags": ["benchmarks", "evalplus"]
+    },
+    {
+      "id": "t04-q027",
+      "stem": "HumanEval is published; GPT-3 scores 48%. Two years later a new model trained on a fresh internet crawl scores 85%. Which concern does this scenario raise about the higher score?",
+      "options": [
+        "Benchmark drift: the unit tests were probably rewritten between the two runs",
+        "Data contamination: the benchmark's problems and solutions may have entered the new model's training data, inflating its score",
+        "Sampling bias: the new model was evaluated with a larger k in pass@k",
+        "Prompt mismatch: the two models must have received different prompt formats"
+      ],
+      "answer": 1,
+      "explanation": "Once a benchmark is public, models trained on later crawls may have literally seen the problems and answers, violating the assumption that the task is solved from scratch. That is data contamination (data leakage), and it inflates scores.",
+      "source": {
+        "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf",
+        "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+        "kind": "recitation",
+        "pages": "62-67"
+      },
+      "difficulty": "medium",
+      "tags": ["contamination", "benchmarks"]
+    },
+    {
+      "id": "t04-q028",
+      "stem": "In the SWE-bench benchmark, the model's task is to:",
+      "options": [
+        "Answer multiple-choice questions about software engineering practices",
+        "Generate a standalone function from a docstring and pass its unit tests",
+        "Rank candidate pull requests by how likely they are to be merged",
+        "Produce a code patch that resolves a real GitHub issue from a popular Python repository"
+      ],
+      "answer": 3,
+      "explanation": "SWE-bench contains 2,294 real issue-to-PR pairs from popular Python repos; the input is the GitHub issue plus code, and the output is a corrected patch evaluated with unit tests. Standalone function generation is HumanEval's task.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "67"
+      },
+      "difficulty": "easy",
+      "tags": ["swe-bench", "benchmarks"]
+    },
+    {
+      "id": "t04-q029",
+      "stem": "Your agent's SWE-bench patch makes every FAIL_TO_PASS test pass, yet the instance is still scored as a failure. What is the most likely reason?",
+      "options": [
+        "Some PASS_TO_PASS test now fails — the patch introduced a regression, and both test groups must pass for success",
+        "The patch was too long, exceeding SWE-bench's diff-size limit",
+        "SWE-bench additionally requires the patch to textually match the original PR",
+        "The agent must also update the repository documentation for credit"
+      ],
+      "answer": 0,
+      "explanation": "SWE-bench's success condition requires FAIL_TO_PASS tests (originally failing) to pass AND PASS_TO_PASS tests (originally passing) to keep passing. A fix that breaks existing behavior fails despite resolving the issue.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "67"
+      },
+      "difficulty": "hard",
+      "tags": ["swe-bench", "regressions"]
+    },
+    {
+      "id": "t04-q030",
+      "stem": "Why is SWE-bench considered harder for LLMs than HumanEval?",
+      "options": [
+        "Its problems are written in multiple programming languages",
+        "It forbids the model from seeing any of the failing tests",
+        "The model must understand a whole codebase to fix a real issue, not just implement a function from a docstring",
+        "It uses 10 answer options per question instead of 4"
+      ],
+      "answer": 2,
+      "explanation": "SWE-bench reflects real-world, repository-level work: fixing a GitHub issue requires reasoning across an entire codebase, whereas HumanEval problems are standalone functions specified by a docstring. The 10-option change belongs to MMLU-Pro.",
+      "source": {
+        "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf",
+        "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+        "kind": "recitation",
+        "pages": "55-60"
+      },
+      "difficulty": "medium",
+      "tags": ["swe-bench", "benchmarks"]
+    },
+    {
+      "id": "t04-q031",
+      "stem": "You built a customer-support chatbot. It scores 90% on a public benchmark, but users complain it is often wrong. What is the BEST next step?",
+      "options": [
+        "Push the benchmark score higher before changing anything else",
+        "Build a custom eval based on real user queries and measure your app against it",
+        "Switch to the largest available model",
+        "Lower the temperature to make answers more deterministic"
+      ],
+      "answer": 1,
+      "explanation": "The best model on a benchmark is not necessarily the best for YOUR problem; a custom eval built from real user queries measures what actually matters to your app. Bigger models or lower temperature don't address the mismatch.",
+      "source": {
+        "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf",
+        "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+        "kind": "recitation",
+        "pages": "99-100"
+      },
+      "difficulty": "medium",
+      "tags": ["evals", "benchmarks"]
+    },
+    {
+      "id": "t04-q032",
+      "stem": "A key reason to run your eval suite CONTINUOUSLY (not just once) for an LLM-based solution is:",
+      "options": [
+        "To certify your solution as officially compliant with a public benchmark",
+        "To measure resilience against system crashes and network outages",
+        "To keep the eval dataset from being included in future model training data",
+        "To track performance as LLM versions are upgraded, user queries shift, and your application changes"
+      ],
+      "answer": 3,
+      "explanation": "Evaluation is like regression testing: results can change over time because the LLM version, the user queries, and your own application all evolve. Evals target your task's quality, not benchmark compliance or infrastructure failures.",
+      "source": {
+        "file": "in-class-quiz-4-LangGraph-benchmarks-evals.pdf",
+        "title": "In-class Quiz 4 — LangGraph, Benchmarks & Evals",
+        "kind": "quiz",
+        "pages": "8-9"
+      },
+      "difficulty": "medium",
+      "tags": ["evals", "continuous-evaluation"]
+    },
+    {
+      "id": "t04-q033",
+      "stem": "Which characteristic distinguishes an eval from a standard benchmark?",
+      "options": [
+        "An eval is customized to a specific application's goals and data, and its results are often kept internal",
+        "An eval must use a fixed public dataset so results can be reproduced industry-wide",
+        "An eval can only measure accuracy, while benchmarks also measure safety and bias",
+        "An eval is run by the model vendor, while benchmarks are run by users"
+      ],
+      "answer": 0,
+      "explanation": "Benchmarks are standardized, public, and reproducible for cross-model comparison; evals are purpose-driven, flexible (custom data, human judgment), and often internal. Evals can measure helpfulness, bias, and safety — not accuracy only.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "73"
+      },
+      "difficulty": "medium",
+      "tags": ["evals", "benchmarks"]
+    },
+    {
+      "id": "t04-q034",
+      "stem": "In a promptfoo eval you want to assert that your shoe-store assistant never mentions being an AI — a quality judgment that plain string matching can't capture reliably. Which assertion type fits best?",
+      "options": [
+        "equals — compare the output against a fixed expected string",
+        "contains — check that a keyword appears in the output",
+        "llm-rubric — have a model grade the response against the stated criterion",
+        "javascript — score the response by its character length"
+      ],
+      "answer": 2,
+      "explanation": "llm-rubric is promptfoo's model-graded assertion: an LLM judges whether the response satisfies a natural-language criterion. equals/contains are deterministic string checks, and the javascript assertion is for custom numeric scoring.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "78-80"
+      },
+      "difficulty": "medium",
+      "tags": ["promptfoo", "evals"]
+    },
+    {
+      "id": "t04-q035",
+      "stem": "Your team decides the eval objective for a dog-nutrition advice app is 'customer satisfaction'. According to the lecture's steps for creating a good eval, what must you do next before writing the eval?",
+      "options": [
+        "Choose the LLM provider that scores highest on MMLU",
+        "Specify concretely how the objective will be measured — e.g., likes, surveys, or another operational metric",
+        "Generate more training data so the model can be fine-tuned",
+        "Freeze the application code so results stay comparable"
+      ],
+      "answer": 1,
+      "explanation": "The lecture's recipe is: define the objective, then specify how you will measure it, then write the eval. A vague goal like 'customer satisfaction' is unusable until you decide the operational measurement (likes, surveys, etc.).",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "85"
+      },
+      "difficulty": "medium",
+      "tags": ["evals", "metrics"]
+    },
+    {
+      "id": "t04-q036",
+      "stem": "The lecture cites two key benefits of LLM-as-a-Judge over human evaluation. They are:",
+      "options": [
+        "Scalability and explainability — it evaluates at scale and provides explanations along with scores",
+        "Perfect accuracy and zero cost — judges never err and run for free",
+        "Determinism and reproducibility — the judge gives identical scores on every run",
+        "Neutrality and diversity — judge models have no preferences among outputs"
+      ],
+      "answer": 0,
+      "explanation": "LLM judges reduce human involvement (enabling scalable, fast iteration) and return explanations, not just scores. They are neither perfectly accurate nor free of preferences — the judge can make mistakes and shows biases.",
+      "source": {
+        "file": "2026 Topic 4 - Introduction to AI agents  Benchmarking.pdf",
+        "title": "Topic 4 — Intro to AI Agents & Benchmarking",
+        "kind": "lecture",
+        "pages": "87"
+      },
+      "difficulty": "easy",
+      "tags": ["llm-as-judge", "evals"]
+    },
+    {
+      "id": "t04-q037",
+      "stem": "In pairwise comparisons, your LLM judge keeps picking a long, meandering answer over a short answer that is factually correct. Which known judge failure mode does this illustrate?",
+      "options": [
+        "Positional bias — the judge prefers whichever answer appears first",
+        "Circular evaluation — the judge was trained on its own labels",
+        "Verbosity bias — the judge prefers longer answers even when they are wrong",
+        "Self-preference — the judge favors outputs from its own model family"
+      ],
+      "answer": 2,
+      "explanation": "Preferring the longer answer regardless of correctness is verbosity bias. Positional bias depends on answer order, self-preference on which model produced the answer, and circular evaluation concerns training on LLM-labeled data.",
+      "source": {
+        "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf",
+        "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+        "kind": "recitation",
+        "pages": "90-93"
+      },
+      "difficulty": "hard",
+      "tags": ["llm-as-judge", "bias"]
+    },
+    {
+      "id": "t04-q038",
+      "stem": "You compare two models with a GPT-4 judge: model A is GPT-4 itself, model B is a smaller model. The judge prefers model A almost every time. What is the MOST likely methodological issue?",
+      "options": [
+        "The evaluation dataset is too small to be statistically meaningful",
+        "Self-preference bias — GPT-4 tends to rate GPT-4 outputs higher",
+        "The judge's temperature is set too high, adding random noise",
+        "Model B's answers exceeded the judge's context window"
+      ],
+      "answer": 1,
+      "explanation": "A known LLM-judge failure mode is self-preference: a judge tends to rate outputs from its own model family higher. Before concluding model A is objectively better, you should control for this bias (e.g., use a different judge).",
+      "source": {
+        "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf",
+        "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+        "kind": "recitation",
+        "pages": "103-104"
+      },
+      "difficulty": "medium",
+      "tags": ["llm-as-judge", "bias"]
+    },
+    {
+      "id": "t04-q039",
+      "stem": "After weeks of prompt tweaks, your eval score climbs from 70% to 95%, yet production quality metrics have not moved at all. What most likely happened?",
+      "options": [
+        "Your changes overfitted to the eval set, improving the score without improving real performance",
+        "The underlying LLM regressed at exactly the same rate you improved",
+        "The eval framework is miscounting — scores above 90% are not reliable",
+        "Production traffic dropped, so quality changes are invisible"
+      ],
+      "answer": 0,
+      "explanation": "Optimizing repeatedly against the same fixed eval set leads to overfitting: the app learns the test, not the task. This is a listed common mistake in LLM evaluation; refreshing the eval with real, held-out user queries is the remedy.",
+      "source": {
+        "file": "Recitation 4 Benchmarking  Evaluating LLMs.pdf",
+        "title": "Recitation 4 — Benchmarking & Evaluating LLMs",
+        "kind": "recitation",
+        "pages": "105-106"
+      },
+      "difficulty": "hard",
+      "tags": ["evals", "overfitting"]
+    },
+    {
+      "id": "t04-q040",
+      "stem": "In LangGraph, a cyclic graph:",
+      "options": [
+        "Is not allowed — LangGraph graphs must be acyclic",
+        "Executes each cycle exactly once before moving to END",
+        "Requires a special 'while' edge type provided by the framework",
+        "Requires a conditional edge to exit the cycle"
+      ],
+      "answer": 3,
+      "explanation": "LangGraph explicitly supports cyclic graphs (e.g., retry loops), but a cycle needs a conditional edge whose routing logic eventually directs execution out of the loop. There is no dedicated while/until edge, and cycles can run many times.",
+      "source": {
+        "file": "in-class-quiz-4-LangGraph-benchmarks-evals.pdf",
+        "title": "In-class Quiz 4 — LangGraph, Benchmarks & Evals",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "medium",
+      "tags": ["langgraph", "cycles"]
+    },
+    {
+      "id": "t04-q041",
+      "stem": "Your application must fetch CURRENT metal prices and compare them to their 10-year averages. Following the course guidance on augmenting LLMs, the BEST design is to:",
+      "options": [
+        "Ask the LLM directly for prices and comparisons, since it was trained on historical data",
+        "Fetch prices with an external API tool and compute the comparison deterministically, using the LLM to analyze or explain the results",
+        "Send one large chain-of-thought prompt so the LLM retrieves and computes everything itself",
+        "Have the LLM fetch and compute everything, but set temperature to 0 for accuracy"
+      ],
+      "answer": 1,
+      "explanation": "Current prices postdate the model's training data and numeric comparisons are exactly what LLMs get wrong — so retrieve data via a trusted API and compute deterministically, reserving the LLM for analysis. Temperature 0 does not fix stale or unreliable data.",
+      "source": {
+        "file": "in-class-quiz-4-LangGraph-benchmarks-evals.pdf",
+        "title": "In-class Quiz 4 — LangGraph, Benchmarks & Evals",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "medium",
+      "tags": ["agents", "tools"]
+    },
+    {
+      "id": "t04-q042",
+      "stem": "In HW2, your LangGraph's first generated program fails and every regeneration keeps failing. How many programs may your agent generate and execute in total before it must terminate?",
+      "options": [
+        "4 in total, because the initial generation counts as the first retry",
+        "9 in total, one per allowed LLM API call",
+        "5 in total — the initial program plus at most 4 regenerations",
+        "Unlimited, as long as the validation function keeps returning False"
+      ],
+      "answer": 2,
+      "explanation": "The retry policy is 1 initial attempt plus at most 4 additional regenerations, so at most 5 programs are generated and executed. The initial generation does NOT count as a retry, and the loop must stop after attempt 5 fails.",
+      "source": {
+        "file": "HW2 (1).pdf",
+        "title": "Homework 2 — LangGraph",
+        "kind": "homework",
+        "pages": "3-4"
+      },
+      "difficulty": "medium",
+      "tags": ["homework", "retry-loop"]
+    },
+    {
+      "id": "t04-q043",
+      "stem": "In HW2, the generated program PQ runs without runtime errors and prints valid JSON, but the validation function returns False. How must your agent handle this?",
+      "options": [
+        "Treat it as an error: build an error message saying the program ran but produced an incorrect answer, include the actual incorrect JSON, and enter the reflection loop",
+        "Accept the answer anyway, since the program executed cleanly and produced parseable output",
+        "Terminate immediately, because validation failures are not retryable errors",
+        "Edit the validation file so its expected answer matches PQ's output"
+      ],
+      "answer": 0,
+      "explanation": "A False from the validator is treated exactly like an error: the reflection prompt must state the program ran but gave a wrong answer and include the incorrect output so the LLM can fix it. Modifying the validation file is explicitly forbidden.",
+      "source": {
+        "file": "HW2 (1).pdf",
+        "title": "Homework 2 — LangGraph",
+        "kind": "homework",
+        "pages": "7-8"
+      },
+      "difficulty": "hard",
+      "tags": ["homework", "validation"]
+    },
+    {
+      "id": "t04-q044",
+      "stem": "A student implements HW2's Chk4rErr node so it parses PQ's stdout as JSON and calls the validator itself. Why does this violate the assignment's intended design?",
+      "options": [
+        "Chk4rErr must call the LLM to classify the error before any routing",
+        "JSON parsing may only happen inside GenQueryProgram",
+        "Parsing and validation are only allowed in the Finalize node",
+        "Chk4rErr should be a pure routing node reading state (last_success, attempt counter); all 'did it work?' logic belongs in ExecuteProgram"
+      ],
+      "answer": 3,
+      "explanation": "HW2 prescribes a clean separation: ExecuteProgram runs PQ, captures output, parses JSON, and calls the validator, writing structured results to state; Chk4rErr only reads that state and routes, with no LLM call and no error detection of its own.",
+      "source": {
+        "file": "HW2 (1).pdf",
+        "title": "Homework 2 — LangGraph",
+        "kind": "homework",
+        "pages": "13-14"
+      },
+      "difficulty": "hard",
+      "tags": ["homework", "langgraph"]
+    },
+    {
+      "id": "t04-q045",
+      "stem": "HW2 instructs you to execute the LLM-generated program PQ as a subprocess with a timeout rather than with Python's exec(). What is the main reason?",
+      "options": [
+        "Subprocesses automatically fix syntax errors in the generated code",
+        "It isolates PQ from hw2.py's namespace, eases stderr capture, and prevents a misgenerated infinite loop from hanging the run",
+        "exec() cannot run code that imports pandas or csv",
+        "Subprocesses make the LLM's code generation deterministic"
+      ],
+      "answer": 1,
+      "explanation": "Running PQ in a fresh subprocess isolates it from the agent's namespace, makes capturing stdout/stderr simple, and lets a timeout kill infinite loops — a timeout is then treated as a runtime error and fed into the reflection loop.",
+      "source": {
+        "file": "HW2 (1).pdf",
+        "title": "Homework 2 — LangGraph",
+        "kind": "homework",
+        "pages": "15-16"
+      },
+      "difficulty": "medium",
+      "tags": ["homework", "subprocess"]
+    }
+  ]
+}

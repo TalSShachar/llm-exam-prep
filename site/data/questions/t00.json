@@ -1,0 +1,806 @@
+{
+  "topic": "t00",
+  "title": "Introduction",
+  "questions": [
+    {
+      "id": "t00-q001",
+      "stem": "According to the course introduction, what is the primary focus of this course?",
+      "options": [
+        "The internals of building LLMs: loss functions, sigmoid activations, and training epochs",
+        "How to effectively use LLMs, with a special focus on software engineering tasks",
+        "Hardware acceleration and GPU infrastructure for training neural networks",
+        "Classical software engineering methodologies that do not involve AI"
+      ],
+      "answer": 1,
+      "explanation": "The lecture explicitly states that building LLMs (neural networks, loss functions, embeddings, etc.) is NOT the focus; the course centers on effectively using LLMs, especially turning specifications into code and software systems.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "5-8"
+      },
+      "difficulty": "easy",
+      "tags": ["course-scope"]
+    },
+    {
+      "id": "t00-q002",
+      "stem": "The lecture organizes the course into four layers. Which topics belong to the 'Building Apps that leverage LLMs' layer?",
+      "options": [
+        "Transformers and training procedures",
+        "Fine tuning, prompt engineering, and evals",
+        "RAG and agents",
+        "Requirements engineering and code generation"
+      ],
+      "answer": 2,
+      "explanation": "The four layers are: LLM technologies (transformers, training), Using LLMs (fine tuning, prompt engineering, evals), Building Apps that leverage LLMs (RAG, agents), and Using LLMs for Software Engineering (requirements, code generation).",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "9"
+      },
+      "difficulty": "easy",
+      "tags": ["course-scope", "rag", "agents"]
+    },
+    {
+      "id": "t00-q003",
+      "stem": "Which of the following is NOT a characteristic of a foundational model as described in the lecture?",
+      "options": [
+        "Broad training on massive, diverse datasets such as books, websites, and code",
+        "Large scale, with billions of parameters and enormous training compute",
+        "Adaptability to many tasks using just instructions or a few examples",
+        "Purpose-built optimization for one narrow task, requiring retraining for each new use"
+      ],
+      "answer": 3,
+      "explanation": "Foundational models are defined by broad training, scale, and adaptability; they are explicitly NOT purpose-built for one narrow task — that is what makes them a 'foundation' that can be adapted to many applications.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "28"
+      },
+      "difficulty": "easy",
+      "tags": ["foundational-models"]
+    },
+    {
+      "id": "t00-q004",
+      "stem": "According to the lecture, what was the key contribution of the pioneering language-model work by Bengio, Hinton, and colleagues?",
+      "options": [
+        "Inventing the transformer architecture with multi-head attention",
+        "Learning contextualized embeddings where the probability of the next word is a function of the embeddings of surrounding words",
+        "Building hand-written grammar rules that generate syntactically valid sentences",
+        "Introducing reinforcement learning from human feedback for alignment"
+      ],
+      "answer": 1,
+      "explanation": "Bengio's neural probabilistic language model showed how to learn contextualized embeddings, making next-word probability a function of surrounding words' embeddings. Transformers and self-attention came later, and RLHF is a much more recent alignment technique.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "22"
+      },
+      "difficulty": "medium",
+      "tags": ["history", "embeddings"]
+    },
+    {
+      "id": "t00-q005",
+      "stem": "What does self-attention — the core innovation of transformers — allow an LLM to do?",
+      "options": [
+        "Dynamically weigh the importance of different words while processing the entire sequence simultaneously, capturing long-range dependencies",
+        "Compress the input into one fixed summary vector that is then read back word by word, as recurrent networks do",
+        "Retrieve relevant passages from an external knowledge base at generation time to ground its answers",
+        "Guarantee deterministic outputs by eliminating all sampling randomness from the decoding step"
+      ],
+      "answer": 0,
+      "explanation": "Self-attention weighs the importance of different words in a sequence dynamically and processes the whole sequence simultaneously, which is what lets transformers capture long-range dependencies. Retrieval is a separate augmentation, and determinism is a sampling issue.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "23"
+      },
+      "difficulty": "easy",
+      "tags": ["transformers", "self-attention"]
+    },
+    {
+      "id": "t00-q006",
+      "stem": "In the lecture's four 'dimensions' of an LLM, questions like 'Is the model open-source or closed-source?' and 'Is it customizable to your problem?' belong to which dimension?",
+      "options": [
+        "Technical",
+        "Data",
+        "Governance",
+        "Post-training"
+      ],
+      "answer": 2,
+      "explanation": "The governance dimension covers open-source vs. closed-source status and customizability. Technical covers architecture and size, data covers the training corpus, and post-training covers specializations like instruction following or alignment.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "29"
+      },
+      "difficulty": "easy",
+      "tags": ["llm-dimensions", "governance"]
+    },
+    {
+      "id": "t00-q007",
+      "stem": "Which model-architecture family, as classified in the lecture, generates text by predicting the next token?",
+      "options": [
+        "Autoencoding",
+        "Diffusion",
+        "Seq2Seq encoders",
+        "Autoregressive"
+      ],
+      "answer": 3,
+      "explanation": "The lecture lists Autoregressive (predicting the next token) vs. Autoencoding vs. Seq2Seq architectures; autoregressive models are the ones that generate by predicting each next token in turn.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "easy",
+      "tags": ["architecture", "autoregressive"]
+    },
+    {
+      "id": "t00-q008",
+      "stem": "A model card states that a model has 96 layers and 64 attention heads. In this specification, 'attention heads' refers to…",
+      "options": [
+        "the number of parallel attention mechanisms that exist in each layer",
+        "the total number of transformer blocks stacked in the model",
+        "the size of the vector representations used inside the model",
+        "the total count of learned weights, quoted in billions"
+      ],
+      "answer": 0,
+      "explanation": "Attention heads are the parallel attention mechanisms within each layer. Stacked transformer blocks are the layer count, vector size is the embedding dimension, and total weights are the parameter count.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "medium",
+      "tags": ["model-size", "attention"]
+    },
+    {
+      "id": "t00-q009",
+      "stem": "A team has budget to grow model size (N), training data (D), or training compute (C). According to the scaling study cited in the lecture, performance scales BEST when…",
+      "options": [
+        "everything is invested in N, since parameter count dominates the other factors",
+        "everything is invested in D, since data is always the binding bottleneck",
+        "all three factors N, D, and C are scaled up in parallel",
+        "N and C are scaled while D is deliberately held constant"
+      ],
+      "answer": 2,
+      "explanation": "The study found 'bigger is better' for models, data, and compute — and that performance scales best when all three are scaled together in parallel, not when one factor is grown in isolation.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "31"
+      },
+      "difficulty": "medium",
+      "tags": ["scaling-laws"]
+    },
+    {
+      "id": "t00-q010",
+      "stem": "Which statement best captures the 'smooth power laws' finding about LLM scaling described in the lecture?",
+      "options": [
+        "Test loss has a power-law relationship with each of N, D, and C when not bottlenecked by the other two, over six-plus orders of magnitude",
+        "Test loss improves linearly with parameter count until the training data is exhausted, then stops improving",
+        "Test loss drops exponentially with compute and then abruptly plateaus at a fixed loss floor observed in the study",
+        "The power-law trend was observed to break down clearly at the upper end of the studied scales"
+      ],
+      "answer": 0,
+      "explanation": "Performance follows a power law with each scale factor when the other two are not bottlenecks, with trends spanning more than six orders of magnitude and no observed deviation at the upper end (though loss must eventually flatten before zero).",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "32"
+      },
+      "difficulty": "hard",
+      "tags": ["scaling-laws", "power-law"]
+    },
+    {
+      "id": "t00-q011",
+      "stem": "A benchmark result shows a much smaller model beating a leading large model on a specific task. Based on the lecture, the most likely explanation is that…",
+      "options": [
+        "small models generally outperform large models on most benchmarks",
+        "scaling laws stop applying once models pass a certain parameter count",
+        "the large model's bigger context window slowed it down and reduced accuracy",
+        "smart prompt engineering and related techniques can sometimes defeat the bigger models"
+      ],
+      "answer": 3,
+      "explanation": "The lecture notes that while 'the big guys usually win', smart prompt engineering and other techniques can sometimes let smaller models defeat larger ones. This is an exception to, not a refutation of, the general scaling trend.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "33-34"
+      },
+      "difficulty": "medium",
+      "tags": ["scaling-laws", "prompt-engineering"]
+    },
+    {
+      "id": "t00-q012",
+      "stem": "An LLM assistant answers well about older frameworks but knows nothing about a library released last year. Which property of the model's training data most directly explains this?",
+      "options": [
+        "Its modality — the model was trained on text only, not vision or audio",
+        "Its cutoff date — the training corpus contains no data past a certain point in time",
+        "Its deduplication — repeated documents were removed during data cleansing",
+        "Its volume — the corpus was too small to include software topics at all"
+      ],
+      "answer": 1,
+      "explanation": "The data dimension includes a cutoff date: the model cannot know about anything published after its training data was collected. Modality, deduplication, and raw volume would not selectively erase only recent knowledge.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "35"
+      },
+      "difficulty": "medium",
+      "tags": ["training-data", "cutoff-date"]
+    },
+    {
+      "id": "t00-q013",
+      "stem": "In the lecture's list of post-training purposes, 'reasoning' post-training means…",
+      "options": [
+        "re-running pre-training on a larger and more diverse corpus",
+        "preventing the model from producing harmful or unethical content",
+        "teaching the model to show its reasoning process step-by-step before providing final answers",
+        "connecting the model to external knowledge bases at query time"
+      ],
+      "answer": 2,
+      "explanation": "Reasoning post-training teaches models to show step-by-step reasoning before the final answer. Preventing harmful content is value alignment, and using external knowledge bases is retrieval augmentation.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "36"
+      },
+      "difficulty": "easy",
+      "tags": ["post-training", "reasoning"]
+    },
+    {
+      "id": "t00-q014",
+      "stem": "A biomedical company wants an LLM that gives specialized answers about drug interactions. Which post-training approach from the lecture most directly fits, with BioGPT as a cited example?",
+      "options": [
+        "Task-specific post-training that augments the model for a particular domain",
+        "Intention and value alignment to prevent dangerous content",
+        "Instruction-following adaptation so the model obeys user requests",
+        "Retrieval augmentation from external document stores"
+      ],
+      "answer": 0,
+      "explanation": "Task-specific post-training adapts models to domains like biomedicine (BioGPT), law (CaseLaw-GPT), or code (Codex, CodeLlama). Alignment, instruction following, and retrieval augmentation serve different purposes.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "36"
+      },
+      "difficulty": "medium",
+      "tags": ["post-training", "domain-models"]
+    },
+    {
+      "id": "t00-q015",
+      "stem": "According to the lecture's footnote, how were the DeepSeek Coder models trained?",
+      "options": [
+        "Fine-tuned from Llama weights on an English-only code corpus",
+        "Trained exclusively on source code, with natural language removed",
+        "Trained mostly on natural language, with a small fraction of code added",
+        "Trained from scratch on roughly 87% code and 13% natural language in English and Chinese"
+      ],
+      "answer": 3,
+      "explanation": "DeepSeek Coder models were trained from scratch on 87% code and 13% natural language (English and Chinese), pre-trained on 12T tokens — not fine-tuned from another model and not code-only.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "36"
+      },
+      "difficulty": "hard",
+      "tags": ["deepseek-coder", "post-training"]
+    },
+    {
+      "id": "t00-q016",
+      "stem": "Your company uses a proprietary LLM through a paid API and asks the vendor whether your team can retrain the model's weights in-house. Per the lecture, closed-source LLMs…",
+      "options": [
+        "can be fine-tuned by any paying customer who downloads the weights",
+        "can only be refined by the authoring organization, not by downstream customers",
+        "expose their weights for inspection but charge extra for modification rights",
+        "must be released as open source once they are commercially deployed"
+      ],
+      "answer": 1,
+      "explanation": "Closed-source LLMs are proprietary, typically accessed via API for a fee, and can only be refined by the authoring organization. Downstream customers do not get the weights, unlike with open-source models.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "37"
+      },
+      "difficulty": "medium",
+      "tags": ["closed-source", "governance"]
+    },
+    {
+      "id": "t00-q017",
+      "stem": "A hospital must guarantee that prompts containing patient data are never seen by an external LLM provider. Which advantage of open-source LLMs from the lecture addresses this most directly?",
+      "options": [
+        "Community contributions that improve the model over time",
+        "Fast out-of-the-box usability without hiring ML experts",
+        "On-premise deployment, so prompt and response data are seen only by the organization",
+        "Better benchmark performance backed by big-tech compute resources"
+      ],
+      "answer": 2,
+      "explanation": "Open-source LLMs enable on-premise deployment, so data in prompts and responses stays inside the organization and is never sent to an LLM provider. Out-of-the-box usability and top benchmark performance are advantages of closed-source models.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "38-39"
+      },
+      "difficulty": "medium",
+      "tags": ["open-source", "privacy"]
+    },
+    {
+      "id": "t00-q018",
+      "stem": "A small startup with no machine-learning experts must ship an LLM-powered feature for a standard use-case within weeks. Based on the lecture's comparison, its best fit is…",
+      "options": [
+        "a closed-source LLM via API, used out-of-the-box for fast time-to-value",
+        "an open-source model fine-tuned in-house on the startup's own data",
+        "training a small foundational model from scratch on domain data",
+        "an open-source model self-hosted on the startup's own GPU cluster"
+      ],
+      "answer": 0,
+      "explanation": "Closed-source LLMs offer usability and time-to-value: they work out of the box for standard use-cases without hiring ML experts or managing powerful machines. Open-source routes require in-house expertise and compute the startup lacks.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "40"
+      },
+      "difficulty": "medium",
+      "tags": ["closed-source", "tradeoffs"]
+    },
+    {
+      "id": "t00-q019",
+      "stem": "According to the Goldman Sachs research cited in the lecture, which occupation is among those at HIGHEST risk of displacement by AI in the coming years?",
+      "options": [
+        "Air traffic controllers",
+        "Computer programmers",
+        "Radiologists",
+        "Photographers"
+      ],
+      "answer": 1,
+      "explanation": "Goldman Sachs lists computer programmers, accountants, legal assistants, and similar roles at highest risk; air traffic controllers, radiologists, pharmacists, and photographers are among those at least risk.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "44"
+      },
+      "difficulty": "medium",
+      "tags": ["future-of-se"]
+    },
+    {
+      "id": "t00-q020",
+      "stem": "The CACM article quoted in the lecture argues that the 'new atomic unit of computation' is becoming…",
+      "options": [
+        "a von Neumann machine of processor, memory, and I/O system",
+        "a formally verified instruction set with a static type system",
+        "a massive, pre-trained, highly adaptive AI model",
+        "a distributed cluster of general-purpose GPU accelerators"
+      ],
+      "answer": 2,
+      "explanation": "The article argues the atomic unit of computation is no longer a von Neumann machine but a massive, pre-trained, highly adaptive AI model — a shift away from computation as a predictable process amenable to static analysis and formal proof.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "46"
+      },
+      "difficulty": "hard",
+      "tags": ["future-of-se"]
+    },
+    {
+      "id": "t00-q021",
+      "stem": "Which statement best matches the outlook on the future of software engineering presented in the lecture?",
+      "options": [
+        "Engineers will still be needed for the foreseeable future, but SE will change dramatically and demands new skills",
+        "Programming will certainly disappear within a few years, so studying SE fundamentals is no longer worthwhile",
+        "Generative AI will remain a minor productivity aid with little real effect on how engineers do their work",
+        "The changes will affect only hardware engineering, leaving software development practices unchanged"
+      ],
+      "answer": 0,
+      "explanation": "The lecture concludes that no one can tell the future, but its working view is that software engineers will still be needed while the profession changes dramatically — the course exists to prepare students for that change and the new skills it requires.",
+      "source": {
+        "file": "2026 Topic 0- Introduction.pdf",
+        "title": "Topic 0 — Introduction",
+        "kind": "lecture",
+        "pages": "47-49"
+      },
+      "difficulty": "medium",
+      "tags": ["future-of-se", "course-scope"]
+    },
+    {
+      "id": "t00-q022",
+      "stem": "At its core, what is a language model, according to the recitation?",
+      "options": [
+        "A database of memorized sentences retrieved by keyword matching",
+        "A next-token predictor that assigns probabilities to possible continuations",
+        "A rule engine encoding grammar rules hand-written by linguists",
+        "A search engine that ranks existing web documents by relevance"
+      ],
+      "answer": 1,
+      "explanation": "The recitation's core idea is 'Language Model = Next Token Predictor': given text like 'The cat sat on the ___', the model assigns probabilities to candidate next tokens rather than retrieving stored sentences or applying hand-written rules.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "12-14"
+      },
+      "difficulty": "easy",
+      "tags": ["next-token", "language-model"]
+    },
+    {
+      "id": "t00-q023",
+      "stem": "Which statement about tokens is accurate, per the recitation?",
+      "options": [
+        "A token can be a whole word, part of a word, punctuation, or even a space",
+        "Tokens always correspond to exactly one complete word of text",
+        "Punctuation marks are stripped out before tokenization and never become tokens",
+        "Tokens are the embedding vectors the model uses internally to represent words"
+      ],
+      "answer": 0,
+      "explanation": "A token is the basic unit of text a language model processes, and it can be a whole word, a part of a word, punctuation, or a space — 'Hello world!' becomes ['Hello', ' world', '!']. Tokens are units of text, not embedding vectors.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "15-17"
+      },
+      "difficulty": "easy",
+      "tags": ["tokenization"]
+    },
+    {
+      "id": "t00-q024",
+      "stem": "A tokenizer splits 'running' into 'run' + 'ning' and 'ChatGPT' into 'Chat' + 'GPT'. Why is this subword approach useful for a language model?",
+      "options": [
+        "It guarantees each word maps to exactly one token, which simplifies decoding",
+        "It halves the billing cost, because providers charge less for subword tokens",
+        "It can represent rare or unseen words by combining smaller known units",
+        "It removes the need for any vocabulary, treating all text as raw characters"
+      ],
+      "answer": 2,
+      "explanation": "Subword tokenization breaks words into smaller reusable units, so new or rare words can still be represented by combining known pieces while keeping the vocabulary manageable. Character-level tokenization, not subword, dispenses with word units entirely.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "18-19"
+      },
+      "difficulty": "medium",
+      "tags": ["tokenization", "subwords"]
+    },
+    {
+      "id": "t00-q025",
+      "stem": "According to the recitation, in which situation is character-level tokenization (individual characters as tokens) most commonly used?",
+      "options": [
+        "English legal contracts containing unusually long words",
+        "Source code with long camelCase identifiers",
+        "Emoji-heavy chat messages, where each emoji spans many bytes",
+        "Languages with very large character sets, such as Chinese"
+      ],
+      "answer": 3,
+      "explanation": "The recitation notes that using individual characters as tokens is common in languages with large character sets, like Chinese, where each character already carries substantial meaning.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "20"
+      },
+      "difficulty": "medium",
+      "tags": ["tokenization"]
+    },
+    {
+      "id": "t00-q026",
+      "stem": "You paste an entire large design document into a single prompt and the model cannot handle the request at all. Which token-related concept explains this failure?",
+      "options": [
+        "Cost — each additional token increases the per-request price",
+        "The context window — models can only process a limited number of tokens at once",
+        "Vocabulary gaps — long documents contain words the tokenizer has never seen",
+        "Sampling instability — probability distributions degrade on very long prompts"
+      ],
+      "answer": 1,
+      "explanation": "Models can only process a limited number of tokens at once — the context window. If the input is too long, the model cannot handle it. Cost affects your bill, not whether the request is possible.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "25"
+      },
+      "difficulty": "medium",
+      "tags": ["context-window", "tokens"]
+    },
+    {
+      "id": "t00-q027",
+      "stem": "You rewrite a verbose prompt so it uses half as many tokens while conveying the same content. Based on the recitation, what should you expect?",
+      "options": [
+        "Lower cost and faster responses, since both scale with the number of tokens processed",
+        "Lower cost but noticeably slower responses, since short prompts are harder to parse",
+        "Identical cost, because API billing is per request, but somewhat faster responses",
+        "Reduced output quality, because models are optimized for long, detailed prompts"
+      ],
+      "answer": 0,
+      "explanation": "Tokens drive both cost (billing is based on tokens processed) and latency (more tokens mean more computation and slower responses), so halving the token count reduces both.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "22-24"
+      },
+      "difficulty": "medium",
+      "tags": ["tokens", "cost", "latency"]
+    },
+    {
+      "id": "t00-q028",
+      "stem": "For 'The cat sat on the ___' the model assigns mat=0.45, chair=0.25, moon=0.01. If we ALWAYS pick the highest-probability token instead of sampling, what happens?",
+      "options": [
+        "Responses become more diverse, because the top token changes on every run",
+        "The probabilities are redistributed so all remaining tokens become equally likely",
+        "Generation becomes deterministic — the same prompt always yields the same continuation",
+        "Generation speeds up, because the model skips computing the probability distribution"
+      ],
+      "answer": 2,
+      "explanation": "Always taking the argmax removes randomness: the same prompt produces the same output every time, at the cost of variety. The model still computes the full probability distribution — greedy selection only changes how a token is chosen from it.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "27-31"
+      },
+      "difficulty": "medium",
+      "tags": ["sampling", "greedy-decoding"]
+    },
+    {
+      "id": "t00-q029",
+      "stem": "Per the recitation, LOWERING the sampling temperature makes the model…",
+      "options": [
+        "more creative and more likely to pick surprising, low-probability tokens",
+        "respond faster, because fewer output tokens are generated per request",
+        "ignore the system message and rely only on the latest user message",
+        "more deterministic, focusing its choices on the most probable tokens"
+      ],
+      "answer": 3,
+      "explanation": "Temperature controls how 'bold' sampling is: lowering it makes responses more deterministic and concentrated on the most probable tokens, while raising it produces more unexpected responses. It does not affect speed or behavior instructions.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "33-35"
+      },
+      "difficulty": "easy",
+      "tags": ["temperature", "sampling"]
+    },
+    {
+      "id": "t00-q030",
+      "stem": "You want the model to consistently behave like a strict professor across a conversation. What does the recitation recommend?",
+      "options": [
+        "Use system instructions, prompt wording, context, and examples — temperature only controls randomness",
+        "Raise the temperature, since a bolder sampling policy produces a stricter tone",
+        "Lower the temperature to 0, which forces the model to adopt any requested persona",
+        "Behavior cannot be changed at inference time; only fine-tuning the weights works"
+      ],
+      "answer": 0,
+      "explanation": "Temperature controls randomness, not behavior. Behavior is shaped by system instructions, prompt wording, context, and examples — e.g., a system message like 'You are a strict professor.'",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "36-39"
+      },
+      "difficulty": "medium",
+      "tags": ["behavior", "system-prompt", "temperature"]
+    },
+    {
+      "id": "t00-q031",
+      "stem": "In a chat-API conversation, where should the instruction 'You are a helpful code reviewer; always answer in JSON' go so that it sets the rules for the whole conversation?",
+      "options": [
+        "In the assistant role, so the model restates the rule in each reply",
+        "In the system role, which sets behavior, context, and rules for the assistant",
+        "Appended to every user message, since the most recent tokens dominate",
+        "In a metadata field outside the conversation, next to the temperature setting"
+      ],
+      "answer": 1,
+      "explanation": "Of the three role types, the system role sets behavior, context, and rules for the assistant; the user role carries the task or question, and the assistant role is the model's generated response.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "42-46"
+      },
+      "difficulty": "medium",
+      "tags": ["roles", "system-prompt"]
+    },
+    {
+      "id": "t00-q032",
+      "stem": "The recitation maps the three chat roles onto conceptual layers. Which mapping is correct?",
+      "options": [
+        "System = generation layer, user = configuration layer, assistant = request layer",
+        "System = request layer, user = configuration layer, assistant = generation layer",
+        "System = configuration layer, user = request layer, assistant = generation layer",
+        "System = configuration layer, user = generation layer, assistant = request layer"
+      ],
+      "answer": 2,
+      "explanation": "System messages configure the assistant (configuration layer), user messages carry the request (request layer), and assistant messages are the generated output (generation layer).",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "47-48"
+      },
+      "difficulty": "hard",
+      "tags": ["roles", "conversation-structure"]
+    },
+    {
+      "id": "t00-q033",
+      "stem": "A teammate sends a system/user/assistant-formatted conversation to a base (non-chat) model and gets confusing output. Per the recitation's note, the most likely reason is that…",
+      "options": [
+        "base models require temperature 0 before they can parse role tags",
+        "base models accept only assistant-role messages as their input",
+        "role tags must be converted to uppercase before base models recognize them",
+        "role-based formatting is specific to chat-optimized models; base models expect a single plain prompt"
+      ],
+      "answer": 3,
+      "explanation": "The recitation notes the system/user/assistant format is specific to chat-optimized models — base models or simple instruction models often operate with a single prompt instead of role-based messages.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "45"
+      },
+      "difficulty": "hard",
+      "tags": ["base-models", "roles"]
+    },
+    {
+      "id": "t00-q034",
+      "stem": "According to the recitation, what actually happens when your application 'calls an LLM' like GPT-4?",
+      "options": [
+        "The model is downloaded once and then runs inference locally in your process",
+        "The provider streams the model weights so your client performs the computation",
+        "Your prompt is queued for a human operator who curates the model's response",
+        "The client sends an HTTP request with JSON to a remote server that runs the model and returns a JSON response"
+      ],
+      "answer": 3,
+      "explanation": "We do not run GPT-4 locally: the client sends an HTTP request (JSON) to a remote server, the server runs the model, and it sends back an HTTP response (JSON). The weights never leave the provider.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "50-52"
+      },
+      "difficulty": "easy",
+      "tags": ["api", "inference"]
+    },
+    {
+      "id": "t00-q035",
+      "stem": "Per the recitation, what distinguishes OPEN models such as LLaMA, Mistral, and Gemma from closed models?",
+      "options": [
+        "Their weights and architecture are publicly released, so they can be downloaded, inspected, and modified",
+        "They are always free to use for any commercial purpose without any restrictions",
+        "They can only be accessed through a paid web interface hosted by the vendor",
+        "They are always more powerful than closed models on standard benchmarks"
+      ],
+      "answer": 0,
+      "explanation": "Open models are defined by publicly released weights and architecture — they can be run locally, inspected, and modified. Being open does not mean always free or more powerful; closed models are often the most capable.",
+      "source": {
+        "file": "Recitation 1 - Intro to GenAI  LLM Basics.pdf",
+        "title": "Recitation 1 — Intro to GenAI & LLM Basics",
+        "kind": "recitation",
+        "pages": "54-56"
+      },
+      "difficulty": "easy",
+      "tags": ["open-models", "closed-models"]
+    },
+    {
+      "id": "t00-q036",
+      "stem": "As a rule of thumb given in class, one token corresponds to approximately…",
+      "options": [
+        "one English character",
+        "four English characters",
+        "one full English sentence",
+        "ten English words"
+      ],
+      "answer": 1,
+      "explanation": "The quiz teaches that a token corresponds to approximately 4 English characters. A token is a unit of text — it may include punctuation — and is not the same thing as an embedding vector or a whole sentence.",
+      "source": {
+        "file": "in-class-quiz-1-LLM-Basics.pdf",
+        "title": "In-class Quiz 1 — LLM Basics",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "medium",
+      "tags": ["tokens"]
+    },
+    {
+      "id": "t00-q037",
+      "stem": "Model A advertises a context window twice as large as Model B's. Which conclusion is usually valid?",
+      "options": [
+        "Model A will provide more precise answers than Model B on the same input",
+        "Model B can accept more input tokens per request than Model A",
+        "You can provide Model A with more input in a single request than Model B",
+        "Model A will always be cheaper to run per request than Model B"
+      ],
+      "answer": 2,
+      "explanation": "A bigger context window means the model can accept more input tokens at once. It does not imply more precise answers — answer quality depends on the model itself, and a larger window generally costs more compute, not less.",
+      "source": {
+        "file": "in-class-quiz-1-LLM-Basics.pdf",
+        "title": "In-class Quiz 1 — LLM Basics",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "medium",
+      "tags": ["context-window"]
+    },
+    {
+      "id": "t00-q038",
+      "stem": "At one decoding step, logit A is highest and logit B is second highest. You change the temperature from 1.0 to 1.5. What happens to the sampling probabilities?",
+      "options": [
+        "They stay exactly the same, because temperature only affects generation speed",
+        "A becomes even more likely to be picked relative to B than before",
+        "B's probability becomes exactly 1.5 times larger than it was before",
+        "B now has more chance than before of being picked over A"
+      ],
+      "answer": 3,
+      "explanation": "In softmax with temperature, a higher T shrinks the differences between logits, flattening the distribution toward uniform — so the runner-up B gains probability relative to A. The change is not a simple 1.5x multiplication.",
+      "source": {
+        "file": "in-class-quiz-1-LLM-Basics.pdf",
+        "title": "In-class Quiz 1 — LLM Basics",
+        "kind": "quiz",
+        "pages": "6-9"
+      },
+      "difficulty": "hard",
+      "tags": ["temperature", "softmax"]
+    },
+    {
+      "id": "t00-q039",
+      "stem": "You set an LLM's temperature to 0 and re-send the identical prompt several times, expecting byte-identical outputs. According to the class discussion, what is the accurate expectation?",
+      "options": [
+        "The model becomes 'more' deterministic, but identical outputs are still not guaranteed",
+        "The model becomes fully deterministic — the same prompt always yields the same result",
+        "The model stops generating entirely, since sampling requires a positive temperature",
+        "The API rejects the request, because temperature 0 is mathematically undefined"
+      ],
+      "answer": 0,
+      "explanation": "Temperature 0 makes generation much more deterministic by concentrating on the top token, but in practice the LLM can still be non-deterministic, so identical outputs across runs are not guaranteed.",
+      "source": {
+        "file": "in-class-quiz-1-LLM-Basics.pdf",
+        "title": "In-class Quiz 1 — LLM Basics",
+        "kind": "quiz",
+        "pages": "10-11"
+      },
+      "difficulty": "hard",
+      "tags": ["temperature", "determinism"]
+    },
+    {
+      "id": "t00-q040",
+      "stem": "A paper discussed in class ('Optimizing Large Language Model Hyperparameters for Code Generation') examined four hyperparameters. What did it conclude about generating correct code?",
+      "options": [
+        "None of the four hyperparameters had a significant impact on code correctness",
+        "The temperature parameter had the most significant impact on code correctness",
+        "The Top-P parameter had the most significant impact on code correctness",
+        "Temperature and Top-P influenced code correctness equally strongly"
+      ],
+      "answer": 1,
+      "explanation": "The paper concluded that temperature has the most significant impact on whether correct code is generated — more than Top-P or the other hyperparameters examined.",
+      "source": {
+        "file": "in-class-quiz-1-LLM-Basics.pdf",
+        "title": "In-class Quiz 1 — LLM Basics",
+        "kind": "quiz",
+        "pages": "12-13"
+      },
+      "difficulty": "hard",
+      "tags": ["hyperparameters", "code-generation"]
+    }
+  ]
+}

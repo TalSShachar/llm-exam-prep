@@ -1,0 +1,786 @@
+{
+  "topic": "t12",
+  "title": "Verification",
+  "questions": [
+    {
+      "id": "t12-q001",
+      "stem": "What is the key insight of the 'verification continuum' presented in class?",
+      "options": [
+        "Verification is binary: a response is either fully verified or it is not",
+        "Verification methods provide increasing evidence of correctness, and higher-confidence methods usually cost more",
+        "Only mathematical proof counts as verification; everything else is just testing",
+        "All verification methods yield similar confidence, so you should always pick the cheapest one"
+      ],
+      "answer": 1,
+      "explanation": "Unless it is a mathematical proof, verification is not binary: methods from LLM-as-a-Judge through self-consistency, MAD, validators, and formal verification give increasing evidence of correctness, and methods that give greater confidence typically cost more in time, effort, or money.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "5-9"
+      },
+      "difficulty": "easy",
+      "tags": ["continuum", "confidence"]
+    },
+    {
+      "id": "t12-q002",
+      "stem": "In the four levels of verification, running tests, validators, and compilation on an LLM's output belongs to which level?",
+      "options": [
+        "Input verification",
+        "Output verification",
+        "Execution verification",
+        "Formal verification"
+      ],
+      "answer": 2,
+      "explanation": "Execution verification answers 'Does it actually work?' using tests, validators, and compilation. Output verification only asks whether the answer looks reasonable (LLM judge, majority voting, MAD), which is a weaker check.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "9"
+      },
+      "difficulty": "easy",
+      "tags": ["verification-levels", "testing"]
+    },
+    {
+      "id": "t12-q003",
+      "stem": "Your team refines prompts with prompt engineering, adds RAG context, and screens requests with input guardrails before they reach the LLM. In the four-level verification model, these measures address which question?",
+      "options": [
+        "Did we ask the right question?",
+        "Does the answer look reasonable?",
+        "Does it actually work?",
+        "Can we prove correctness?"
+      ],
+      "answer": 0,
+      "explanation": "Prompt engineering, RAG, and input guardrails are the lecture's examples of input verification, whose question is 'Did we ask the right question?'. The other questions correspond to output, execution, and formal verification.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "9"
+      },
+      "difficulty": "medium",
+      "tags": ["verification-levels", "input-verification"]
+    },
+    {
+      "id": "t12-q004",
+      "stem": "In the LLM-as-a-Judge technique, verification is performed by:",
+      "options": [
+        "Running the response through a rule-based validator that checks for required keywords",
+        "Executing the response against a suite of unit tests",
+        "Asking the end user to rate the response before it is accepted",
+        "Giving the prompt and response to another LLM that decides whether the response is correct"
+      ],
+      "answer": 3,
+      "explanation": "In LLM-as-a-Judge, the prompt and its response (or several competing responses) are handed to a judging LLM that decides correctness. Validators, tests, and user ratings are different verification techniques.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "11"
+      },
+      "difficulty": "easy",
+      "tags": ["llm-judge"]
+    },
+    {
+      "id": "t12-q005",
+      "stem": "How does self-consistency ENHANCE plain majority voting?",
+      "options": [
+        "It asks a separate judge LLM to score each response before votes are counted",
+        "It adds Chain-of-Thought prompting so an answer reached through different reasoning paths can be trusted more",
+        "It weights each vote by the model's self-reported confidence in its answer",
+        "It lowers the temperature to zero so every sample returns the same answer"
+      ],
+      "answer": 1,
+      "explanation": "Self-consistency uses CoT prompting with examples so responses expose their reasoning, then accepts the most frequent answer, assuming a result inferred by different reasoning paths is more likely correct. It involves no judge, confidence weighting, or deterministic sampling.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "12"
+      },
+      "difficulty": "medium",
+      "tags": ["self-consistency", "majority-voting"]
+    },
+    {
+      "id": "t12-q006",
+      "stem": "The paper 'Correlated Errors in Large Language Models' weakens the case for majority voting by showing that:",
+      "options": [
+        "When two models both err, they agree on the same wrong answer about 60% of the time on one leaderboard dataset",
+        "Majority voting only helps when more than ten models participate in the vote",
+        "Models almost never agree with each other, so no majority can form in practice",
+        "Larger models always outvote smaller ones, biasing results toward a single vendor"
+      ],
+      "answer": 0,
+      "explanation": "The paper found substantial correlation in model errors — on one leaderboard dataset models agree 60% of the time when both err. Agreement can therefore indicate a shared mistake rather than a correct answer, undercutting the core assumption of majority voting.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "13"
+      },
+      "difficulty": "hard",
+      "tags": ["majority-voting", "correlated-errors"]
+    },
+    {
+      "id": "t12-q007",
+      "stem": "Self-critique (also called self-reflection or self-verification) follows which three-step loop?",
+      "options": [
+        "Plan the solution, execute it, ask a human to approve the result",
+        "Generate multiple results, vote among them, return the winner",
+        "Generate a result, find flaws in the result, repair the answer",
+        "Retrieve references, generate a result, cite the references"
+      ],
+      "answer": 2,
+      "explanation": "Self-critique generates a result, finds flaws in it, and repairs the answer — the pattern used, for example, when repairing generated code that fails unit tests. Voting and retrieval belong to other techniques.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "14"
+      },
+      "difficulty": "easy",
+      "tags": ["self-critique"]
+    },
+    {
+      "id": "t12-q008",
+      "stem": "A developer loops an LLM: generate an answer, then 'review your previous answer and produce feedback', then re-answer using that feedback — with no external signals such as test results. Research on self-correction suggests this will:",
+      "options": [
+        "Reliably converge to the correct answer after a few iterations",
+        "Improve accuracy, but only if the temperature is raised each round",
+        "Match the gains of majority voting at a fraction of the cost",
+        "Often fail to help, and in many cases performance even deteriorates"
+      ],
+      "answer": 3,
+      "explanation": "'Large Language Models Cannot Self-Correct Reasoning Yet' found that in exactly this setting — no additional external feedback — performance after self-correction often deteriorates. Self-critique works far better when grounded in external signals such as failing tests.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "15"
+      },
+      "difficulty": "hard",
+      "tags": ["self-critique", "self-correction"]
+    },
+    {
+      "id": "t12-q009",
+      "stem": "In the Multi-Agent Debate (MAD) example of analyzing a potential phishing email, which component defines the RULES the debate must follow?",
+      "options": [
+        "The affirmative-role agent, which opens the debate",
+        "The judge, which evaluates the agents' arguments",
+        "An interaction protocol defined for the debate",
+        "The negative-role agent, which challenges claims"
+      ],
+      "answer": 2,
+      "explanation": "In MAD, one agent takes the 'affirmative' role and one the 'negative', a judge manages the process and evaluates the arguments, and a separate interaction protocol governs the rules of the debate.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "16"
+      },
+      "difficulty": "medium",
+      "tags": ["mad", "debate"]
+    },
+    {
+      "id": "t12-q010",
+      "stem": "You use an LLM judge to pick the better of two candidate answers. Swapping the order in which the candidates are presented frequently flips the verdict, even though their content is unchanged. This is an instance of:",
+      "options": [
+        "Verbosity bias",
+        "Positional bias",
+        "Self-enhancement bias",
+        "Sampling randomness due to a high temperature setting"
+      ],
+      "answer": 1,
+      "explanation": "Position bias — the placement of arguments influencing the judgment — is a documented LLM-judge weakness that varies across judges and tasks. Verbosity bias favors longer answers and self-enhancement bias favors the judge's own outputs; a systematic flip on reordering is not random noise.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "17"
+      },
+      "difficulty": "hard",
+      "tags": ["llm-judge", "bias"]
+    },
+    {
+      "id": "t12-q011",
+      "stem": "Which statement BEST captures the role of RAG with respect to verification?",
+      "options": [
+        "It mainly improves generation by supplying reference documents, and can also verify by checking the answer is supported by them",
+        "It replaces verification entirely, since retrieved documents are always authoritative",
+        "It only verifies answers after generation and has no effect on answer quality",
+        "It is purely an input guardrail that filters out ambiguous user prompts"
+      ],
+      "answer": 0,
+      "explanation": "RAG primarily works before/during generation by providing reference documents that improve accuracy, but it can also serve verification by checking that the produced solution is supported by those reference documents.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "19"
+      },
+      "difficulty": "medium",
+      "tags": ["rag", "reference-checking"]
+    },
+    {
+      "id": "t12-q012",
+      "stem": "An LLM in your pipeline generates SQL queries for analysts. Which is the CHEAPEST property-validator style check to increase confidence before the queries run?",
+      "options": [
+        "Formally prove each query equivalent to a specification using an SMT solver",
+        "Run a SQL validator that checks the query has proper syntax",
+        "Ask the same LLM whether its own query looks correct",
+        "Have a human DBA manually review every generated query"
+      ],
+      "answer": 1,
+      "explanation": "Property validators cheaply check properties of the result — the lecture's first example is a SQL query validator that checks proper syntax. Formal proof and human review cost far more, and unaided self-review by the same model is unreliable.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "20"
+      },
+      "difficulty": "medium",
+      "tags": ["validators", "sql"]
+    },
+    {
+      "id": "t12-q013",
+      "stem": "An agentic delivery system repeatedly fails to find the right drop-off location after several tries, and a human operator is then called in to complete the task. In the human-in-the-middle taxonomy taught in class, this is an example of:",
+      "options": [
+        "Human validation of the agent's final result",
+        "Providing a human touch at a fixed point in the flow",
+        "Human labeling of training data for the next model version",
+        "The human taking control when the LLM agent has difficulty"
+      ],
+      "answer": 3,
+      "explanation": "The lecture lists three human-in-the-middle patterns: human validation of a produced result, providing a human touch at a specific point (e.g., an angry customer), and taking control when the agent keeps failing — the delivery-location example belongs to the third case.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "24-25"
+      },
+      "difficulty": "medium",
+      "tags": ["human-in-the-middle"]
+    },
+    {
+      "id": "t12-q014",
+      "stem": "Blocking prompt-injection attempts before a request ever reaches the model is an example of:",
+      "options": [
+        "An input guardrail",
+        "An output guardrail",
+        "A property validator",
+        "Constrained decoding"
+      ],
+      "answer": 0,
+      "explanation": "Input guardrails protect the LLM from inappropriate or manipulative prompts — screening harmful inputs, resolving ambiguity, and blocking prompt injections. Output guardrails act on the model's responses instead.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "28-29"
+      },
+      "difficulty": "easy",
+      "tags": ["guardrails", "prompt-injection"]
+    },
+    {
+      "id": "t12-q015",
+      "stem": "A team adds a strict JSON-schema guardrail to its code-generation service and concludes that the emitted code is now bug-free. What is wrong with this conclusion?",
+      "options": [
+        "JSON-schema guardrails only work with closed-source models",
+        "Guardrails enforce format and policy well, but generally cannot verify algorithmic correctness or bug-free code",
+        "Guardrails slow generation so much that they cannot run in production",
+        "Schema guardrails can validate XML output but not JSON output"
+      ],
+      "answer": 1,
+      "explanation": "Guardrails excel at enforcing well-formedness — JSON/XML schemas, regex, CFG/EBNF, constrained decoding — but they cannot verify algorithm correctness, factual correctness, architectural soundness, bug-free code, or requirement satisfaction.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "medium",
+      "tags": ["guardrails", "limitations"]
+    },
+    {
+      "id": "t12-q016",
+      "stem": "In a RAIL specification (used by Guardrails AI), which component is used to implement custom validators and custom corrective actions?",
+      "options": [
+        "Output",
+        "Prompt",
+        "Schema",
+        "Script"
+      ],
+      "answer": 3,
+      "explanation": "RAIL is an XML dialect with three components: Output (structure, field types, quality criteria, and corrective actions for the expected response), Prompt (the template), and the optional Script, which holds custom code such as custom validators and corrective actions.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "33"
+      },
+      "difficulty": "medium",
+      "tags": ["guardrails-ai", "rail"]
+    },
+    {
+      "id": "t12-q017",
+      "stem": "In Guardrails AI, what does Guard().use(ValidJson, on_fail=\"exception\") set up?",
+      "options": [
+        "A guard that checks the value parses as valid JSON and raises an exception when validation fails",
+        "A guard that automatically reformats any invalid JSON into valid JSON",
+        "A guard that limits the LLM response to a single line of JSON",
+        "A guard that installs the validator from the guardrails hub at runtime"
+      ],
+      "answer": 0,
+      "explanation": "ValidJson is a pre-built validator that checks the value is parseable as JSON — for example, a trailing comma triggers a validation failure — and on_fail=\"exception\" selects throwing an exception as the failure action. Installation is a separate 'guardrails hub install' command.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "38"
+      },
+      "difficulty": "easy",
+      "tags": ["guardrails-ai", "validators"]
+    },
+    {
+      "id": "t12-q018",
+      "stem": "What is constrained decoding?",
+      "options": [
+        "Fine-tuning the model so that it only sees valid outputs during training",
+        "Post-processing a finished response to delete any tokens that violate the schema",
+        "Restricting next-token sampling so only tokens valid under the supplied constraint (e.g., a schema) can be generated",
+        "Lowering the temperature so the model deterministically picks the most likely token"
+      ],
+      "answer": 2,
+      "explanation": "By default a model may sample any token, which lets it break formats like JSON. Constrained decoding restricts sampling at each step to tokens that are valid under the supplied schema — it is not post-hoc filtering, fine-tuning, or temperature control.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "42-43"
+      },
+      "difficulty": "easy",
+      "tags": ["constrained-decoding"]
+    },
+    {
+      "id": "t12-q019",
+      "stem": "How can a finite-state machine (FSM) be used in constrained decoding to guarantee valid JSON output?",
+      "options": [
+        "Tokens that would violate the FSM are assigned probability 0, so the LLM never selects them",
+        "The FSM rewrites the finished response into the nearest valid JSON string",
+        "The FSM re-ranks whole candidate responses after generation completes",
+        "The FSM replaces the LLM and generates the JSON structure directly"
+      ],
+      "answer": 0,
+      "explanation": "Constraints can be specified via finite-state machines, context-free/context-sensitive grammars, or global/logical constraints; potential tokens that violate the FSM (or CFG) are given probability 0 during decoding and therefore cannot be chosen.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "45"
+      },
+      "difficulty": "medium",
+      "tags": ["constrained-decoding", "fsm"]
+    },
+    {
+      "id": "t12-q020",
+      "stem": "In grammar-constrained decoding, what happens at EACH token-generation step?",
+      "options": [
+        "The full grammar derivation is completed first, and then tokens are filled in",
+        "A single valid token is computed deterministically from the parser state",
+        "Every candidate token is checked with the parser; valid ones form a whitelist, and the next token is sampled from that whitelist",
+        "Tokens are sampled freely, and the sentence is re-parsed only after generation completes"
+      ],
+      "answer": 2,
+      "explanation": "The algorithm gets the probability distribution over next tokens, checks for each candidate whether the partial sentence plus that token is still valid per the parser, whitelists the valid tokens, and samples from the whitelist — sampling stays probabilistic among the valid tokens.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "47"
+      },
+      "difficulty": "hard",
+      "tags": ["constrained-decoding", "grammar"]
+    },
+    {
+      "id": "t12-q021",
+      "stem": "You ask an LLM to classify requirements as 'F' (functional) or 'NF' (non-functional), but it keeps returning explanations and variants like 'Functional requirement'. Which technique FORCES the model to output only one of the two labels?",
+      "options": [
+        "Adding a length validator that rejects long answers after generation",
+        "Constrained decoding with the fixed label set",
+        "Raising the frequency penalty so extra words become less likely",
+        "Using majority voting over several sampled classifications"
+      ],
+      "answer": 1,
+      "explanation": "Classification with a fixed label set is one of the lecture's constrained-decoding scenarios: CD guarantees only the defined labels can be emitted. A validator merely rejects bad output after the fact, and penalties or voting cannot guarantee the format.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "48"
+      },
+      "difficulty": "medium",
+      "tags": ["constrained-decoding", "classification"]
+    },
+    {
+      "id": "t12-q022",
+      "stem": "In formal program verification, a loop invariant is a condition that must hold:",
+      "options": [
+        "Only at the exact moment the loop terminates",
+        "Only immediately before the loop begins executing",
+        "For every input that also satisfies the postcondition",
+        "Before the loop begins, at the start of each iteration, and after the loop terminates"
+      ],
+      "answer": 3,
+      "explanation": "A loop invariant must hold before the loop begins, at the start of each iteration, and after the loop terminates. Preconditions constrain what holds before a function runs, and postconditions what it guarantees afterwards.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "50"
+      },
+      "difficulty": "easy",
+      "tags": ["formal-methods", "loop-invariant"]
+    },
+    {
+      "id": "t12-q023",
+      "stem": "In deductive verification (as used by Dafny in Clover), how is a program proven correct with respect to its specification?",
+      "options": [
+        "The program and its annotations are converted into verification conditions that an SMT solver checks are valid for all inputs",
+        "The program is run on a large randomized test suite until coverage reaches 100%",
+        "An LLM judge compares the program's observed behavior with the specification text",
+        "A model checker exhaustively executes all inputs up to a fixed bound"
+      ],
+      "answer": 0,
+      "explanation": "A deductive verifier converts the program plus its preconditions, postconditions, and loop invariants into logical verification conditions, and an SMT solver checks that they are valid — true for all possible inputs — proving correctness with respect to the specification.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "52"
+      },
+      "difficulty": "medium",
+      "tags": ["deductive-verification", "smt"]
+    },
+    {
+      "id": "t12-q024",
+      "stem": "You ask an LLM to write a function and also to write the formal annotations for it. The deductive verifier passes, yet the function does not do what you wanted. According to the lecture, the MOST likely cause is:",
+      "options": [
+        "The SMT solver timed out and reported success by default",
+        "Dafny is unable to check loop invariants that were generated by LLMs",
+        "The LLM wrote annotations consistent with its own incorrect code, so the proof verified the wrong specification",
+        "The precondition was too strong, so no input could ever exercise the bug"
+      ],
+      "answer": 2,
+      "explanation": "When the same LLM writes both the code and the annotations, it often writes annotations that match the incorrect code — the verifier passes, but the code is wrong with respect to what the user really wanted. This is the failure mode Clover's cross-artifact consistency checks target.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "53-54"
+      },
+      "difficulty": "hard",
+      "tags": ["clover", "annotations"]
+    },
+    {
+      "id": "t12-q025",
+      "stem": "Clover's consistency checking is built around which three artifacts?",
+      "options": [
+        "Source code, unit tests, and code-review comments",
+        "A natural-language docstring, the code, and formal annotations (the pre/postconditions and invariants)",
+        "A prompt, a retrieved reference document, and the model's answer",
+        "Requirements documents, architecture diagrams, and the implementation"
+      ],
+      "answer": 1,
+      "explanation": "Clover requires mutual consistency among the docstring (natural-language intent), the code, and the annotations (formal spec), defining six consistency checks — two for each pair of artifacts.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "55-56"
+      },
+      "difficulty": "medium",
+      "tags": ["clover", "consistency"]
+    },
+    {
+      "id": "t12-q026",
+      "stem": "Why does Clover include the Annotations-to-Code check, in which an LLM regenerates code from the annotations and checks equivalence with the original code?",
+      "options": [
+        "To ensure the annotations are strong enough — trivial annotations would not contain enough information to reconstruct equivalent code",
+        "To speed up Dafny by giving it two candidate programs to verify in parallel",
+        "To translate the program into a second language for portability testing",
+        "To confirm the docstring matches the code without needing a verifier"
+      ],
+      "answer": 0,
+      "explanation": "Code-to-Annotations is standard formal verification, but it would accept trivially weak annotations. The reverse check tests annotation completeness: if an LLM can regenerate functionally equivalent code from the annotations alone, they capture the full functionality.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "58"
+      },
+      "difficulty": "hard",
+      "tags": ["clover", "annotations"]
+    },
+    {
+      "id": "t12-q027",
+      "stem": "The 'LLM bootstrap problem' described in the lecture refers to:",
+      "options": [
+        "Starting an agent without any system prompt or tools configured",
+        "Getting an LLM to generate artifacts in a data-poor language (e.g., Verus) that has too few public examples to learn from",
+        "The first generated token constraining all of the subsequent tokens",
+        "Loading a formal verifier into memory before the LLM finishes generating code"
+      ],
+      "answer": 1,
+      "explanation": "The bootstrap problem is educating an LLM to perform well in a data-poor language: Verus, a verification language for Rust, has fewer than 10 public repos, while Dafny has 10 years of accumulated data. AlphaVerus addresses this by translating from the resource-rich domain.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "61"
+      },
+      "difficulty": "medium",
+      "tags": ["bootstrap-problem", "alphaverus"]
+    },
+    {
+      "id": "t12-q028",
+      "stem": "In AlphaVerus, the Treefinement phase:",
+      "options": [
+        "Translates Dafny programs into Verus programs using a few-shot prompt",
+        "Uses rule-based, comparison, and exploit models to detect flawed specifications",
+        "Runs a tree search over candidate fixes to partially verified programs, guided by the verifier's error messages",
+        "Adds newly verified programs and error trajectories to the data pool for the next iteration"
+      ],
+      "answer": 2,
+      "explanation": "Exploration translates Dafny to Verus, Treefinement tree-searches over fixes to partially verified programs using verifier errors and a scoring function that balances exploitation and exploration, and Critique detects flawed specs; the data-pool update is the separate self-improvement loop.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "63-65"
+      },
+      "difficulty": "hard",
+      "tags": ["alphaverus", "treefinement"]
+    },
+    {
+      "id": "t12-q029",
+      "stem": "A small startup needs its LLM to emit machine-readable output for downstream code, on a minimal budget. According to the verification-ROI table, which technique offers a HUGE benefit at the lowest cost?",
+      "options": [
+        "Integration tests",
+        "Formal verification",
+        "Self-consistency",
+        "JSON schema validation"
+      ],
+      "answer": 3,
+      "explanation": "The ROI table rates JSON schema as tiny cost with huge benefit (constrained decoding is low cost/huge benefit). Self-consistency is medium/medium, integration tests are high cost, and formal verification is very high cost with application-dependent benefit.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "75"
+      },
+      "difficulty": "medium",
+      "tags": ["roi", "json-schema"]
+    },
+    {
+      "id": "t12-q030",
+      "stem": "According to the lecture on the economics of verification, verification is valuable when:",
+      "options": [
+        "The verification technique is fully automated",
+        "The expected cost of failure exceeds the cost of obtaining additional evidence",
+        "The application produces structured rather than free-form output",
+        "At least two independent verification methods are available"
+      ],
+      "answer": 1,
+      "explanation": "Verification costs time, effort, and money; it pays off when the expected cost of failure exceeds the cost of obtaining additional evidence. The likelihood of a mistake, often measurable empirically, also enters the decision.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "72"
+      },
+      "difficulty": "easy",
+      "tags": ["roi", "economics"]
+    },
+    {
+      "id": "t12-q031",
+      "stem": "Based on classical software-engineering experience cited in class, in which situation does FORMAL verification most clearly pay for itself?",
+      "options": [
+        "An avionics component where failures are extremely expensive and the specification is stable",
+        "A marketing-copy generator that is refreshed for each new campaign",
+        "A prototype chatbot whose requirements change every week",
+        "A logging utility where mistakes are cheap and easily fixed"
+      ],
+      "answer": 0,
+      "explanation": "Formal verification pays when failures are extremely expensive, specifications are stable, and the cost can be amortized — classic examples are cryptography, distributed protocols, hardware, avionics, and medical equipment. Cheap-mistake or fast-changing applications fail these criteria.",
+      "source": {
+        "file": "2026 Topic 12 - Verification.pdf",
+        "title": "Topic 12 — Verification",
+        "kind": "lecture",
+        "pages": "73"
+      },
+      "difficulty": "medium",
+      "tags": ["formal-verification", "roi"]
+    },
+    {
+      "id": "t12-q032",
+      "stem": "Your LLM-generated domain code passes its unit tests, yet errors keep surfacing later in production. Which technique would BEST help catch these escaped defects?",
+      "options": [
+        "Raise the LLM's temperature so it produces more varied code",
+        "Regenerate the code until it passes the same test suite on the first try",
+        "Have another LLM generate additional unit tests for the code and run them against it",
+        "Shorten the prompt so the model focuses only on the core logic"
+      ],
+      "answer": 2,
+      "explanation": "If code passes its tests but fails later, the test suite is too weak — having a second LLM generate more unit tests (or adding static analysis) strengthens execution verification. Temperature, prompt length, and re-passing the same suite do nothing about coverage.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "25-27"
+      },
+      "difficulty": "medium",
+      "tags": ["testing", "code-generation"]
+    },
+    {
+      "id": "t12-q033",
+      "stem": "Self-consistency is based upon the idea that LLMs should mimic people by:",
+      "options": [
+        "Placing greater trust in an answer that many arrive at, but for different reasons",
+        "Thinking silently before answering a question",
+        "Studying a subject thoroughly before answering questions about it",
+        "Illustrating complicated answers with concrete examples"
+      ],
+      "answer": 0,
+      "explanation": "Self-consistency samples multiple reasoning paths and accepts the most frequent answer, mirroring how people trust a conclusion more when many reach it independently for different reasons. Merely thinking first is plain CoT, not the consistency idea.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "30-32"
+      },
+      "difficulty": "easy",
+      "tags": ["self-consistency"]
+    },
+    {
+      "id": "t12-q034",
+      "stem": "You are building a solution that must generate both code and unit tests for that code. Following the multi-agent design guidance reviewed in the course, it is best to:",
+      "options": [
+        "Have one agent do both, since it best understands its own code",
+        "Generate the tests first and then never revise them afterwards",
+        "Let the code-writing agent grade its own tests to save tokens",
+        "Separate code generation and test generation into distinct agents so each focuses on one task"
+      ],
+      "answer": 3,
+      "explanation": "The course's collaborative-agents guidance is to separate code generation and test generation into their own agents so each can focus on a single task — an agent testing its own code inherits the same blind spots that produced the bugs.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "35-38"
+      },
+      "difficulty": "medium",
+      "tags": ["multi-agent", "testing"]
+    },
+    {
+      "id": "t12-q035",
+      "stem": "An LLM scores very high on a code-generation benchmark even though its solutions fail every unit test. Which scoring metric could produce this outcome?",
+      "options": [
+        "pass@k, which rewards any syntactically valid sample",
+        "CodeBLEU, which measures similarity to a reference solution rather than test execution",
+        "Test-case average, which averages the fraction of passing tests per problem",
+        "pass@1, computed over a single greedy sample per problem"
+      ],
+      "answer": 1,
+      "explanation": "CodeBLEU scores token overlap, AST similarity, and dataflow similarity against a canonical solution, so code can resemble the reference while failing every test. pass@k, pass@1, and test-case average all depend on tests actually passing and would be near zero.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "61-64"
+      },
+      "difficulty": "hard",
+      "tags": ["codebleu", "metrics"]
+    },
+    {
+      "id": "t12-q036",
+      "stem": "Your customer-complaint assistant performs well on an industry-standard benchmark but poorly once deployed to production. The MOST likely explanation for this discrepancy is:",
+      "options": [
+        "The model's context window is too small for customer queries",
+        "The LLM's sampling parameters are badly tuned",
+        "The chosen model is too small for language-heavy tasks",
+        "The benchmark is not representative of the queries the system receives in practice"
+      ],
+      "answer": 3,
+      "explanation": "Public benchmarks are fixed, general datasets built to compare models broadly; if production queries differ from the benchmark distribution, high benchmark scores will not transfer. That is why you build custom evals for your specific use case and run them continuously.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "86-88"
+      },
+      "difficulty": "medium",
+      "tags": ["benchmarks", "evals"]
+    },
+    {
+      "id": "t12-q037",
+      "stem": "Which statement correctly contrasts EVALS with public benchmarks?",
+      "options": [
+        "Evals are fixed public datasets, while benchmarks are custom-built per application",
+        "Benchmarks are run continuously in production, while evals are usually run once",
+        "Evals are custom to your app and run continuously for regression testing, while benchmarks are fixed, public, and compare models broadly",
+        "Benchmarks measure business metrics, while evals measure only token-level accuracy"
+      ],
+      "answer": 2,
+      "explanation": "Per the recitation's comparison table: benchmarks are created by researchers on fixed public datasets to compare models broadly and are often run once, while evals are built by your team for your specific use case and run continuously as regression tests.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "88"
+      },
+      "difficulty": "easy",
+      "tags": ["evals", "benchmarks"]
+    },
+    {
+      "id": "t12-q038",
+      "stem": "Which of the following is listed in the course as a COMMON MISTAKE in LLM evaluation?",
+      "options": [
+        "Building a custom eval set instead of reusing a public benchmark",
+        "Running regression tests every time the prompt or model changes",
+        "Measuring safety and bias in addition to answer accuracy",
+        "Using public benchmarks as validation for your specific product"
+      ],
+      "answer": 3,
+      "explanation": "The listed mistakes are: using benchmarks as product validation, using accuracy when the task is subjective, not testing edge cases, and overfitting to the eval set. The other options describe recommended practices, not mistakes.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "90"
+      },
+      "difficulty": "medium",
+      "tags": ["evals", "mistakes"]
+    },
+    {
+      "id": "t12-q039",
+      "stem": "Which of the following is a course-endorsed way to increase your confidence in an LLM's response?",
+      "options": [
+        "Raise the temperature so the model explores more diverse answers",
+        "Ask the same model to simply re-answer with no new information",
+        "Validate the response using an external tool",
+        "Increase the max-tokens limit so the answer is more complete"
+      ],
+      "answer": 2,
+      "explanation": "Validating with an external tool, majority voting across LLMs, and critique by another LLM all increase confidence in a response. Re-answering without any external feedback is intrinsic self-correction, which research shows can even degrade performance.",
+      "source": {
+        "file": "_Recitation 13  The Grand Finale.pdf",
+        "title": "Recitation 13 — The Grand Finale",
+        "kind": "recitation",
+        "pages": "76-78"
+      },
+      "difficulty": "easy",
+      "tags": ["verification", "confidence"]
+    }
+  ]
+}

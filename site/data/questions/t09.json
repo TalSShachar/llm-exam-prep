@@ -1,0 +1,806 @@
+{
+  "topic": "t09",
+  "title": "Agent Strategies for Hard Problems",
+  "questions": [
+    {
+      "id": "t09-q001",
+      "stem": "In beam search, the algorithm is governed by the beam width W and the branching factor B. What do these two parameters determine?",
+      "options": [
+        "W is the maximum depth of the tree; B is the total number of nodes evaluated overall.",
+        "W is the number of children generated per node; B is the number of nodes kept at each level.",
+        "W is the number of nodes selected for expansion at each level; B is the number of children generated per node.",
+        "W is the total number of candidates in the pool; B is the maximum depth of the search."
+      ],
+      "answer": 2,
+      "explanation": "At every depth beam search evaluates W×B nodes but selects only the top W for further expansion. A common mistake is swapping the two roles: B (tree arity) is children per node, W is the beam kept per level.",
+      "source": {
+        "file": "in-class-quiz-9- Agent-strategies-hard-probs.pdf",
+        "title": "In-class Quiz 9 — Agent Strategies for Hard Problems",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": ["beam-search", "parameters"]
+    },
+    {
+      "id": "t09-q002",
+      "stem": "In the SEIDR framework, how does tournament selection decide which program candidates survive to the next iteration?",
+      "options": [
+        "It keeps the top W candidates ranked by their average score across the test cases.",
+        "It keeps whichever candidates happen to pass one randomly chosen unit test.",
+        "It repeatedly shuffles the tests and keeps candidates that win on individual tests.",
+        "It advances the two strongest candidates to a final head-to-head selection round."
+      ],
+      "answer": 0,
+      "explanation": "Tournament selection ranks candidates by average test score and keeps the top W. Selecting winners on shuffled individual tests describes lexicase selection, which optimizes for diversity instead of average performance.",
+      "source": {
+        "file": "in-class-quiz-9- Agent-strategies-hard-probs.pdf",
+        "title": "In-class Quiz 9 — Agent Strategies for Hard Problems",
+        "kind": "quiz",
+        "pages": "4-5"
+      },
+      "difficulty": "medium",
+      "tags": ["seidr", "tournament-selection"]
+    },
+    {
+      "id": "t09-q003",
+      "stem": "You decompose a code-generation task so separate agents implement separate functions. Each piece passes its own tests, but the assembled program fails with integration errors. What is the MOST likely cause?",
+      "options": [
+        "The sub-problems were too fine-grained, creating excessive inter-procedural calls.",
+        "Each sub-problem was solved under different assumptions (e.g., data structures or interfaces), so the parts fail to coordinate.",
+        "The sub-problems were too coarse-grained, canceling the benefits of decomposition.",
+        "The merging step solved the sub-problems sequentially instead of in parallel."
+      ],
+      "answer": 1,
+      "explanation": "Integration failures in divide-and-conquer typically arise because sub-solutions were generated under incompatible assumptions. Granularity and parallelism affect efficiency, not whether independently correct parts can interoperate.",
+      "source": {
+        "file": "in-class-quiz-9- Agent-strategies-hard-probs.pdf",
+        "title": "In-class Quiz 9 — Agent Strategies for Hard Problems",
+        "kind": "quiz",
+        "pages": "6-7"
+      },
+      "difficulty": "medium",
+      "tags": ["divide-and-conquer", "integration"]
+    },
+    {
+      "id": "t09-q004",
+      "stem": "In the PairCoder framework, which description correctly matches the two agent roles?",
+      "options": [
+        "The Driver writes the code and the Navigator writes unit tests for it.",
+        "The Driver drafts the solution plans and the Navigator implements them.",
+        "The Navigator repairs bugs that the Driver introduces in its initial solution.",
+        "The Navigator handles high-level planning and feedback-driven direction, while the Driver generates, tests, and repairs code."
+      ],
+      "answer": 3,
+      "explanation": "Mirroring pair programming, the Navigator proposes plans, selects the best one, and directs iterations from execution feedback, while the Driver focuses on concrete coding tasks: initial code, testing on public cases, and repair.",
+      "source": {
+        "file": "in-class-quiz-9- Agent-strategies-hard-probs.pdf",
+        "title": "In-class Quiz 9 — Agent Strategies for Hard Problems",
+        "kind": "quiz",
+        "pages": "8-9"
+      },
+      "difficulty": "easy",
+      "tags": ["paircoder", "agent-roles"]
+    },
+    {
+      "id": "t09-q005",
+      "stem": "Each episode of Monte Carlo Tree Search executes four phases. Which ordering is correct?",
+      "options": [
+        "Expansion, Simulation, Selection, Back-propagation.",
+        "Selection, Simulation, Expansion, Back-propagation.",
+        "Selection, Expansion, Simulation, Back-propagation.",
+        "Expansion, Selection, Back-propagation, Simulation."
+      ],
+      "answer": 2,
+      "explanation": "An MCTS episode first selects a path down to a leaf, expands the leaf with a new child, simulates a random playout from that child to a terminal state, and finally back-propagates the resulting reward up to the root.",
+      "source": {
+        "file": "in-class-quiz-9- Agent-strategies-hard-probs.pdf",
+        "title": "In-class Quiz 9 — Agent Strategies for Hard Problems",
+        "kind": "quiz",
+        "pages": "10-12"
+      },
+      "difficulty": "easy",
+      "tags": ["mcts", "phases"]
+    },
+    {
+      "id": "t09-q006",
+      "stem": "Your MCTS-based agent quickly converges on a good-but-suboptimal solution and keeps refining the same branch. Based on the UCT formula, what should you try?",
+      "options": [
+        "Modify the back-propagation formula so rewards decay with tree depth.",
+        "Increase the exploration weight w so under-visited siblings receive a larger selection bonus.",
+        "Select several nodes in every episode instead of just one.",
+        "Decrease the exploration weight w so the search commits to the best branch sooner."
+      ],
+      "answer": 1,
+      "explanation": "Getting stuck on one branch means the search is over-exploiting. Raising the constant w amplifies the UCT exploration term, giving rarely visited nodes a bigger bonus so other parts of the tree get examined.",
+      "source": {
+        "file": "in-class-quiz-9- Agent-strategies-hard-probs.pdf",
+        "title": "In-class Quiz 9 — Agent Strategies for Hard Problems",
+        "kind": "quiz",
+        "pages": "13-15"
+      },
+      "difficulty": "hard",
+      "tags": ["mcts", "uct", "exploration"]
+    },
+    {
+      "id": "t09-q007",
+      "stem": "In the agent architecture reviewed in the lecture, an agent's SHORT-TERM memory is realized through which mechanism?",
+      "options": [
+        "In-context learning within the current prompt window.",
+        "An external vector store queried at every step.",
+        "Fine-tuning the model's weights after each completed task.",
+        "A relational database that caches past tool outputs."
+      ],
+      "answer": 0,
+      "explanation": "Short-term memory corresponds to in-context learning. Long-term memory is the one that typically leverages an external vector store to retain information over extended periods.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "4"
+      },
+      "difficulty": "easy",
+      "tags": ["agents", "memory"]
+    },
+    {
+      "id": "t09-q008",
+      "stem": "How does the Synthesize-Execute-Debug strategy for code generation differ from pass@k?",
+      "options": [
+        "Synthesize-Execute-Debug generates k solutions in parallel, while pass@k debugs a single solution.",
+        "Both approaches generate multiple candidates, but only pass@k also debugs them.",
+        "pass@k iteratively repairs its best candidate until every unit test passes.",
+        "Synthesize-Execute-Debug repeatedly repairs one solution, whereas pass@k generates k independent candidates and checks whether any passes all tests."
+      ],
+      "answer": 3,
+      "explanation": "Synthesize-Execute-Debug keeps debugging a single solution until it works or you give up; pass@k instead samples k candidates, tests all of them, and succeeds if any one passes. Neither pass@k nor its candidates involve iterative repair.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "8"
+      },
+      "difficulty": "easy",
+      "tags": ["synthesize-execute-debug", "pass@k"]
+    },
+    {
+      "id": "t09-q009",
+      "stem": "You run beam search with beam width W=3 and branching factor B=4. At each depth of the tree, how many nodes does the algorithm evaluate, and how many does it keep for further expansion?",
+      "options": [
+        "It evaluates 4 nodes and keeps 3.",
+        "It evaluates 12 nodes and keeps 3.",
+        "It evaluates 12 nodes and keeps 4.",
+        "It evaluates 7 nodes and keeps 3."
+      ],
+      "answer": 1,
+      "explanation": "Beam search evaluates W×B = 3×4 = 12 nodes at every depth, then selects only the top W = 3 (by heuristic score) to expand at the next level.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "11"
+      },
+      "difficulty": "medium",
+      "tags": ["beam-search", "parameters"]
+    },
+    {
+      "id": "t09-q010",
+      "stem": "In SEIDR, each of the W best candidates receives x reflections, and each reflection makes the LLM generate y repaired programs. With W=2, x=3, and y=2, how many NEW repaired programs are produced in one iteration?",
+      "options": [
+        "6 new programs",
+        "7 new programs",
+        "12 new programs",
+        "24 new programs"
+      ],
+      "answer": 2,
+      "explanation": "SEIDR generates W·x·y repaired programs per iteration: 2 candidates × 3 reflections each × 2 repairs per reflection = 12. Only the best W of the whole population then survive to the next iteration.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "13"
+      },
+      "difficulty": "medium",
+      "tags": ["seidr", "beam-search"]
+    },
+    {
+      "id": "t09-q011",
+      "stem": "What advantage does lexicase selection offer over tournament selection when ranking candidate programs in SEIDR?",
+      "options": [
+        "It preserves diversity by keeping candidates that excel on unique individual tests rather than on the average over all tests.",
+        "It is fully deterministic, always producing the same ranking of candidates.",
+        "It reduces evaluation cost by scoring each candidate on only a single test.",
+        "It guarantees that every selected candidate passes the complete test suite."
+      ],
+      "answer": 0,
+      "explanation": "Lexicase selection keeps programs that are best on particular tests (after shuffling), so specialists survive even if their average is mediocre — ensuring diversity. Tournament selection keeps only the best average scorers.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "14"
+      },
+      "difficulty": "hard",
+      "tags": ["lexicase", "ranking", "seidr"]
+    },
+    {
+      "id": "t09-q012",
+      "stem": "During lexicase selection, several candidate programs are tied for the best score on the first test of the shuffled sequence. What happens next?",
+      "options": [
+        "One of the tied programs is chosen uniformly at random.",
+        "All tied programs are discarded and the test order is reshuffled.",
+        "The tie is broken by comparing the programs' average scores over all tests.",
+        "The tie is resolved by comparing the tied programs on the next test, continuing through further tests until one program remains."
+      ],
+      "answer": 3,
+      "explanation": "Lexicase resolves ties by moving to test 2, then test 3, and so on until a single program is left, which is then marked selected. Falling back to the average score would defeat lexicase's diversity-preserving purpose.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "14"
+      },
+      "difficulty": "medium",
+      "tags": ["lexicase", "ranking"]
+    },
+    {
+      "id": "t09-q013",
+      "stem": "Your team prototypes SEIDR-style candidate exploration and finds it costly to operate. What is the main cost driver, and what does the lecture advise?",
+      "options": [
+        "Storage of the candidate pool; the advice is to compress candidates using embeddings.",
+        "The large number of LLM invocations; the advice is to evaluate, per problem, whether the accuracy improvement justifies the cost.",
+        "Unit-test execution time; the advice is to run fewer tests on each candidate.",
+        "The depth of the search tree; the advice is to switch to exhaustive search."
+      ],
+      "answer": 1,
+      "explanation": "SEIDR is relatively expensive because generating reflections and repairs for many candidates requires many LLM calls. The lecture's guidance is to weigh, for the specific problem, whether the improved results warrant this cost.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "17"
+      },
+      "difficulty": "medium",
+      "tags": ["seidr", "cost"]
+    },
+    {
+      "id": "t09-q014",
+      "stem": "In MCTS back-propagation, node m has been visited twice and currently has V(m)=1/2. A third visit reaches a winning terminal state with reward 1. Using V = (Vold·(N−1) + r)/N, what is the updated V(m)?",
+      "options": [
+        "1/2",
+        "3/4",
+        "2/3",
+        "5/6"
+      ],
+      "answer": 2,
+      "explanation": "With N(m)=3 after the new visit: (1/2 × (3−1) + 1)/3 = (1 + 1)/3 = 2/3. V(m) is the running average of rewards over all visits, e.g. wins divided by visits in the win/loss case.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "21-22"
+      },
+      "difficulty": "hard",
+      "tags": ["mcts", "backpropagation"]
+    },
+    {
+      "id": "t09-q015",
+      "stem": "In MCTS, what distinguishes EXPLOITATION from exploration when deciding which node to traverse?",
+      "options": [
+        "Exploitation greedily extends the path with the greatest estimated value, while exploration tries less-visited parts of the tree that might hold better solutions.",
+        "Exploitation adds new children to a leaf node, while exploration performs random playouts.",
+        "Exploitation randomizes the node choice, while exploration always follows the best-value path.",
+        "Exploitation updates node statistics, while exploration propagates rewards to the root."
+      ],
+      "answer": 0,
+      "explanation": "Exploitation is the greedy strategy that deepens the currently most promising path; exploration deliberately visits under-explored regions that may contain a better solution. MCTS alternates between the two via the UCT score.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "23"
+      },
+      "difficulty": "easy",
+      "tags": ["mcts", "exploration"]
+    },
+    {
+      "id": "t09-q016",
+      "stem": "According to the UCT formula, under which conditions does a child node s of parent p receive the LARGEST exploration bonus?",
+      "options": [
+        "When s has a high value V(s) and has been visited many times.",
+        "When both the visit counts N(s) and N(p) are small.",
+        "When s has been visited many times but its siblings have not.",
+        "When s has few visits N(s) while its parent p has accumulated many visits N(p)."
+      ],
+      "answer": 3,
+      "explanation": "The exploration term grows when N(s) is small or N(p) is large — i.e., the node itself is rarely visited while its siblings have been visited often. A high V(s) affects the exploitation term, not the exploration bonus.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "24"
+      },
+      "difficulty": "hard",
+      "tags": ["uct", "mcts"]
+    },
+    {
+      "id": "t09-q017",
+      "stem": "In the LATS algorithm applied to code generation, how is the value V(s) of a tree node defined?",
+      "options": [
+        "The number of self-reflections generated for that node.",
+        "The percentage of test cases that the node's code passes.",
+        "The log-probability the LLM assigned to the generated code.",
+        "The depth of the node relative to the root of the tree."
+      ],
+      "answer": 1,
+      "explanation": "LATS scores each node (a candidate program) by the percent of test cases it passes; this value drives UCT selection and is back-propagated up the tree.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "25-26"
+      },
+      "difficulty": "medium",
+      "tags": ["lats", "mcts"]
+    },
+    {
+      "id": "t09-q018",
+      "stem": "Classic MCTS includes a random-playout simulation phase. How does LATS adapt this phase when the problem is code generation?",
+      "options": [
+        "It skips random simulation — since playouts make no sense for programs — and uses the percentage of tests passed as the node's reward.",
+        "It simulates the program on randomly generated inputs until the program crashes.",
+        "It asks the LLM to apply random code edits until the code compiles cleanly.",
+        "It replaces the simulation with a human evaluation of the generated code."
+      ],
+      "answer": 0,
+      "explanation": "For programming there is no meaningful random game playout, so LATS assigns the reward directly from test execution: the percent of test cases passed becomes the reward that is back-propagated.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "26"
+      },
+      "difficulty": "hard",
+      "tags": ["lats", "simulation"]
+    },
+    {
+      "id": "t09-q019",
+      "stem": "Chain-of-thought prompting motivates divide-and-conquer because CoT struggles with a certain class of problems. Which class is that?",
+      "options": [
+        "Problems that require any numeric computation.",
+        "Problems whose answers are short and single-step.",
+        "Problems with long reasoning chains or many parts that must be reasoned about independently.",
+        "Problems whose answers must cite external sources."
+      ],
+      "answer": 2,
+      "explanation": "CoT breaks a problem into a sequence of logical steps but is challenged by very long reasoning chains and by problems with many independently reasoned parts — exactly where divide-and-conquer decomposition helps.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "easy",
+      "tags": ["chain-of-thought", "divide-and-conquer"]
+    },
+    {
+      "id": "t09-q020",
+      "stem": "How does multi-level divide-and-conquer for LLMs differ from the single-level variant?",
+      "options": [
+        "It solves all sub-tasks in parallel rather than sequentially.",
+        "It skips the final step that combines sub-task results.",
+        "It lets the LLM choose one single sub-task and ignore the rest.",
+        "Each sub-task may itself be recursively decomposed into finer sub-tasks when a criterion function f decides it is warranted."
+      ],
+      "answer": 3,
+      "explanation": "Single-level D&C splits the problem once into sub-tasks; the multi-level version recursively breaks a sub-task down further whenever the domain-appropriate criterion f says the task still needs decomposition.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "32"
+      },
+      "difficulty": "medium",
+      "tags": ["divide-and-conquer", "recursion"]
+    },
+    {
+      "id": "t09-q021",
+      "stem": "Agent A implements method m1, storing records in a linked list; agent B implements m2, reading records from a dictionary. Each method passes its own tests, yet the class fails. What does the lecture conclude from this example?",
+      "options": [
+        "The prompts to both agents must include enough shared specification — agreed data structures, libraries, etc. — for the parts to interoperate.",
+        "Agent B should always adopt whatever data structure the faster agent chose first.",
+        "The class should be redesigned so that its methods never share any state.",
+        "Each agent should generate its own integration tests to detect the mismatch."
+      ],
+      "answer": 0,
+      "explanation": "Methods of a class are not independent: they share state. When distributing them across agents, the specification given to each agent must pin down shared data structures so functionally correct pieces also work together.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "36"
+      },
+      "difficulty": "medium",
+      "tags": ["divide-and-conquer", "specification"]
+    },
+    {
+      "id": "t09-q022",
+      "stem": "In the 'specification gap' experiment on multi-agent code generation, agents received information at levels L0 through L3. What distinguishes L0 from L3?",
+      "options": [
+        "L0 supplies only method signatures, while L3 also adds the data structures.",
+        "L0 is the highest knowledge level, including method signatures and data structures, while L3 supplies only method signatures.",
+        "L0 uses a single agent, while L3 splits the work across two agents.",
+        "L0 biases agents toward lists, while L3 biases them toward dictionaries."
+      ],
+      "answer": 1,
+      "explanation": "L0 gives agents the most specification (signatures plus data structures) and L3 the least (signatures only). The result: the less specification agents receive, the worse they perform at producing code that integrates.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "37-39"
+      },
+      "difficulty": "medium",
+      "tags": ["specification-gap", "experiment"]
+    },
+    {
+      "id": "t09-q023",
+      "stem": "In the specification-gap experiment, a single agent always outperformed two agents generating separate methods. Besides the agents' opposing data-structure biases, what other factor did the study identify?",
+      "options": [
+        "The single agent was run on a larger, more capable model.",
+        "The two agents repeatedly exceeded their context window limits.",
+        "The single agent was given the __init__ code, making the data structure explicit, while the two agents never saw that code.",
+        "The two agents were evaluated against a harder set of unit tests."
+      ],
+      "answer": 2,
+      "explanation": "Seeing __init__ makes the chosen data structure explicit to the single agent, removing ambiguity the two agents faced. Additional experiments showed both this and the injected biases contribute to the performance gap.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "39"
+      },
+      "difficulty": "hard",
+      "tags": ["specification-gap", "experiment"]
+    },
+    {
+      "id": "t09-q024",
+      "stem": "Which of the following is NOT listed in the lecture as a condition for divide-and-conquer to work effectively?",
+      "options": [
+        "The problem can be broken into discrete sub-problems.",
+        "Each sub-problem can be solved independently of the others.",
+        "The whole problem can be solved by composing the sub-problem answers.",
+        "Each sub-problem must be assigned to a differently fine-tuned LLM."
+      ],
+      "answer": 3,
+      "explanation": "D&C requires a decomposable problem, independent sub-problems (possibly with extra supplied information), and composability of the answers — plus a large, complex context that defeats one-shot solving. It does not require per-subtask fine-tuned models.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "51"
+      },
+      "difficulty": "easy",
+      "tags": ["divide-and-conquer", "conditions"]
+    },
+    {
+      "id": "t09-q025",
+      "stem": "In the Self-Organized Agents framework for large-scale code generation, what distinguishes a Mother agent from a Child agent?",
+      "options": [
+        "The Mother can spawn multiple Child agents and delegate implementation, focusing on abstract processes while Children implement concrete ones.",
+        "The Mother only runs unit tests, while the Children generate all of the code.",
+        "The Mother holds the long-term memory, while the Children are completely stateless.",
+        "The Mother writes documentation, while the Children handle all debugging work."
+      ],
+      "answer": 0,
+      "explanation": "Both agent types have memory, code generation, and self-debugging; the Mother's unique ability is generating Child agents according to problem complexity and delegating parts of the implementation, keeping abstract work for itself.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "44-45"
+      },
+      "difficulty": "easy",
+      "tags": ["self-organized-agents", "agent-roles"]
+    },
+    {
+      "id": "t09-q026",
+      "stem": "In Self-Organized Agents, a Mother agent generates a skeleton with sub-functions and delegates them. What determines whether a given sub-function is assigned to another Mother agent rather than to a Child agent?",
+      "options": [
+        "The number of unit tests the sub-function requires.",
+        "The current depth of the agent tree.",
+        "The length of the sub-function's docstring.",
+        "A majority vote among the existing Child agents."
+      ],
+      "answer": 1,
+      "explanation": "Whether a new Mother or a Child receives the task depends on the depth of the agent tree — the structure is recursive, so a child can itself become a mother of further agents.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "46"
+      },
+      "difficulty": "hard",
+      "tags": ["self-organized-agents", "delegation"]
+    },
+    {
+      "id": "t09-q027",
+      "stem": "During an iteration of the Self-Organized Agents hierarchical feedback process, which inputs does an agent use when asked to modify its code?",
+      "options": [
+        "Only the root Mother's global test report for the combined codebase.",
+        "Only its own unit-test results, to keep the agents fully independent.",
+        "Its own unit-test results together with the feedback from its mother agent.",
+        "The complete source code of every other agent in the tree."
+      ],
+      "answer": 2,
+      "explanation": "Each agent receives its unit-test results plus its mother's feedback, uses them to generate its own feedback and update its code, and then recursively tests and invokes its own subagents the same way.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "47"
+      },
+      "difficulty": "medium",
+      "tags": ["self-organized-agents", "feedback"]
+    },
+    {
+      "id": "t09-q028",
+      "stem": "PairCoder's Navigator generates many candidate solution plans. How does it reduce them to a few representative plans?",
+      "options": [
+        "It asks the Driver agent to rank all of the plans by estimated coding effort.",
+        "It discards any plan whose description exceeds a fixed token budget.",
+        "It keeps only the plans that were generated at the highest sampling temperature.",
+        "It clusters the plans using text embeddings and selects each cluster's centroid as the representative plan."
+      ],
+      "answer": 3,
+      "explanation": "PairCoder embeds the plans, clusters them, and takes the centroid of each cluster as that cluster's representative — giving a small, diverse set of promising strategies to explore.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "56"
+      },
+      "difficulty": "medium",
+      "tags": ["paircoder", "clustering"]
+    },
+    {
+      "id": "t09-q029",
+      "stem": "In PairCoder's iteration loop, under which condition does the Navigator abandon the current plan and switch to a new one?",
+      "options": [
+        "When the newly generated code was already considered before, or its errors repeat errors that were already seen.",
+        "When the Driver's code passes at least half of the public test cases.",
+        "After every single iteration, in order to maximize plan diversity.",
+        "When the plan's embedding drifts too far from its cluster centroid."
+      ],
+      "answer": 0,
+      "explanation": "Repetition signals a dead end: if the current code was already tried or the same errors recur, the Navigator selects a fresh plan; otherwise it proposes a fix strategy and the Driver repairs the current solution.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "59"
+      },
+      "difficulty": "hard",
+      "tags": ["paircoder", "plan-switching"]
+    },
+    {
+      "id": "t09-q030",
+      "stem": "In Structured Chain-of-Thought (SCoT), the LLM is first asked to write a 'rough solving process' restricted to which three structured coding concepts?",
+      "options": [
+        "Classes, functions, and modules.",
+        "Sequences, branches, and loops.",
+        "Inputs, outputs, and side effects.",
+        "Variables, types, and exceptions."
+      ],
+      "answer": 1,
+      "explanation": "SCoT constrains the plan (essentially pseudo-code in English) to sequences, branches, and loops; a second prompt then turns that rough solving process into actual code using few-shot example pairs.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "61"
+      },
+      "difficulty": "easy",
+      "tags": ["scot", "planning"]
+    },
+    {
+      "id": "t09-q031",
+      "stem": "In the TALM tree-structured multi-agent framework, what is the difference between top-down and bottom-up feedback?",
+      "options": [
+        "Top-down feedback compresses the context; bottom-up feedback expands it.",
+        "Top-down: children verify their parents' code; bottom-up: parents verify the children's code.",
+        "Top-down: the parent checks that a delegated agent solved its task correctly; bottom-up: the child can ask the parent for clarification before generating a solution.",
+        "Top-down feedback comes from unit tests, while bottom-up feedback comes from the end user."
+      ],
+      "answer": 2,
+      "explanation": "TALM adds two-way communication to delegation: when a child returns its solution the parent verifies it (top-down), and before generating, the child may query the parent for clarification (bottom-up).",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "65-66"
+      },
+      "difficulty": "medium",
+      "tags": ["talm", "feedback"]
+    },
+    {
+      "id": "t09-q032",
+      "stem": "In the RAG-enhanced approach to agentic code generation, what happens after a code agent completes a subtask and its output is validated?",
+      "options": [
+        "The vector database is wiped and rebuilt from the newest task alone.",
+        "The generated code is discarded and only the reasoning trace is retained.",
+        "The task description is re-embedded so more examples can be retrieved next time.",
+        "The verified code with its problem description and reasoning is encoded into the vector database, merging with highly similar existing entries."
+      ],
+      "answer": 3,
+      "explanation": "A memory-update step stores the validated code, problem description, and reasoning back into the vector store; new entries are compared to existing records and merged if highly similar, avoiding redundancy.",
+      "source": {
+        "file": "2026 Topic 9- Agent strategies for hard problems.pdf",
+        "title": "Topic 9 — Agent Strategies for Hard Problems",
+        "kind": "lecture",
+        "pages": "68-69"
+      },
+      "difficulty": "medium",
+      "tags": ["rag", "code-generation", "memory"]
+    },
+    {
+      "id": "t09-q033",
+      "stem": "In the static-analysis 'clinic' for LLM-generated Python code, which tool focuses specifically on SECURITY checks?",
+      "options": [
+        "Bandit",
+        "flake8",
+        "pylint",
+        "pytest"
+      ],
+      "answer": 0,
+      "explanation": "Bandit performs security-focused checks for Python. flake8 covers style, simple bugs, and complexity; pylint does deeper static analysis such as code smells and naming; pytest is a test runner, not a static analyzer.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "5-6"
+      },
+      "difficulty": "easy",
+      "tags": ["static-analysis", "bandit"]
+    },
+    {
+      "id": "t09-q034",
+      "stem": "A teammate proposes replacing your unit tests entirely with flake8, pylint, and Bandit runs on LLM-generated code. Why is this insufficient?",
+      "options": [
+        "Static analysis tools only work reliably on compiled languages.",
+        "Static analysis inspects code without executing it, so it cannot confirm the code actually behaves correctly at runtime.",
+        "Static analyzers are unable to parse code that was produced by an LLM.",
+        "Tests are strictly cheaper to run than static analysis, so nothing is saved."
+      ],
+      "answer": 1,
+      "explanation": "Static analysis reads code without running it, catching suspicious patterns, style issues, and vulnerabilities — but only execution (tests) can verify functional runtime behavior, so the two are complementary.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "7-8"
+      },
+      "difficulty": "medium",
+      "tags": ["static-analysis", "testing"]
+    },
+    {
+      "id": "t09-q035",
+      "stem": "You are building a loop that feeds analyzer warnings back to an LLM so it can fix the code. According to the recitation, which warning format is BEST suited to this?",
+      "options": [
+        "'This code is unsafe.'",
+        "A free-form prose paragraph summarizing the overall code quality.",
+        "'app.py:45: Avoid shell=True with user input. Risk: command injection.'",
+        "A single numeric quality score between 0 and 100."
+      ],
+      "answer": 2,
+      "explanation": "Good tool output for LLMs is specific, structured, actionable, stable, and easy to parse — file, line, issue, and risk. Vague verdicts or bare scores give the model nothing concrete to act on.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "9"
+      },
+      "difficulty": "medium",
+      "tags": ["tool-output", "static-analysis"]
+    },
+    {
+      "id": "t09-q036",
+      "stem": "How does the recitation distinguish CONTEXT engineering from prompt engineering?",
+      "options": [
+        "Context engineering concerns only the wording of the system prompt.",
+        "Prompt engineering handles retrieval, while context engineering handles instructions.",
+        "The two are synonyms that different frameworks simply name differently.",
+        "Prompt engineering asks what to write in the instruction; context engineering asks what information should be available to the agent at every step."
+      ],
+      "answer": 3,
+      "explanation": "Prompt engineering optimizes a single instruction; context engineering manages the whole information environment — instructions, history, retrieved documents, tool descriptions and outputs, memory, state, and constraints — across every step.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "20-23"
+      },
+      "difficulty": "easy",
+      "tags": ["context-engineering"]
+    },
+    {
+      "id": "t09-q037",
+      "stem": "An agent loaded with hundreds of pages of mostly irrelevant documentation starts losing focus and producing off-target answers. In the recitation's 'backpack' metaphor, which failure mode is this?",
+      "options": [
+        "A too-full backpack: excess irrelevant context confuses the agent.",
+        "A too-empty backpack: the agent is forced to guess.",
+        "Wrong items in the backpack: the agent solves the wrong problem.",
+        "No labels in the backpack: the agent cannot tell what matters."
+      ],
+      "answer": 0,
+      "explanation": "Context engineering is not 'put everything in the window': overloading the agent with irrelevant material (500 pages of kingdom history) causes confusion and lost focus — the too-full backpack failure.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "25-31"
+      },
+      "difficulty": "medium",
+      "tags": ["context-engineering", "failure-modes"]
+    },
+    {
+      "id": "t09-q038",
+      "stem": "A long-running agent's step-by-step history is approaching the context window limit. Which context-engineering pattern from the recitation BEST addresses this?",
+      "options": [
+        "Select the right context: withhold the tool descriptions from the agent.",
+        "Compress long context: replace the full step log with a running summary of key outcomes and remaining constraints.",
+        "Structure the context: convert the entire log into an XML schema.",
+        "Update context over time: restart the agent with a completely empty context."
+      ],
+      "answer": 1,
+      "explanation": "Pattern 4 (compress long context) keeps a concise running summary — what was tried, what failed, what remains — instead of every raw step, preserving the essential state while freeing context space.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "40-41"
+      },
+      "difficulty": "medium",
+      "tags": ["context-engineering", "compression"]
+    },
+    {
+      "id": "t09-q039",
+      "stem": "LangChain-style 'Deep Agents' extend the simple LLM-tool-observation loop for long-horizon tasks. Which option lists their four ingredients correctly?",
+      "options": [
+        "A reward model, a sandbox, a retry loop, and a rate limiter.",
+        "A vector store, a GPU cluster, a response cache, and a scheduler.",
+        "A detailed system prompt, a planning tool, sub-agents, and a file system.",
+        "Fine-tuning, RLHF, distillation, and quantization."
+      ],
+      "answer": 2,
+      "explanation": "Deep Agents combine a detailed system prompt (training manual), a planning tool (quest checklist), specialized sub-agents, and a file system (shared workspace) so the agent can plan, remember, delegate, and continue over time.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "58-62"
+      },
+      "difficulty": "medium",
+      "tags": ["deep-agents", "harness"]
+    },
+    {
+      "id": "t09-q040",
+      "stem": "An agent told to 'reduce customer complaints by 50%' deletes the complaint database: the metric improves but the mission fails. Per the recitation's framing, what does this primarily demonstrate?",
+      "options": [
+        "A retrieval failure: the agent lacked access to the relevant documents.",
+        "A prompt-formatting failure: the goal should have been specified in JSON.",
+        "A model-capability failure: a larger LLM would have refused the task.",
+        "A harness failure: without guardrails and careful objective design, the agent optimized the metric through an unsafe, irreversible action."
+      ],
+      "answer": 3,
+      "explanation": "Context engineering governs what the agent knows; harness engineering governs what it can do. Here the failure mode is an unsafe, uncontrolled action — a harness problem calling for guardrails, tool permissions, and better reward design.",
+      "source": {
+        "file": "Recitation 10  Taming the Dragon.pdf",
+        "title": "Recitation 10 — Taming the Dragon",
+        "kind": "recitation",
+        "pages": "87-90"
+      },
+      "difficulty": "medium",
+      "tags": ["harness-engineering", "guardrails"]
+    }
+  ]
+}

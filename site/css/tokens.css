@@ -1,0 +1,111 @@
+/* Design tokens — dark-first, light overrides. */
+:root {
+  color-scheme: dark;
+
+  /* surfaces */
+  --bg: #0f0f12;
+  --surface: #17171c;
+  --card: #1d1d24;
+  --card-raised: #23232c;
+  --hairline: rgba(255, 255, 255, 0.09);
+  --hairline-strong: rgba(255, 255, 255, 0.16);
+  --scrim: rgba(0, 0, 0, 0.55);
+
+  /* ink */
+  --ink: #f4f4f6;
+  --ink-2: #a6a6b0;
+  --ink-3: #74747e;
+
+  /* accent — flame amber */
+  --accent: #f59e0b;
+  --accent-strong: #f97316;
+  --accent-ink: #1a1206;
+  --accent-soft: rgba(245, 158, 11, 0.14);
+
+  /* chart (validated on this surface) */
+  --bar: #d97706;
+
+  /* status — always paired with icon/label, never color alone */
+  --good: #34d399;
+  --good-soft: rgba(52, 211, 153, 0.13);
+  --bad: #f87171;
+  --bad-soft: rgba(248, 113, 113, 0.13);
+  --warn: #fbbf24;
+
+  /* geometry */
+  --radius-lg: 20px;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.25);
+
+  /* motion */
+  --dur-fast: 150ms;
+  --dur: 260ms;
+  --dur-slow: 480ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* type */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --bg: #f6f6f3;
+    --surface: #ffffff;
+    --card: #ffffff;
+    --card-raised: #ffffff;
+    --hairline: rgba(20, 20, 26, 0.1);
+    --hairline-strong: rgba(20, 20, 26, 0.18);
+    --scrim: rgba(20, 20, 26, 0.35);
+    --ink: #1a1a1e;
+    --ink-2: #565660;
+    --ink-3: #8a8a94;
+    --accent: #d97706;
+    --accent-strong: #ea580c;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(217, 119, 6, 0.12);
+    --bar: #b45309;
+    --good: #16a34a;
+    --good-soft: rgba(22, 163, 74, 0.1);
+    --bad: #dc2626;
+    --bad-soft: rgba(220, 38, 38, 0.09);
+    --warn: #d97706;
+    --shadow: 0 10px 30px rgba(30, 30, 40, 0.12);
+    --shadow-soft: 0 2px 8px rgba(30, 30, 40, 0.08);
+  }
+}
+
+/* Explicit user choice beats system */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f0f12; --surface: #17171c; --card: #1d1d24; --card-raised: #23232c;
+  --hairline: rgba(255, 255, 255, 0.09); --hairline-strong: rgba(255, 255, 255, 0.16);
+  --scrim: rgba(0, 0, 0, 0.55);
+  --ink: #f4f4f6; --ink-2: #a6a6b0; --ink-3: #74747e;
+  --accent: #f59e0b; --accent-strong: #f97316; --accent-ink: #1a1206;
+  --accent-soft: rgba(245, 158, 11, 0.14);
+  --bar: #d97706;
+  --good: #34d399; --good-soft: rgba(52, 211, 153, 0.13);
+  --bad: #f87171; --bad-soft: rgba(248, 113, 113, 0.13);
+  --warn: #fbbf24;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.35); --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f6f3; --surface: #ffffff; --card: #ffffff; --card-raised: #ffffff;
+  --hairline: rgba(20, 20, 26, 0.1); --hairline-strong: rgba(20, 20, 26, 0.18);
+  --scrim: rgba(20, 20, 26, 0.35);
+  --ink: #1a1a1e; --ink-2: #565660; --ink-3: #8a8a94;
+  --accent: #d97706; --accent-strong: #ea580c; --accent-ink: #ffffff;
+  --accent-soft: rgba(217, 119, 6, 0.12);
+  --bar: #b45309;
+  --good: #16a34a; --good-soft: rgba(22, 163, 74, 0.1);
+  --bad: #dc2626; --bad-soft: rgba(220, 38, 38, 0.09);
+  --warn: #d97706;
+  --shadow: 0 10px 30px rgba(30, 30, 40, 0.12); --shadow-soft: 0 2px 8px rgba(30, 30, 40, 0.08);
+}

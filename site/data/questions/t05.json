@@ -1,0 +1,846 @@
+{
+  "topic": "t05",
+  "title": "AI Agents",
+  "questions": [
+    {
+      "id": "t05-q001",
+      "stem": "In the lecture's list of AI agent characteristics, \"goal-directedness\" means that the agent:",
+      "options": [
+        "Works toward an objective rather than just responding to a single prompt",
+        "Requires explicit human approval before every step it takes toward a goal",
+        "Can only pursue objectives that appeared in its training data",
+        "Restates the user's goal at the start of every LLM invocation"
+      ],
+      "answer": 0,
+      "explanation": "Goal-directedness means the agent pursues an objective across multiple steps instead of one-shot prompt answering. Operating with limited human input belongs to a different characteristic — autonomy.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "5"
+      },
+      "difficulty": "easy",
+      "tags": ["agent-characteristics", "goals"]
+    },
+    {
+      "id": "t05-q002",
+      "stem": "The lecture notes there are differences of opinion about what exactly constitutes an AI agent. Which characteristic is sometimes EXCLUDED from the definition?",
+      "options": [
+        "Autonomy — reasoning and deciding with limited human input",
+        "Adaptability — responding to scenarios it has not seen before",
+        "Improving — learning and getting better over time",
+        "Goal-directedness — working toward an objective"
+      ],
+      "answer": 2,
+      "explanation": "The slide explicitly notes that \"Improving\" is sometimes not included in definitions of an AI agent, while goal-directedness, autonomy, adaptability, and collaboration are core.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "5"
+      },
+      "difficulty": "easy",
+      "tags": ["agent-characteristics"]
+    },
+    {
+      "id": "t05-q003",
+      "stem": "In the agent architecture presented in class, which component interprets inputs, decides what to do next, and generates output — and is usually implemented using an LLM?",
+      "options": [
+        "The planner",
+        "The top-level supervisor (\"brain\")",
+        "The memory store",
+        "The tool dispatcher"
+      ],
+      "answer": 1,
+      "explanation": "The top-level supervisor or \"brain\" interprets inputs, decides the next step, and generates output, usually via an LLM. The planner's narrower job is breaking complex goals into smaller tasks.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "7"
+      },
+      "difficulty": "easy",
+      "tags": ["agent-architecture", "supervisor"]
+    },
+    {
+      "id": "t05-q004",
+      "stem": "According to the lecture, an agent's memory component helps store:",
+      "options": [
+        "The fine-tuned model weights the agent has learned for its domain",
+        "The agent's internal logs, including past plans, actions, and agent–user interactions",
+        "Only the JSON tool schemas registered with the LLM",
+        "A read-only snapshot of the external environment taken at startup"
+      ],
+      "answer": 1,
+      "explanation": "Memory stores the agent's internal logs — past plans, actions, and interactions between agent and user. It is not about model weights or static tool schemas.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "8"
+      },
+      "difficulty": "medium",
+      "tags": ["memory", "agent-architecture"]
+    },
+    {
+      "id": "t05-q005",
+      "stem": "In the lecture's travel-assistant comparison, what distinguishes the agent-based solution from using a plain LLM?",
+      "options": [
+        "The agent uses a larger context window to compare many more flight options",
+        "The agent is fine-tuned on airline data, so it finds cheaper flights",
+        "The agent asks the user many more clarifying questions before answering",
+        "The agent itself checks the calendar and books the flights, using the user's stored preferences"
+      ],
+      "answer": 3,
+      "explanation": "With a plain LLM the user must check the calendar and do the booking; the agent executes the whole task in place of the human, using known preferences and frequent-flier details. The difference is action, not model size or tuning.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "9"
+      },
+      "difficulty": "medium",
+      "tags": ["agents-vs-llms", "scenario"]
+    },
+    {
+      "id": "t05-q006",
+      "stem": "A key difference the lecture draws between LangGraph agents and modern function-calling AI agents concerns dynamicity. What is it?",
+      "options": [
+        "LangGraph paths are predefined at design time; a function-calling agent's supervisor determines the next task dynamically at run time",
+        "LangGraph cannot make any run-time decisions, whereas AI agents fix all their decisions at design time",
+        "LangGraph supports tools, while function-calling agents can only generate plain text",
+        "Function-calling agents require a fixed order of tool invocations, while LangGraph chooses tools freely"
+      ],
+      "answer": 0,
+      "explanation": "LangGraph can choose which edge to take at run time, but always within a predefined set of program paths. A function-calling agent examines the outcome of actions and decides the next step dynamically, so the possible execution sequences are not fixed in advance.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "10"
+      },
+      "difficulty": "medium",
+      "tags": ["dynamicity", "langgraph"]
+    },
+    {
+      "id": "t05-q007",
+      "stem": "One capability that differentiates most AI agents from a plain LLM is:",
+      "options": [
+        "The ability to reason about a problem step by step",
+        "A substantially larger context window",
+        "The ability to invoke tools that act on external systems",
+        "A built-in debugger for inspecting the model's reasoning"
+      ],
+      "answer": 2,
+      "explanation": "Plain LLMs can already reason step by step, so that does not distinguish agents. Tool invocation is what lets an agent act on its environment rather than only produce text.",
+      "source": {
+        "file": "in-class-quiz-5-agents.pdf",
+        "title": "In-class Quiz 5 — Agents",
+        "kind": "quiz",
+        "pages": "2-3"
+      },
+      "difficulty": "easy",
+      "tags": ["agents-vs-llms", "tools"]
+    },
+    {
+      "id": "t05-q008",
+      "stem": "In the ReAct technique, the agent's repeating cycle is:",
+      "options": [
+        "action → observation → back to action",
+        "reasoning → action → observation → back to reasoning",
+        "reasoning → action → observation → verification → back to reasoning",
+        "observation → verification → action → back to observation"
+      ],
+      "answer": 1,
+      "explanation": "ReAct first thinks (plans) what to do, executes the action, observes how the environment changed, and repeats. There is no separate verification phase in the cycle — that is the tempting over-elaboration.",
+      "source": {
+        "file": "in-class-quiz-5-agents.pdf",
+        "title": "In-class Quiz 5 — Agents",
+        "kind": "quiz",
+        "pages": "4-7"
+      },
+      "difficulty": "easy",
+      "tags": ["react", "agent-loop"]
+    },
+    {
+      "id": "t05-q009",
+      "stem": "In ReAct, what is the key difference between a thought and an action?",
+      "options": [
+        "Thoughts are produced by the planner while actions are produced by memory",
+        "Actions are only used for physical robots; thoughts handle software tasks",
+        "Thoughts must be validated by a human before any action executes",
+        "Actions affect the external environment; thoughts only update the model's internal state and context"
+      ],
+      "answer": 3,
+      "explanation": "Actions change the external environment and lead to observations; reasoning traces (thoughts) do not touch the environment — they update the internal context to support future reasoning and acting.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "13"
+      },
+      "difficulty": "medium",
+      "tags": ["react", "thoughts-vs-actions"]
+    },
+    {
+      "id": "t05-q010",
+      "stem": "A ReAct-style agent tells a robot to move to the staircase, then checks whether the robot actually arrived there before deciding what to do next. Checking the robot's location corresponds to which ReAct step?",
+      "options": [
+        "Observation",
+        "Action",
+        "Thought (reasoning)",
+        "Self-reflection"
+      ],
+      "answer": 0,
+      "explanation": "Seeing whether the robot reached the right location is observing the effect of the previous action on the environment. The instruction to move was the action, and deciding what to do next is the thought.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "14"
+      },
+      "difficulty": "medium",
+      "tags": ["react", "scenario"]
+    },
+    {
+      "id": "t05-q011",
+      "stem": "In ReAct terminology, which of the following is an ACTION rather than a thought?",
+      "options": [
+        "Reasoning that a fact needs to be looked up on the Internet",
+        "Concluding that the last search result answers the question",
+        "Invoking an Internet search tool",
+        "Deciding which sub-goal to pursue next"
+      ],
+      "answer": 2,
+      "explanation": "Actually invoking the search tool acts on the external environment, so it is an action. Deciding a fact is needed, judging results, and choosing sub-goals are all reasoning steps that only change internal context.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "15"
+      },
+      "difficulty": "hard",
+      "tags": ["react", "thoughts-vs-actions"]
+    },
+    {
+      "id": "t05-q012",
+      "stem": "When an agent uses reflection, it typically asks the LLM to reflect on:",
+      "options": [
+        "Whether additional tools should be added to its tool set",
+        "The current state and what went wrong in the last action",
+        "A solution proposed by a different agent, in order to critique it",
+        "What would have happened had it taken a different action"
+      ],
+      "answer": 1,
+      "explanation": "Reflection has the LLM examine the current state and consider what went wrong in the last action; that verbal description is fed into the next prompt to drive a better plan. Critiquing another agent's solution is a different technique (agent critique).",
+      "source": {
+        "file": "in-class-quiz-5-agents.pdf",
+        "title": "In-class Quiz 5 — Agents",
+        "kind": "quiz",
+        "pages": "10-12"
+      },
+      "difficulty": "medium",
+      "tags": ["reflexion", "reflection"]
+    },
+    {
+      "id": "t05-q013",
+      "stem": "In the Reflexion framework, the Evaluator's job is to:",
+      "options": [
+        "Choose the next action to take by consulting an LLM",
+        "Generate verbal self-reflections to feed into future trials",
+        "Break the overall task down into smaller sub-tasks",
+        "Observe the environment after an action and assign it a reward score"
+      ],
+      "answer": 3,
+      "explanation": "The Evaluator observes the outcome of an action and decides on a reward score, which may be binary (success/fail) or more complex. Choosing actions is the Actor's job; generating verbal feedback is the Self-reflection component.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "19"
+      },
+      "difficulty": "medium",
+      "tags": ["reflexion", "evaluator"]
+    },
+    {
+      "id": "t05-q014",
+      "stem": "How does Reflexion enable an agent to improve across trials WITHOUT updating any model weights?",
+      "options": [
+        "It stores verbal self-reflections about what went wrong in memory and uses them in future trials",
+        "It applies small gradient updates to the LLM after each failed trial",
+        "It maintains a tree of candidate solutions and expands the highest-scoring branch",
+        "It trains a separate reward model that filters the Actor's proposed actions"
+      ],
+      "answer": 0,
+      "explanation": "Reflexion's \"verbal reinforcement learning\" generates natural-language self-reflections that are stored in the agent's memory and consulted in future trials — no gradient updates or separate trained models are involved. Tree expansion describes MCTS, not Reflexion.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "17-19"
+      },
+      "difficulty": "hard",
+      "tags": ["reflexion", "memory"]
+    },
+    {
+      "id": "t05-q015",
+      "stem": "Which method is the lecture's example of the \"multiple candidates\" adaptation technique, where many candidates are maintained and ranked at each step to pick the most promising one to refine?",
+      "options": [
+        "Multi-Agent Debate (MAD)",
+        "Reflexion",
+        "Monte-Carlo Tree Search (MCTS)",
+        "Self-organizing agents"
+      ],
+      "answer": 2,
+      "explanation": "MCTS is the example of maintaining and ranking multiple candidates. MAD exemplifies agent critique, and self-organizing agents exemplify divide-and-conquer.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "21"
+      },
+      "difficulty": "medium",
+      "tags": ["planning", "mcts"]
+    },
+    {
+      "id": "t05-q016",
+      "stem": "The lecture describes modern LLM function calling as a concrete instantiation of which conceptual framework?",
+      "options": [
+        "Reflexion",
+        "Chain-of-Thought prompting",
+        "Monte-Carlo Tree Search",
+        "ReAct"
+      ],
+      "answer": 3,
+      "explanation": "Function calling (introduced by GPT in 2023, also called tool calling) directly instantiates ReAct's interleaving of thoughts, actions, and observations inside the LLM API.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "24"
+      },
+      "difficulty": "easy",
+      "tags": ["function-calling", "react"]
+    },
+    {
+      "id": "t05-q017",
+      "stem": "Why can't an LLM directly execute a function call, such as invoking a currency-exchange API?",
+      "options": [
+        "API providers block network traffic that originates from LLM vendors",
+        "An LLM only predicts text — it can only tell the caller which function to invoke and with what parameters",
+        "Executing a function would overflow the LLM's context window",
+        "LLMs can execute functions directly, but only functions written in Python"
+      ],
+      "answer": 1,
+      "explanation": "LLMs are language models predicting text; they cannot run code. Function-calling support means the LLM returns the exact function name and parameter values, and the caller (the agent/supervisor code) performs the invocation.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "25"
+      },
+      "difficulty": "easy",
+      "tags": ["function-calling"]
+    },
+    {
+      "id": "t05-q018",
+      "stem": "In a tool schema passed to the LLM, the lecture calls the description field crucial because it:",
+      "options": [
+        "Tells the LLM when it should invoke that function",
+        "Is displayed to the end user before each tool runs",
+        "Determines the JSON types of the function's parameters",
+        "Is used by the runtime to locate the function's source code"
+      ],
+      "answer": 0,
+      "explanation": "The description is how the LLM decides when a tool is relevant to the request, which drives function selection. Parameter types are set by the separate parameters schema, and the runtime dispatches by name, not description.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "29"
+      },
+      "difficulty": "medium",
+      "tags": ["tool-schema", "function-calling"]
+    },
+    {
+      "id": "t05-q019",
+      "stem": "In a GPT tool definition, what is the purpose of setting \"strict\": true together with \"additionalProperties\": false?",
+      "options": [
+        "It forces the model to emit a tool call on every single turn",
+        "It makes all parameters optional so the model can omit any of them",
+        "It prevents the model from adding extra, non-existent parameters to the function call",
+        "It caps how many tool calls the model may return in one response"
+      ],
+      "answer": 2,
+      "explanation": "These settings constrain the model to the declared parameter schema, preventing it from inventing extra parameters that the real function does not accept. They do not control how often tools are called.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "29"
+      },
+      "difficulty": "medium",
+      "tags": ["tool-schema", "function-calling"]
+    },
+    {
+      "id": "t05-q020",
+      "stem": "An LLM's function-calling response contains a list of several tool calls [f1, f2, …, fn], with no dependencies among them. According to the lecture, the LLM is advising the caller to:",
+      "options": [
+        "Invoke only f1 and discard the remaining suggestions",
+        "Ask the LLM in a follow-up prompt which single call to keep",
+        "Invoke them strictly one at a time, with an LLM round-trip between each",
+        "Invoke all of the functions in parallel"
+      ],
+      "answer": 3,
+      "explanation": "When multiple functions are returned, the LLM is advising the caller to invoke all of them in parallel; only when fj depends on fi must fi be invoked first.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "28"
+      },
+      "difficulty": "medium",
+      "tags": ["function-calling", "parallel-calls"]
+    },
+    {
+      "id": "t05-q021",
+      "stem": "You ask \"What's the weather in Paris?\" and your get_weather tool takes latitude and longitude. The LLM's tool call arrives with arguments {\"latitude\": 48.8566, \"longitude\": 2.3522}. This illustrates that the LLM:",
+      "options": [
+        "Executed the tool itself and cached the coordinates for reuse",
+        "Performed parameter mapping — converting \"Paris\" into coordinate values itself",
+        "Silently called a separate geolocation tool before answering",
+        "Requires the user to supply coordinates explicitly in the prompt"
+      ],
+      "answer": 1,
+      "explanation": "The LLM computed appropriate parameter values from its own knowledge, converting the city name into coordinates — the parameter-mapping step of function calling. No tool was executed by the LLM itself.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "30"
+      },
+      "difficulty": "medium",
+      "tags": ["parameter-mapping", "scenario"]
+    },
+    {
+      "id": "t05-q022",
+      "stem": "After your agent executes the function the LLM requested, what does the lecture say you should do with the result?",
+      "options": [
+        "Append it as a role \"tool\" message and call the LLM again — giving the observation back",
+        "Print it to the user, since the LLM's part of the interaction is finished",
+        "Re-send the original prompt with the result substituted into the system message",
+        "Store it in a vector database so future queries can retrieve it"
+      ],
+      "answer": 0,
+      "explanation": "The result is appended to the message list as a role:\"tool\" message (with the matching tool_call_id) and the LLM is invoked again — in ReAct terminology, you are handing the observation back so it can pick the next action or produce the final answer.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "31"
+      },
+      "difficulty": "medium",
+      "tags": ["function-calling", "agent-loop"]
+    },
+    {
+      "id": "t05-q023",
+      "stem": "In the agentic (tool-calling) loop presented in class — the pattern used by Claude Code and Cursor — the loop terminates when:",
+      "options": [
+        "The dispatcher runs out of registered tools to try",
+        "Every available tool has been invoked at least once",
+        "The problem is solved or an iteration limit is reached",
+        "The user manually confirms each tool result"
+      ],
+      "answer": 2,
+      "explanation": "The agentic loop (sometimes called the ReAct cycle) keeps prompting the LLM and dispatching tool calls until the problem is solved or a limit is reached. It has nothing to do with exhausting the tool list.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "39-40"
+      },
+      "difficulty": "easy",
+      "tags": ["agent-loop", "termination"]
+    },
+    {
+      "id": "t05-q024",
+      "stem": "The lecture breaks function calling into five steps. Which step computes the appropriate argument values to pass to the chosen function?",
+      "options": [
+        "Intent recognition",
+        "Function selection",
+        "Response generation",
+        "Parameter mapping"
+      ],
+      "answer": 3,
+      "explanation": "Parameter mapping computes the argument values. Intent recognition detects that a tool is needed, function selection picks the best tool, and response generation folds the function output into the reply to the user.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "42"
+      },
+      "difficulty": "hard",
+      "tags": ["function-calling", "parameter-mapping"]
+    },
+    {
+      "id": "t05-q025",
+      "stem": "In HW3, your main loop calls the LLM 8 times, and along the way it dispatches extract_from_image once and build_sql_query twice (no other tools). What do the two counters read at the end?",
+      "options": [
+        "11 LLM calls and 3 tool calls",
+        "8 LLM calls and 3 tool calls",
+        "8 LLM calls and 11 tool calls",
+        "11 LLM calls and 11 tool calls"
+      ],
+      "answer": 0,
+      "explanation": "extract_from_image and build_sql_query each count as 1 tool call AND 1 internal LLM call, so the LLM counter is 8 + 1 + 2 = 11 while the tool counter is 3. Forgetting the tool-internal LLM calls gives the tempting 8/3 answer.",
+      "source": {
+        "file": "HW3 (2).pdf",
+        "title": "Homework 3 — Tool Calling",
+        "kind": "homework",
+        "pages": "12"
+      },
+      "difficulty": "hard",
+      "tags": ["hw3", "call-caps"]
+    },
+    {
+      "id": "t05-q026",
+      "stem": "In the HW3 agentic loop, what signals that the agent considers the query solved and the loop should exit successfully?",
+      "options": [
+        "The write_file tool returns its confirmation string",
+        "The LLM returns an assistant message containing no tool_calls",
+        "The tool-call counter reaches exactly 20",
+        "The validation function returns True"
+      ],
+      "answer": 1,
+      "explanation": "A final assistant message with no tool_calls signals the LLM considers the query solved. Hitting a cap is a failure, and the validator is run by the grader, not by the agent.",
+      "source": {
+        "file": "HW3 (2).pdf",
+        "title": "Homework 3 — Tool Calling",
+        "kind": "homework",
+        "pages": "14"
+      },
+      "difficulty": "easy",
+      "tags": ["hw3", "termination"]
+    },
+    {
+      "id": "t05-q027",
+      "stem": "During an HW3 run, execute_sql_query returns [{\"error\": \"no such column: total\"}]. According to the assignment, your agent should:",
+      "options": [
+        "Terminate immediately and log the tool-cap termination message",
+        "Silently retry the identical SQL statement up to three times",
+        "Append the error as a role \"tool\" message so the LLM can rebuild the SQL and retry",
+        "Pause and ask the user to correct the SQL before continuing"
+      ],
+      "answer": 2,
+      "explanation": "Tool errors are fed back into the conversation as role:\"tool\" messages so the LLM can recover — e.g., by re-calling build_sql_query with the error context. Force-terminating on tool errors is explicitly forbidden; recovery is part of what is tested.",
+      "source": {
+        "file": "HW3 (2).pdf",
+        "title": "Homework 3 — Tool Calling",
+        "kind": "homework",
+        "pages": "9-14"
+      },
+      "difficulty": "medium",
+      "tags": ["hw3", "error-recovery"]
+    },
+    {
+      "id": "t05-q028",
+      "stem": "Which HW3 tool counts as BOTH one tool call and one LLM call when dispatched, because it invokes the LLM internally?",
+      "options": [
+        "calculator",
+        "execute_sql_query",
+        "write_file",
+        "build_sql_query"
+      ],
+      "answer": 3,
+      "explanation": "build_sql_query (like extract_from_image) calls the LLM internally, so it adds to both counters. calculator, execute_sql_query, web_search, and write_file are pure Python and count only as tool calls.",
+      "source": {
+        "file": "HW3 (2).pdf",
+        "title": "Homework 3 — Tool Calling",
+        "kind": "homework",
+        "pages": "12"
+      },
+      "difficulty": "easy",
+      "tags": ["hw3", "call-caps"]
+    },
+    {
+      "id": "t05-q029",
+      "stem": "HW3 provides a calculator tool even though the LLM could answer arithmetic in plain text. The stated rationale is that:",
+      "options": [
+        "LLMs fabricate arithmetic, and the tool removes that failure mode",
+        "Arithmetic answered in text would count against the LLM-call cap",
+        "The grader requires every tool to be used at least once per query",
+        "The calculator lets the agent bypass Azure content filtering"
+      ],
+      "answer": 0,
+      "explanation": "The assignment states that LLMs fabricate arithmetic; delegating math to a deterministic tool removes that failure mode. The tool must be implemented safely (ast.parse plus a whitelist, never raw eval).",
+      "source": {
+        "file": "HW3 (2).pdf",
+        "title": "Homework 3 — Tool Calling",
+        "kind": "homework",
+        "pages": "6"
+      },
+      "difficulty": "medium",
+      "tags": ["hw3", "tools"]
+    },
+    {
+      "id": "t05-q030",
+      "stem": "Your HW3 agent keeps requesting the same tool over and over, burning through its turns. According to the assignment's FAQ, the PRIMARY fix is to:",
+      "options": [
+        "Raise the tool-call cap above 20 for that particular query",
+        "Switch to LangChain's create_react_agent, which manages loops automatically",
+        "Tighten the tool schema descriptions, since they teach the model when not to call a tool",
+        "Lower the temperature to zero so the model stops exploring alternatives"
+      ],
+      "answer": 2,
+      "explanation": "Tool descriptions are the primary way the model learns when NOT to call a tool, so sharpening them usually fixes repeated calls. The caps are hard, and any LangChain agent framework is explicitly forbidden in HW3.",
+      "source": {
+        "file": "HW3 (2).pdf",
+        "title": "Homework 3 — Tool Calling",
+        "kind": "homework",
+        "pages": "26"
+      },
+      "difficulty": "medium",
+      "tags": ["hw3", "tool-schema"]
+    },
+    {
+      "id": "t05-q031",
+      "stem": "The Model Context Protocol (MCP) is an open standard for connecting data sources and AI-powered tools. It was open-sourced in November 2024 by:",
+      "options": [
+        "OpenAI",
+        "Anthropic",
+        "Google",
+        "Meta"
+      ],
+      "answer": 1,
+      "explanation": "MCP was open-sourced by Anthropic in November 2024 as an open standard for secure, two-way connections between data sources and AI applications.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "45"
+      },
+      "difficulty": "easy",
+      "tags": ["mcp"]
+    },
+    {
+      "id": "t05-q032",
+      "stem": "According to the lecture, MCP servers can provide which three main types of capabilities?",
+      "options": [
+        "Models, embeddings, and datasets",
+        "Agents, planners, and memories",
+        "Chains, graphs, and nodes",
+        "Resources, tools, and prompts"
+      ],
+      "answer": 3,
+      "explanation": "MCP servers expose resources (data the LLM can read), tools (functions the LLM can call on the server), and prompts (reusable templates), each discoverable via its own list endpoint.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "47"
+      },
+      "difficulty": "easy",
+      "tags": ["mcp", "resources"]
+    },
+    {
+      "id": "t05-q033",
+      "stem": "The lecture presents MCP as an extension of function calling. What does MCP mainly add?",
+      "options": [
+        "Dynamic discovery of new tools and the ability to invoke remote tools",
+        "Guaranteed deterministic ordering of tool invocations",
+        "Automatic fine-tuning of the LLM on the outputs of each tool",
+        "A sandbox that executes tools inside the LLM itself"
+      ],
+      "answer": 0,
+      "explanation": "With plain function calling the tool set is fixed and local; MCP generalizes it with dynamic tool discovery (tools/list) and remote invocation, plus resources and prompts.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "43-50"
+      },
+      "difficulty": "medium",
+      "tags": ["mcp", "function-calling"]
+    },
+    {
+      "id": "t05-q034",
+      "stem": "Your MCP-based shopping agent quotes prices in dollars. You add a currency-conversion tool to the MCP server, changing nothing in the agent application itself. Why can users now ask for prices in euros?",
+      "options": [
+        "The server rewrites the agent's system prompt to mention currency support",
+        "MCP servers translate currency values natively at the transport layer",
+        "The agent discovers the new tool dynamically from the server's tool list, and the LLM invokes it when relevant",
+        "The MCP client caches exchange rates gathered in previous sessions"
+      ],
+      "answer": 2,
+      "explanation": "This is the lecture's \"power of dynamicity\" example: because clients discover server tools at run time, adding a tool to the server augments the application without changing the app — the LLM will pick it up when the user's request needs it.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "55"
+      },
+      "difficulty": "medium",
+      "tags": ["mcp", "scenario"]
+    },
+    {
+      "id": "t05-q035",
+      "stem": "In the lecture's MCP shopping-agent example, the server's tools access a product microservice backend. What does the architecture say about that backend?",
+      "options": [
+        "The MCP client connects to it directly once the tools are discovered",
+        "It is not exposed to the client — the MCP server wraps it as an intermediary",
+        "It must itself be an MCP server for the tools to reach it",
+        "The LLM queries it directly through the resources/list endpoint"
+      ],
+      "answer": 1,
+      "explanation": "The server's tools access the product microservice, but the backend is never exposed to the client — MCP servers act as wrappers or intermediaries providing a standardized way to reach external systems.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "57-58"
+      },
+      "difficulty": "hard",
+      "tags": ["mcp", "architecture"]
+    },
+    {
+      "id": "t05-q036",
+      "stem": "As the number of MCP servers and tools grows very large, giving the LLM all the tools degrades performance. How does the MCP-Zero framework address this?",
+      "options": [
+        "It fine-tunes a small router model on historical tool-usage logs",
+        "It limits every MCP server to exposing at most ten tools",
+        "It requires human approval before each new tool is registered",
+        "The agent requests the type of tool it needs, then hierarchical matching runs against server and tool descriptions"
+      ],
+      "answer": 3,
+      "explanation": "MCP-Zero lets the agent actively request what type of tool it wants and then performs hierarchical matching — first against the server description, then the tool description — instead of stuffing every tool into the context.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "61"
+      },
+      "difficulty": "hard",
+      "tags": ["mcp-zero", "tool-discovery"]
+    },
+    {
+      "id": "t05-q037",
+      "stem": "Which of the following does the lecture list as a common way agents using function calling misbehave?",
+      "options": [
+        "Invoking tools faster than API rate limits allow",
+        "Refusing to act without human confirmation at every step",
+        "Getting stuck repeating the same actions over and over",
+        "Always preferring the cheapest tool regardless of the task"
+      ],
+      "answer": 2,
+      "explanation": "Common failure modes include getting stuck repeating actions, ignoring updated observations such as error messages or test failures, and choosing an incorrect next step even when the right one is obvious.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "64"
+      },
+      "difficulty": "medium",
+      "tags": ["misbehavior", "agent-loop"]
+    },
+    {
+      "id": "t05-q038",
+      "stem": "Your SWE agent reports that the test suite passed, but its trace shows it never actually ran the tests — it invented the tool output. In the taxonomy from \"When Agents Go Astray\", this is classified as:",
+      "options": [
+        "A hallucination — a reasoning error",
+        "Step repetition — a specification error",
+        "Task derailment — a coordination error",
+        "A role specification violation — a specification error"
+      ],
+      "answer": 0,
+      "explanation": "Fabricating results or tool outputs is a hallucination, which the taxonomy groups under reasoning errors (decision-making failures). Verification failure would be neglecting to check work, not inventing results.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "66-68"
+      },
+      "difficulty": "hard",
+      "tags": ["misbehavior", "taxonomy"]
+    },
+    {
+      "id": "t05-q039",
+      "stem": "An agent has satisfied all the task's completion criteria but keeps issuing new tool calls instead of finalizing. In the \"When Agents Go Astray\" taxonomy, this behavior is:",
+      "options": [
+        "Goal deviation — a coordination error",
+        "Termination condition unawareness — a specification error",
+        "Verification failure — a coordination error",
+        "Problem misidentification — a reasoning error"
+      ],
+      "answer": 1,
+      "explanation": "Continuing to work after completion criteria are met is termination condition unawareness, a specification error; the suggested recovery is instructing the agent to finalize. Goal deviation means pursuing sub-goals that don't serve the main objective.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "66-67"
+      },
+      "difficulty": "hard",
+      "tags": ["misbehavior", "taxonomy"]
+    },
+    {
+      "id": "t05-q040",
+      "stem": "Gödel Agent is presented as a self-optimizing agent. According to the course, it improves its ability to solve problems by:",
+      "options": [
+        "Rewording its prompts to elicit better LLM responses",
+        "Trying several predetermined strategies per problem and keeping the best one",
+        "Recording failed attempts in memory so it never repeats the same mistake",
+        "Continuously trying new approaches and accepting changes to its own code that improve performance"
+      ],
+      "answer": 3,
+      "explanation": "Gödel Agent recursively improves itself by dynamically modifying its own logic and code (via introspection and monkey patching), keeping changes that raise performance. Prompt rewording and failure memories describe milder meta-learning approaches.",
+      "source": {
+        "file": "in-class-quiz-5-agents.pdf",
+        "title": "In-class Quiz 5 — Agents",
+        "kind": "quiz",
+        "pages": "8-9"
+      },
+      "difficulty": "medium",
+      "tags": ["godel-agent", "self-optimization"]
+    },
+    {
+      "id": "t05-q041",
+      "stem": "What distinguishes the Gödel Agent from a meta-learning optimized agent?",
+      "options": [
+        "The Gödel Agent needs no utility function, while meta-learning depends on one",
+        "The Gödel Agent optimizes only during training, while meta-learning optimizes at run time",
+        "It recursively updates both its policy π AND its learning algorithm I; meta-learning keeps the learning algorithm fixed",
+        "The Gödel Agent avoids modifying code and relies purely on prompt optimization"
+      ],
+      "answer": 2,
+      "explanation": "In meta-learning the learning algorithm I is fixed and only the policy π evolves during training. Gödel Agent recursively updates both π and I, rewriting its own code base after each update — both use a utility function U to score performance.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "75-76"
+      },
+      "difficulty": "hard",
+      "tags": ["godel-agent", "meta-learning"]
+    },
+    {
+      "id": "t05-q042",
+      "stem": "In the Gödel Agent algorithm, which action prompts the LLM to alter the agent's policy π and learning algorithm I, producing new versions (π′, I′)?",
+      "options": [
+        "self update",
+        "self inspect",
+        "interact",
+        "continue improve"
+      ],
+      "answer": 0,
+      "explanation": "self update asks the LLM to rewrite (π, I) into (π′, I′). self inspect only reads the current algorithm via introspection, interact calls the utility function U to score performance, and continue improve recursively invokes the decision algorithm.",
+      "source": {
+        "file": "2026 Topic 5 - AI Agents.pdf",
+        "title": "Topic 5 — AI Agents",
+        "kind": "lecture",
+        "pages": "77"
+      },
+      "difficulty": "medium",
+      "tags": ["godel-agent", "self-optimization"]
+    }
+  ]
+}
