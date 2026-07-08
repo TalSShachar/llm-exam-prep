@@ -109,6 +109,8 @@ export function render(bank) {
       else renderQuestion();
     }
 
+    renderQuestion();
+
     let finished = false;
     function finish() {
       if (finished) return;
