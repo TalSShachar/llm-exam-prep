@@ -41,6 +41,7 @@ export function render(bank) {
   const cap = ringCap(pool.length);
 
   function nextQuestion() {
+    stopVoice();
     activeTimer?.stop();
     activeTimer = null;
     timerSlot.replaceChildren();

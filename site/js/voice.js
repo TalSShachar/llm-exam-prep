@@ -64,6 +64,7 @@ export async function speak(text, { onEnd } = {}) {
     src.start();
     return true;
   } catch (err) {
+    if (gen !== myGen) { onEnd?.(); return false; } // stale failure from a cancelled speak
     failed = true;
     throw err;
   }
