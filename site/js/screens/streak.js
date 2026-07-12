@@ -6,6 +6,7 @@ import { questionCard } from '../components/questionCard.js';
 import { resultPanel } from '../components/resultPanel.js';
 import { streakFlame, dropEmbers } from '../components/streakFlame.js';
 import { timerRing } from '../components/timerRing.js';
+import { stop as stopVoice } from '../voice.js';
 
 export function render(bank) {
   const pool = poolFor(bank, state.settings.topics);
@@ -100,6 +101,6 @@ export function render(bank) {
     }
     return activeCard?.onKey?.(e) ?? false;
   };
-  root.cleanup = () => activeTimer?.stop();
+  root.cleanup = () => { activeTimer?.stop(); stopVoice(); };
   return root;
 }

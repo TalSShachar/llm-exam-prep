@@ -1,5 +1,7 @@
 import { el } from './dom.js';
 import { presentOptions } from '../engine.js';
+import { duckButton } from './duckButton.js';
+import { stop as stopVoice } from '../voice.js';
 
 const KEYS = ['A', 'B', 'C', 'D'];
 
@@ -24,12 +26,14 @@ export function questionCard(q, topicTitle, onAnswer) {
     el('div', { class: 'q-meta' },
       el('span', { class: 'q-topic-tag' }, topicTitle),
       el('span', { class: 'q-diff' }, q.difficulty),
+      duckButton(q.stem),
     ),
     el('h2', { class: 'q-stem' }, q.stem),
     el('div', { class: 'q-options', role: 'group', 'aria-label': 'Answer options' }, buttons),
   );
 
   function finish(pickedIndex) {
+    stopVoice();
     answered = true;
     buttons.forEach((b) => (b.disabled = true));
     buttons[correctIndex].classList.add('correct');
