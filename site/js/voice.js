@@ -8,6 +8,7 @@ let ctx = null;
 let current = null;      // active AudioBufferSourceNode
 let enginePromise = null;
 let failed = false;
+let gen = 0;              // bumped to cancel any in-flight speak()
 
 function loadEngine() {
   enginePromise ??= new Promise((resolve, reject) => {
@@ -29,6 +30,7 @@ export function isFailed() {
 }
 
 export function stop() {
+  gen++; // cancel any in-flight speak() before touching current
   if (!current) return;
   const src = current;
   current = null;
@@ -37,14 +39,18 @@ export function stop() {
 
 export async function speak(text, { onEnd } = {}) {
   stop();
+  const myGen = gen;
   try {
     await loadEngine();
+    if (gen !== myGen) { onEnd?.(); return; } // cancelled while loading
     const raw = window.meSpeak.speak(text, { rawdata: 'array', pitch: 65, speed: 165, amplitude: 100 });
     if (!raw || raw.length < 44) throw new Error('synthesis produced no audio');
     const { samples, sampleRate } = wavToFloat32(new Uint8Array(raw));
     const duck = duckify(samples, sampleRate);
+    if (duck.length === 0) { onEnd?.(); return; } // degenerate synthesis, not a failure
     ctx ??= new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') await ctx.resume();
+    if (gen !== myGen) { onEnd?.(); return; } // cancelled while resuming context
     const buf = ctx.createBuffer(1, duck.length, sampleRate);
     buf.getChannelData(0).set(duck);
     const src = ctx.createBufferSource();
