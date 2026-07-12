@@ -20,11 +20,15 @@ are never read. Pure fun feature; must not slow down or destabilize the quiz.
 
 ### Synthesis (vendored, offline)
 
-- Vendor a WASM/JS eSpeak build (meSpeak or espeak-ng emscripten build) into
-  `site/vendor/`. Committed to the repo so GitHub Pages serves it — no CDN, no
-  API key, no network dependency beyond the site's own origin.
+- Vendor **meSpeak** (npm `mespeak@2.0.2`, an emscripten eSpeak build) into
+  `site/vendor/mespeak.js` as a single ~1.9 MB IIFE bundle produced once with
+  esbuild (engine + `mespeak_config.json` + en-US voice baked in; verified to
+  synthesize 22 kHz 16-bit mono WAV). Committed to the repo so GitHub Pages
+  serves it — no CDN, no API key, no network dependency beyond the site's own
+  origin. meSpeak is GPL; fine for this repo.
 - Lazy-loaded on the first 🦆 click so initial page load is unaffected.
-- Synthesizes the question stem to a raw PCM buffer (not played directly).
+- `meSpeak.speak(stem, { rawdata: 'array' })` returns WAV bytes (not played
+  directly); decoded via `AudioContext.decodeAudioData` for DSP.
 
 ### Duck-ification DSP
 
