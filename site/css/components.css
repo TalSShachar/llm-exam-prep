@@ -74,6 +74,24 @@
   color: var(--accent); background: var(--accent-soft); padding: 0.22rem 0.6rem; border-radius: 999px;
 }
 .q-diff { font-size: 0.75rem; color: var(--ink-3); text-transform: capitalize; }
+.duck-btn {
+  margin-left: auto;
+  border: 1px solid var(--hairline-strong);
+  background: transparent;
+  border-radius: 999px;
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: 0.1rem 0.55rem;
+  cursor: pointer;
+}
+.duck-btn:hover:not(:disabled) { background: var(--accent-soft); }
+.duck-btn:disabled { opacity: 0.45; cursor: default; }
+.duck-btn.loading { animation: duck-pulse 0.9s ease-in-out infinite; }
+.duck-btn.quacking { animation: duck-bob 0.35s ease-in-out infinite; }
+@keyframes duck-pulse { 50% { opacity: 0.35; } }
+@keyframes duck-bob { 50% { transform: translateY(-2px) rotate(-8deg); } }
+[data-reduced-motion] .duck-btn.loading,
+[data-reduced-motion] .duck-btn.quacking { animation: none; }
 .q-stem { font-size: clamp(1.05rem, 2.8vw, 1.2rem); font-weight: 650; line-height: 1.45; margin-bottom: 1.1rem; }
 
 .q-options { display: flex; flex-direction: column; gap: 0.6rem; }

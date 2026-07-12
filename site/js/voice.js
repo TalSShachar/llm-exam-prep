@@ -42,15 +42,15 @@ export async function speak(text, { onEnd } = {}) {
   const myGen = gen;
   try {
     await loadEngine();
-    if (gen !== myGen) { onEnd?.(); return; } // cancelled while loading
+    if (gen !== myGen) { onEnd?.(); return false; } // cancelled while loading
     const raw = window.meSpeak.speak(text, { rawdata: 'array', pitch: 65, speed: 165, amplitude: 100 });
     if (!raw || raw.length < 44) throw new Error('synthesis produced no audio');
     const { samples, sampleRate } = wavToFloat32(new Uint8Array(raw));
     const duck = duckify(samples, sampleRate);
-    if (duck.length === 0) { onEnd?.(); return; } // degenerate synthesis, not a failure
+    if (duck.length === 0) { onEnd?.(); return false; } // degenerate synthesis, not a failure
     ctx ??= new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') await ctx.resume();
-    if (gen !== myGen) { onEnd?.(); return; } // cancelled while resuming context
+    if (gen !== myGen) { onEnd?.(); return false; } // cancelled while resuming context
     const buf = ctx.createBuffer(1, duck.length, sampleRate);
     buf.getChannelData(0).set(duck);
     const src = ctx.createBufferSource();
@@ -62,6 +62,7 @@ export async function speak(text, { onEnd } = {}) {
     };
     current = src;
     src.start();
+    return true;
   } catch (err) {
     failed = true;
     throw err;
