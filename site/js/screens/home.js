@@ -1,4 +1,5 @@
 import { el } from '../components/dom.js';
+import { examCountdown } from '../components/examCountdown.js';
 import { state, update } from '../state.js';
 
 export function render(bank) {
@@ -44,7 +45,9 @@ export function render(bank) {
       el('span', { class: 'mc-desc' }, desc),
     );
 
-  return el(
+  const countdown = examCountdown();
+
+  const root = el(
     'div',
     { class: 'screen stack' },
     el('div', { class: 'hero' },
@@ -54,6 +57,7 @@ export function render(bank) {
         ? el('div', { class: 'best-badge' }, '🔥', `Best streak: ${state.bestStreak}`)
         : null,
     ),
+    countdown,
     el('div', { class: 'mode-grid' },
       modeCard('🔥', 'Streak', 'Endless questions. One miss resets the flame.', '#/streak'),
       modeCard('📝', 'Exam Simulation', `${state.settings.examCount} questions, ${state.settings.examMinutes} min — like the real thing.`, '#/exam'),
@@ -68,4 +72,6 @@ export function render(bank) {
       el('div', { class: 'topic-chips' }, chips),
     ),
   );
+  root.cleanup = () => countdown.stop();
+  return root;
 }

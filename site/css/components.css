@@ -26,6 +26,53 @@
 .mode-card .mc-title { font-weight: 700; font-size: 1.08rem; }
 .mode-card .mc-desc { color: var(--ink-2); font-size: 0.88rem; }
 
+/* ============ doom countdown ============ */
+.doom-countdown {
+  text-align: center; padding: 1.1rem 1rem 1rem; border-radius: var(--radius-lg);
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--bad) 55%, transparent);
+  animation: doom-pulse 2.4s var(--ease) infinite;
+}
+.doom-countdown[data-tier="day"] { animation-duration: 1.5s; }
+.doom-countdown[data-tier="hour"] { animation-duration: 0.8s; border-color: var(--bad); }
+@keyframes doom-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--bad) 0%, transparent); }
+  50% { box-shadow: 0 0 26px 2px color-mix(in srgb, var(--bad) 30%, transparent); }
+}
+.doom-title {
+  font-size: 0.85rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bad);
+}
+.doom-digits { display: flex; align-items: flex-start; justify-content: center; gap: 0.4rem; margin-top: 0.7rem; }
+.doom-digits [hidden] { display: none !important; }
+.doom-countdown[data-tier="hour"] .doom-digits { animation: doom-shake 0.35s linear infinite; }
+@keyframes doom-shake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1.5px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, -1.5px); }
+}
+.doom-seg { display: inline-flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.doom-num {
+  font-family: var(--mono); font-variant-numeric: tabular-nums; line-height: 1;
+  font-size: clamp(2rem, 9vw, 3rem); font-weight: 800; color: var(--bad);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--bad) 45%, transparent);
+}
+.doom-sep {
+  font-family: var(--mono); line-height: 1;
+  font-size: clamp(2rem, 9vw, 3rem); font-weight: 800; color: var(--bad); opacity: 0.45;
+}
+.doom-unit { font-size: 0.66rem; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.doom-when { margin-top: 0.7rem; font-size: 0.84rem; color: var(--ink-2); }
+
+/* after the exam starts: drop the menace, wish luck */
+.doom-countdown[data-tier="go"] {
+  animation: none;
+  border-color: color-mix(in srgb, var(--good) 45%, transparent);
+}
+.doom-countdown[data-tier="go"] .doom-title { color: var(--good); }
+.doom-countdown[data-tier="go"] .doom-digits { display: none; }
+
 .topic-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .chip {
   padding: 0.4rem 0.85rem; min-height: 36px; border-radius: 999px; font-size: 0.88rem; font-weight: 600;
