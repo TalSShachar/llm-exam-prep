@@ -2,6 +2,8 @@ import { el } from '../components/dom.js';
 import { state, update, recordAnswer } from '../state.js';
 import { buildExam, fmtClock, presentOptions } from '../engine.js';
 import { sourcePill } from '../components/resultPanel.js';
+import { duckButton } from '../components/duckButton.js';
+import { stop as stopVoice } from '../voice.js';
 
 const KEYS = ['A', 'B', 'C', 'D'];
 
@@ -52,6 +54,7 @@ export function render(bank) {
     }, 500);
 
     function renderQuestion() {
+      stopVoice();
       const item = presented[idx];
       counter.textContent = `${idx + 1}/${presented.length}`;
       fill.style.width = `${(idx / presented.length) * 100}%`;
@@ -72,6 +75,7 @@ export function render(bank) {
       const card = el('div', { class: 'card qcard enter' },
         el('div', { class: 'q-meta' },
           el('span', { class: 'q-topic-tag' }, bank.topicTitle.get(item.q.topic) ?? item.q.topic),
+          duckButton(item.q.stem),
         ),
         el('h2', { class: 'q-stem' }, item.q.stem),
         el('div', { class: 'q-options' }, buttons),
@@ -115,6 +119,7 @@ export function render(bank) {
     function finish() {
       if (finished) return;
       finished = true;
+      stopVoice();
       clearInterval(clockInterval);
       clockInterval = null;
 
@@ -208,6 +213,6 @@ export function render(bank) {
   }
 
   showIntro();
-  root.cleanup = () => { if (clockInterval) clearInterval(clockInterval); };
+  root.cleanup = () => { if (clockInterval) clearInterval(clockInterval); stopVoice(); };
   return root;
 }
