@@ -2,14 +2,14 @@
 import { el } from './dom.js';
 import * as voice from '../voice.js';
 
-// Toggle button that reads `text` aloud in the duck voice. Disables itself
+// Toggle button that reads `text` aloud in the minion voice. Disables itself
 // (and renders pre-disabled) once the speech engine has failed this session.
 export function duckButton(text) {
   const btn = el('button', {
     class: 'duck-btn',
     'aria-label': 'Read question aloud',
     title: 'Read question aloud',
-  }, '🦆');
+  }, '🍌');
 
   if (voice.isFailed()) fail();
   let busy = false;
@@ -33,7 +33,8 @@ export function duckButton(text) {
   function fail() {
     btn.disabled = true;
     btn.textContent = '🚫';
-    btn.title = "Can't quack — speech engine unavailable";
+    btn.title = 'Speech engine unavailable';
+    btn.setAttribute('aria-label', 'Read aloud unavailable — speech engine failed to load');
   }
 
   return btn;

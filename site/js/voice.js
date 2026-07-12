@@ -1,8 +1,11 @@
 // site/js/voice.js
-// Duck narrator: lazy-loads the vendored meSpeak engine, synthesizes text,
-// runs it through duckdsp, and plays via Web Audio. Singleton — one voice
-// at a time across the whole app.
-import { wavToFloat32, duckify } from './duckdsp.js';
+// Minion narrator: lazy-loads the vendored meSpeak engine, synthesizes text
+// slow and high-pitched, then plays it sped-up via Web Audio — pitch and
+// formants rise together like a sped-up recording, which is how minion
+// voices are actually made. Singleton — one voice at a time across the app.
+import { wavToFloat32 } from './duckdsp.js';
+
+const MINION_RATE = 1.5; // playback speedup; synthesis speed below compensates
 
 let ctx = null;
 let current = null;      // active AudioBufferSourceNode
@@ -43,18 +46,18 @@ export async function speak(text, { onEnd } = {}) {
   try {
     await loadEngine();
     if (gen !== myGen) { onEnd?.(); return false; } // cancelled while loading
-    const raw = window.meSpeak.speak(text, { rawdata: 'array', pitch: 65, speed: 165, amplitude: 100 });
+    const raw = window.meSpeak.speak(text, { rawdata: 'array', pitch: 70, speed: 110, amplitude: 100 });
     if (!raw || raw.length < 44) throw new Error('synthesis produced no audio');
     const { samples, sampleRate } = wavToFloat32(new Uint8Array(raw));
-    const duck = duckify(samples, sampleRate);
-    if (duck.length === 0) { onEnd?.(); return false; } // degenerate synthesis, not a failure
+    if (samples.length === 0) { onEnd?.(); return false; } // degenerate synthesis, not a failure
     ctx ??= new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') await ctx.resume();
     if (gen !== myGen) { onEnd?.(); return false; } // cancelled while resuming context
-    const buf = ctx.createBuffer(1, duck.length, sampleRate);
-    buf.getChannelData(0).set(duck);
+    const buf = ctx.createBuffer(1, samples.length, sampleRate);
+    buf.getChannelData(0).set(samples);
     const src = ctx.createBufferSource();
     src.buffer = buf;
+    src.playbackRate.value = MINION_RATE;
     src.connect(ctx.destination);
     src.onended = () => {
       if (current === src) current = null;
